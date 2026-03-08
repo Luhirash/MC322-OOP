@@ -9,7 +9,7 @@ public class DamageCard {
         this.stamina_cost = stamina_cost;
         this.damage_inflicted = damage_inflicted;
     }
-    //aqui eu devo terminar a carta dano, flata um método para utilizar 
+    
 
     public boolean strike(Hero hero, Enemy enemy){
         if(hero.get_stamina() >= this.stamina_cost){
@@ -22,5 +22,13 @@ public class DamageCard {
             System.out.println("-> Energia insuficiente para usar " + this.name + "!");
             return false;//não deu
         }
+    }
+
+    public String get_name(){
+        return this.name;
+    }
+
+    public int get_cost(){
+        return this.stamina_cost;
     }
 }
