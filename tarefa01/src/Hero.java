@@ -2,67 +2,88 @@ public class Hero {
 
     private String name;//fato de estar private torna encapsulado
     private int health;
-    private int max_health;
+    private int maxHealth;
     private int shield;
     private int stamina;
-    private int max_stamina;
+    private int maxStamina;
 
-    public Hero(String name, int max_health, int max_stamina){//funcao que cria o heroi
+    public Hero(String name, int maxHealth, int maxStamina){//funcao que cria o heroi
         this.name = name;
-        this.max_health = max_health;
-        this.health = max_health;
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
         this.shield = 0;
-        this.max_stamina = max_stamina;
-        this.stamina = max_stamina;
+        this.maxStamina = maxStamina;
+        this.stamina = maxStamina;
 
     }
 
-    public void receive_damage(int damage){
-        if (this.shield >= damage){
+    public void receiveDamage(DamageCard damageCard){
+        int damage = damageCard.getDamageInflicted();
+        if (this.shield + this.health <= damage) {
+            this.setShield(0);
+            this.setHealth(0);
+        }
+        else if (this.shield >= damage){
             this.shield -= damage;
         }
         else{
-            int real_damage = damage - this.shield;
+            int realDamage = damage - this.shield;
             this.shield = 0;
-            this.health -= real_damage;
+            this.health -= realDamage;
         }
+        System.out.println(this.name + " (vida: " + this.health + "/" + this.maxHealth + ") (reflexos: " + this.shield + ")\n");
     }
 
-    public void gain_shield(int shield_points){
-        this.shield += shield_points;
+    public void printStats() {
+        System.out.println(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+    }
+
+    public void gainShield(int shieldPoints){
+        this.shield += shieldPoints;
     }
 
 
-    public boolean is_alive(){
+    public boolean isAlive(){
         return this.health > 0;//true se vivo
     }
 
-    public void spend_stamina(int consumed_stamina){
-        this.stamina -= consumed_stamina;
+    public void spendStamina(int consumedStamina){
+        this.stamina -= consumedStamina;
     }
 
-    public void new_turn(){
-        this.stamina = this.max_stamina;
+    public void newTurn(){
+        this.stamina = this.maxStamina;
         this.shield = 0;
     }
     
-    public int get_health() {
+    public int getHealth() {
         return this.health;
     }
 
-    public int get_max_health() {
-        return this.max_health;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
-    public int get_shield() {
+    public int getMaxHealth() {
+        return this.maxHealth;
+    }
+
+    public int getShield() {
         return this.shield;
     }
 
-    public int get_stamina() {
+    public void setShield(int shield) {
+        this.shield = shield;
+    }
+    public int getStamina() {
         return this.stamina;
     }
 
-    public String get_name(){
+    public int getMaxStamina() {
+        return this.maxStamina;
+    }
+
+    public String getName(){
         return this.name;
     }
 

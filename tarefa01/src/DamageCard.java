@@ -1,21 +1,23 @@
 public class DamageCard {
 
     private String name;
-    private int stamina_cost;
-    private int damage_inflicted;
+    private int staminaCost;
+    private int damageInflicted;
+    private boolean wasUsed;
 
-    public DamageCard(String name, int stamina_cost, int damage_inflicted){
+    public DamageCard(String name, int staminaCost, int damageInflicted){
         this.name = name;
-        this.stamina_cost = stamina_cost;
-        this.damage_inflicted = damage_inflicted;
+        this.staminaCost = staminaCost;
+        this.damageInflicted = damageInflicted;
+        this.wasUsed = false;
     }
     
 
     public boolean strike(Hero hero, Enemy enemy){
-        if(hero.get_stamina() >= this.stamina_cost){
-            hero.spend_stamina(stamina_cost);
-            enemy.receive_damage((damage_inflicted));
-            System.out.println("-> Voce usou " + this.name + " e causou " + this.damage_inflicted + " de dano!");
+        if(hero.getStamina() >= this.staminaCost){
+            hero.spendStamina(staminaCost);
+            enemy.receiveDamage((damageInflicted));
+            System.out.println("-> Voce usou " + this.name + " e causou " + this.damageInflicted + " de dano!");
             return true;//realizou o golpe
         }
         else{
@@ -24,11 +26,42 @@ public class DamageCard {
         }
     }
 
-    public String get_name(){
+    public void printCardStats() {
+        System.out.println("Golpear com " + this.getName() + " (Dano: " + this.getDamageInflicted() + " | Custo: " + this.getCost() + ")");
+    }
+
+    public void tryCard(Hero hero, Enemy enemy) {
+        if (! this.getWasUsed())
+            if (hero.getStamina() < this.getCost()) {
+                System.out.println("Estamina insuficiente! Tente outra jogada");
+            }
+            else {
+                this.strike(hero, enemy);
+                this.setWasUsed(true);
+            }
+        else {
+            System.out.println("Você selecionou um golpe já utilizado! Tente novamente");
+        }
+    }
+
+    public String getName(){
         return this.name;
     }
 
-    public int get_cost(){
-        return this.stamina_cost;
+    public int getCost(){
+        return this.staminaCost;
     }
+
+    public int getDamageInflicted(){
+        return this.damageInflicted;
+    }
+
+    public boolean getWasUsed(){
+        return this.wasUsed;
+    }
+
+    public void setWasUsed(boolean use) {
+        this.wasUsed = use;
+    }
+
 }
