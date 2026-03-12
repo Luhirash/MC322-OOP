@@ -6,7 +6,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         Hero hero = new Hero("Anderson Silva", 36, 10);
-        Enemy enemy = new Enemy( "Jon Jones", 42, 12);
+        Enemy enemy = new Enemy( "Jon Jones", 42, 11);
         DamageCard[] hits = {
             new DamageCard("jab", 3, 5),
             new DamageCard("direto", 5, 8),
@@ -61,7 +61,7 @@ public class App {
 
                 if (hero.getStamina() <= 0) {
                     pause(2000);
-                    System.out.println("\nAcabou sua estamina! Vez do inimigo");
+                    System.out.println("\nAcabou seu fôlego! Vez do inimigo");
                     playerTurn = false;
                 }
             }

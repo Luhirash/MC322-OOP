@@ -26,7 +26,7 @@ public class ShieldCard {
     public void tryCard(Hero hero, Enemy enemy) {
         if (! this.getWasUsed())
             if (hero.getStamina() < this.getCost()) {
-                System.out.println("Estamina insuficiente! Tente outra jogada");
+                System.out.println("Fôlego insuficiente! Tente outra jogada");
             }
             else {
                 this.useShieldCard(hero);

@@ -45,7 +45,7 @@ public class Turns {
     }
 
     public void printHeroTurn(DamageCard firstAttack, DamageCard secondAttack) {
-        System.out.println("Estamina: " + hero.getStamina() + "/" + hero.getMaxStamina());
+        System.out.println("Fôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
         if (!firstAttack.getWasUsed()) {
             System.out.print("1 - ");
             firstAttack.printCardStats();
