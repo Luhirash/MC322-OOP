@@ -21,4 +21,7 @@ public class DamageCard extends Card{
         return this.damageInflicted;
     }
 
+    public int getMainStat() {
+        return getDamageInflicted();
+    }
 }

@@ -25,15 +25,15 @@ public class Turns {
     public void enemyTurn(){
         DamageCard attackCard = chooseCard();
 
-        while(enemy.getStamina() > attackCard.getCost() && hero.isAlive()){
+        while(enemy.getStamina() > attackCard.getStaminaCost() && hero.isAlive()){
 
             App.pause(1000);
             System.out.println(enemy.getName() + " golpeou com um " + attackCard.getName());
-            hero.receiveDamage(attackCard);
-            enemy.spendStamina(attackCard.getCost());
+            hero.receiveDamage(attackCard.getDamageInflicted());
+            enemy.spendStamina(attackCard.getStaminaCost());
             attackCard = chooseCard();
         }
-        if (enemy.getStamina() >= shieldCard.getCost() && hero.isAlive()) {
+        if (enemy.getStamina() >= shieldCard.getStaminaCost() && hero.isAlive()) {
             App.pause(1000);
             System.out.println(enemy.getName() + " aumentou seus reflexos\n");
             enemy.gainShield(shieldCard.getDamageBlocked());

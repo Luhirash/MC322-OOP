@@ -12,6 +12,7 @@ public abstract class Card {
 
     protected abstract void useCard(Hero hero, Enemy enemy);
     public abstract void printCardStats();
+    public abstract int getMainStat();
 
     public boolean tryCard(Hero hero, Enemy enemy){
         if(hero.getStamina() >= this.getStaminaCost()) {
@@ -40,5 +41,6 @@ public abstract class Card {
     public void setWasUsed(boolean use) {
         this.wasUsed = use;
     }
+
 
 }

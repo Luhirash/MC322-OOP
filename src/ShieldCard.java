@@ -21,4 +21,7 @@ public class ShieldCard extends Card {
         return this.damageBlocked;
     }
 
+    public int getMainStat() {
+        return getDamageBlocked();
+    }
 }
