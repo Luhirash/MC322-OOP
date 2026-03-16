@@ -2,8 +2,8 @@ public class ShieldCard extends Card {
 
     private int damageBlocked;
 
-    public ShieldCard(String name, int staminaCost, int damageBlocked){
-        super(name, staminaCost);
+    public ShieldCard(String name, int staminaCost, int damageBlocked, String description){
+        super(name, staminaCost, description);
         this.damageBlocked = damageBlocked;
     }
 

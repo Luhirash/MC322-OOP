@@ -1,42 +1,45 @@
 import java.util.Random;
+import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Turns {
     
     private Hero hero;
     private Enemy enemy;
-    private DamageCard[] attackCards;
-    private ShieldCard shieldCard;
+    private PurchaseStack drawPile;
+    private StackOfCards discardPile;//Pile porque nao esta organizado(stack e organizado)
+    private PlayerHand playerHand;
+    private DamageCard[] enemyAttacks;
+    private ShieldCard enemyShield;
 
-    public Turns(Hero hero, Enemy enemy, DamageCard[] attackCards, ShieldCard shieldCard) {
+    public Turns(Hero hero, Enemy enemy, PurchaseStack drawPile, StackOfCards discardPile, PlayerHand playerHand, DamageCard[] enemyAttacks, ShieldCard enemyShield) {
         this.hero = hero;
         this.enemy = enemy;
-        this.attackCards = attackCards;
-        this.shieldCard = shieldCard;
+        this.drawPile = drawPile;
+        this.discardPile = discardPile;
+        this.playerHand = playerHand;
+        this.enemyAttacks = enemyAttacks;
+        this.enemyShield = enemyShield;
     }
 
     public DamageCard chooseCard() {
-        
         Random number = new Random();
-        int action = number.nextInt(4);
+        int action = number.nextInt(4);//ataques do inimigo escolhidos
 
-        return this.attackCards[action];
+        return this.enemyAttacks[action];
     }
 
     public void enemyTurn(){
         DamageCard attackCard = chooseCard();
-
-        while(enemy.getStamina() > attackCard.getStaminaCost() && hero.isAlive()){
-
+        while(enemy.getStamina() >= attackCard.getStaminaCost() && hero.isAlive()){
             App.pause(1000);
-            System.out.println(enemy.getName() + " golpeou com um " + attackCard.getName());
-            hero.receiveDamage(attackCard.getDamageInflicted());
-            enemy.spendStamina(attackCard.getStaminaCost());
+            enemy.attack(hero, attackCard);//aqui eu transferi o método para dentro de enemy
             attackCard = chooseCard();
         }
-        if (enemy.getStamina() >= shieldCard.getStaminaCost() && hero.isAlive()) {
+        if (enemy.getStamina() >= enemyShield.getStaminaCost() && hero.isAlive()) {
             App.pause(1000);
             System.out.println(enemy.getName() + " aumentou seus reflexos\n");
-            enemy.gainShield(shieldCard.getDamageBlocked());
+            enemy.gainShield(enemyShield.getDamageBlocked());
         }
         if (hero.isAlive()) {
             App.pause(1000);
@@ -44,38 +47,59 @@ public class Turns {
         }
     }
 
-    public void printHeroTurn(DamageCard firstAttack, DamageCard secondAttack) {
-        System.out.println("Fôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
-        if (!firstAttack.getWasUsed()) {
-            System.out.print("1 - ");
-            firstAttack.printCardStats();
+    public void HeroTurn(Scanner scanner) {
+        hero.newTurn();
+        boolean playerTurn = true;
+        //fase de compra
+        for(int i = 0; i < 4; i++){
+            if(drawPile.isEmpty()){
+                System.out.println("\n Baralho vazio! Embaralhando pilha de descarte");
+                while(!discardPile.isEmpty()){//enquanto houver termos
+                    drawPile.addCard(discardPile.popCard());//sai do descarte e vai pra compra
+                }
+                drawPile.shuffle();//embaralha novamente a pilha de compra
+            }
+            if(!drawPile.isEmpty() && !playerHand.isFull()){
+                playerHand.addCard(drawPile.popCard());//sai da loja para a mao
+            }
         }
-        else {
-            System.out.println("1 - Golpe já utilizado");
-        }
+        while (playerTurn && hero.isAlive() && enemy.isAlive() && !playerHand.isEmpty()){
+            App.pause(1000);
+            printIntroduction();
+            System.out.println("Fôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
+            System.out.println("Golpes possíveis:");
+            playerHand.printHand();
+            
+            int numCards = playerHand.getHandSize();
+            int exitChoice = numCards + 1;
+            System.out.println(exitChoice + " - Encerrar turno");
+            System.out.print("\n Escolha sua ação: ");
+            int choice = scanner.nextInt();
+            if(choice >= 1 && choice <= numCards){
+                Card chosenCard = playerHand.getCard(choice - 1);
+                if(chosenCard.tryCard(hero, enemy)){//se for possivel usar a carta
+                    playerHand.useCard(choice - 1);
+                    discardPile.addCard(chosenCard);//depois do uso a carta vai para descarte
+                }
+            } 
+            else if(choice == exitChoice){
+                playerTurn = false;
+                System.out.println("Turno encerrado pelo jogador.");
+            }
+            else{
+                System.out.println("Escolha inválida!");
+            }
 
-        if (!secondAttack.getWasUsed()) {
-            System.out.print("2 - ");
-            secondAttack.printCardStats();
-        }
-        else {
-            System.out.println("2 - Golpe já utilizado");
-        }
-
-        if (!shieldCard.getWasUsed()) {
-            System.out.print("3 - ");
-            shieldCard.printCardStats();
-        }
-        else {
-            System.out.println("3 - Golpe já utilizado");
-        }
-
-        System.out.println("4 - Encerrar turno");
-        System.out.println("");
-    }
-
-    public boolean allCardsUsed(DamageCard firstAttack, DamageCard secondAttack, ShieldCard shieldCard) {
-        return (firstAttack.getWasUsed() && secondAttack.getWasUsed() && shieldCard.getWasUsed());
+            if(hero.getStamina() <= 0){
+                    App.pause(2000);
+                    System.out.println("\nAcabou seu fôlego! Vez do inimigo");
+                    playerTurn = false;
+                }
+            }
+            ArrayList<Card> unused_cards = playerHand.discardAll();//descarte de cartas que sobrou
+            for(Card i : unused_cards){
+                discardPile.addCard(i);
+            }
     }
 
     public void printIntroduction() {

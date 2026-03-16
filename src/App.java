@@ -7,74 +7,44 @@ public class App {
 
         Hero hero = new Hero("Anderson Silva", 36, 10);
         Enemy enemy = new Enemy( "Jon Jones", 42, 11);
+
         DamageCard[] hits = {
-            new DamageCard("jab", 3, 5),
-            new DamageCard("direto", 5, 8),
-            new DamageCard("chute na perna", 6, 10),
-            new DamageCard("chute na cabeça", 7, 12)
+            new DamageCard("jab", 3, 5, "desfere um soco com mão esquerda na cabeça do inimigo"),
+            new DamageCard("direto", 5, 8, "desfere um soco com a mão direita na cabeça do inimigo"),
+            new DamageCard("chute na perna", 6, 10, "desfere um chute com a perna direita na perna do inimigo"),
+            new DamageCard("chute na cabeça", 7, 12, "desfere um chute com a perna direita na cabeça do inimigo"),
+            new DamageCard("soco cruzado", 5, 9, "desfere um soco lateral na cabeça do inimigo"),
+            new DamageCard("uppercut", 6, 11, "desfere um soco ascendente na cabeça do inimigo")
         };
 
-        ShieldCard focus = new ShieldCard("focar", 3, 8);
-        Turns turns = new Turns(hero, enemy, hits, focus);
+        ShieldCard focus = new ShieldCard("focar", 3, 8, "concentra-se no próximo movimento adverário, reduzindo o dano causado");
+
+
+        PurchaseStack drawPile = new PurchaseStack(hits);
+        drawPile.fillStack(6);
+        drawPile.shuffle();
+
+        StackOfCards discardPile = new StackOfCards();
+
+        PlayerHand playerHand = new PlayerHand(2); 
+
+
+        Turns turns = new Turns(hero, enemy, drawPile, discardPile, playerHand, hits, focus);
+
+
+
         System.out.println("=== A Luta Começou! ===");
 
         System.out.println(hero.getName() + " VS " + enemy.getName());
 
         while (hero.isAlive() && enemy.isAlive()){
 
-            hero.newTurn();
-            boolean playerTurn = true;
-            DamageCard firstAttackCard = turns.chooseCard();
-            DamageCard secondAttackCard = turns.chooseCard();
-            while (secondAttackCard == firstAttackCard)
-                secondAttackCard = turns.chooseCard();
-
-
-            while (playerTurn && enemy.isAlive() && !turns.allCardsUsed(firstAttackCard, secondAttackCard, focus)) {
-                
-                pause(1000);
-                turns.printIntroduction();
-                pause(1000);
-                turns.printHeroTurn(firstAttackCard, secondAttackCard);
-
-                int choice = scanner.nextInt();
-
-                while (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
-                        System.out.println("Escolha inválida! Digite novamente: ");
-                        choice = scanner.nextInt();
-                }
-
-                if (choice == 1) {
-                    firstAttackCard.tryCard(hero, enemy);
-                }
-                else if (choice == 2) {
-                    secondAttackCard.tryCard(hero,enemy);
-                }
-                else if(choice == 3) {
-                    focus.tryCard(hero,enemy);
-                }
-                else if (choice == 4){
-                    playerTurn = false;//isso acaba o laço
-                    System.out.println("Turno encerrado");
-                    break;
-                }
-
-                if (hero.getStamina() <= 0) {
-                    pause(2000);
-                    System.out.println("\nAcabou seu fôlego! Vez do inimigo");
-                    playerTurn = false;
-                }
-            }
-
-            firstAttackCard.setWasUsed(false);
-            secondAttackCard.setWasUsed(false);
-            focus.setWasUsed(false);
+            turns.HeroTurn(scanner);//passei o turno do heroi para turns
 
             if (enemy.isAlive()){
                 enemy.newTurn();
                 turns.printIntroduction();
                 turns.enemyTurn();
-                playerTurn = true;
             }
         }
 

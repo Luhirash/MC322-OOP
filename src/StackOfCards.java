@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Collections;
 
 public class StackOfCards {
     
@@ -15,4 +16,18 @@ public class StackOfCards {
     public void clearStack() {
         stack.clear();
     }
+
+    public int getSize(){
+        return stack.size();
+    }
+
+    public void shuffle(){//embaralha a pilha
+        Collections.shuffle(stack);
+    }
+
+    public boolean isEmpty(){
+        return stack.isEmpty();
+    }
+
+
 }

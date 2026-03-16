@@ -1,13 +1,15 @@
 public abstract class Card {
 
     private String name;
+    private String description;
     private int staminaCost;
     private boolean wasUsed;
 
-    public Card (String name, int staminaCost) {
+    public Card (String name, int staminaCost, String description) {
         this.name = name;
         this.staminaCost = staminaCost;
         this.wasUsed = false;
+        this.description = description;
     }
 
     protected abstract void useCard(Hero hero, Enemy enemy);
@@ -42,5 +44,8 @@ public abstract class Card {
         this.wasUsed = use;
     }
 
+    public String get_description(){
+        return this.description;
+    }
 
 }

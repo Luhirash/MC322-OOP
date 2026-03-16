@@ -17,7 +17,7 @@ public class PlayerHand {
         return hand.remove(index);
     }
 
-    private int getHandSize() {
+    public int getHandSize() {
         return hand.size();
     }
 
@@ -45,5 +45,19 @@ public class PlayerHand {
             System.out.print(i + 1 + " - ");
             hand.get(i).printCardStats();
         }
+    }
+
+    public ArrayList<Card> discardAll(){
+        ArrayList<Card> discardedCards = new ArrayList<Card>(hand);//copia para a pilha de descarte
+        hand.clear();
+        return discardedCards;
+    }
+
+    public boolean isEmpty(){
+        return hand.isEmpty();
+    }
+
+    public Card getCard(int index){
+        return hand.get(index);
     }
 }

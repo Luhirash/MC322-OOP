@@ -18,10 +18,10 @@ public class PurchaseStack extends StackOfCards {
             Card originalCard = differentCards[index];
 
             if (originalCard instanceof DamageCard) {
-                super.addCard(new DamageCard(originalCard.getName(), originalCard.getStaminaCost(), originalCard.getMainStat()));
+                super.addCard(new DamageCard(originalCard.getName(), originalCard.getStaminaCost(), originalCard.getMainStat(), originalCard.get_description()));
             }
             else {
-                super.addCard(new ShieldCard(originalCard.getName(), originalCard.getStaminaCost(), originalCard.getMainStat()));
+                super.addCard(new ShieldCard(originalCard.getName(), originalCard.getStaminaCost(), originalCard.getMainStat(), originalCard.get_description()));
             }
         }
     }
