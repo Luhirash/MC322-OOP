@@ -9,37 +9,55 @@ public class Turns {
     private PurchaseStack drawPile;
     private StackOfCards discardPile;//Pile porque nao esta organizado(stack e organizado)
     private PlayerHand playerHand;
-    private DamageCard[] enemyAttacks;
-    private ShieldCard enemyShield;
+    private Card[] hits;
 
-    public Turns(Hero hero, Enemy enemy, PurchaseStack drawPile, StackOfCards discardPile, PlayerHand playerHand, DamageCard[] enemyAttacks, ShieldCard enemyShield) {
+    public Turns(Hero hero, Enemy enemy, PurchaseStack drawPile, StackOfCards discardPile, PlayerHand playerHand, Card[] hits) {
         this.hero = hero;
         this.enemy = enemy;
         this.drawPile = drawPile;
         this.discardPile = discardPile;
         this.playerHand = playerHand;
-        this.enemyAttacks = enemyAttacks;
-        this.enemyShield = enemyShield;
+        this.hits = hits;
     }
 
-    public DamageCard chooseCard() {
+    public Card chooseCard() {
         Random number = new Random();
-        int action = number.nextInt(4);//ataques do inimigo escolhidos
+        int action = number.nextInt(6);//ataques do inimigo escolhidos
 
-        return this.enemyAttacks[action];
+        return this.hits[action];
     }
 
     public void enemyTurn(){
-        DamageCard attackCard = chooseCard();
-        while(enemy.getStamina() >= attackCard.getStaminaCost() && hero.isAlive()){
-            App.pause(1000);
-            enemy.attack(hero, attackCard);//aqui eu transferi o método para dentro de enemy
-            attackCard = chooseCard();
-        }
-        if (enemy.getStamina() >= enemyShield.getStaminaCost() && hero.isAlive()) {
-            App.pause(1000);
-            System.out.println(enemy.getName() + " aumentou seus reflexos\n");
-            enemy.gainShield(enemyShield.getDamageBlocked());
+        while(enemy.getStamina() > 0){        
+            Card Card = chooseCard();//o array tem tipos shield e dano
+            if(Card instanceof DamageCard){
+                if(enemy.getStamina() >= Card.getStaminaCost() && hero.isAlive()){
+                    DamageCard damageCard = (DamageCard) Card;//isso e casting
+                    App.pause(1000);
+                    enemy.attack(hero, damageCard);//aqui eu transferi o método para dentro de enemy
+                    if(! hero.isAlive()){//se o ataque matou
+                        break;
+                    }
+                }
+                else if(enemy.getStamina() < 3){
+                    break;//esse e o minimo de stamina para o golpe minimo-forçado a encerrar
+                }
+                else if (hero.isAlive()){
+                    continue;//pode ser que tenha energia suficiente para outro golpe
+                }
+            }
+            else{//shield card
+                if (enemy.getStamina() >= Card.getStaminaCost() && hero.isAlive()) {
+                    ShieldCard shieldCard = (ShieldCard) Card;
+                    App.pause(1000);
+                    System.out.println(enemy.getName() + " aumentou seus reflexos\n");
+                    enemy.gainShield(shieldCard.getDamageBlocked());
+                    enemy.spendStamina(shieldCard.getStaminaCost());
+                }
+                else{//se nao rodar if - ou hero morreu ou nao tem menos de 3 de energia
+                    break;
+                }
+            }
         }
         if (hero.isAlive()) {
             App.pause(1000);

@@ -8,20 +8,18 @@ public class App {
         Hero hero = new Hero("Anderson Silva", 36, 10);
         Enemy enemy = new Enemy( "Jon Jones", 42, 11);
 
-        DamageCard[] hits = {
+        Card[] hits = {
             new DamageCard("jab", 3, 5, "desfere um soco com mão esquerda na cabeça do inimigo"),
             new DamageCard("direto", 5, 8, "desfere um soco com a mão direita na cabeça do inimigo"),
             new DamageCard("chute na perna", 6, 10, "desfere um chute com a perna direita na perna do inimigo"),
             new DamageCard("chute na cabeça", 7, 12, "desfere um chute com a perna direita na cabeça do inimigo"),
             new DamageCard("soco cruzado", 5, 9, "desfere um soco lateral na cabeça do inimigo"),
-            new DamageCard("uppercut", 6, 11, "desfere um soco ascendente na cabeça do inimigo")
+            new DamageCard("uppercut", 6, 11, "desfere um soco ascendente na cabeça do inimigo"),
+            new ShieldCard("focar", 3, 8, "concentra-se no próximo movimento adverário, reduzindo o dano causado")
         };
 
-        ShieldCard focus = new ShieldCard("focar", 3, 8, "concentra-se no próximo movimento adverário, reduzindo o dano causado");
-
-
         PurchaseStack drawPile = new PurchaseStack(hits);
-        drawPile.fillStack(6);
+        drawPile.fillStack(7);
         drawPile.shuffle();
 
         StackOfCards discardPile = new StackOfCards();
@@ -29,7 +27,7 @@ public class App {
         PlayerHand playerHand = new PlayerHand(2); 
 
 
-        Turns turns = new Turns(hero, enemy, drawPile, discardPile, playerHand, hits, focus);
+        Turns turns = new Turns(hero, enemy, drawPile, discardPile, playerHand, hits);
 
 
 
