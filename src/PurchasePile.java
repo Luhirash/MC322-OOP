@@ -1,14 +1,14 @@
 import java.util.Random;
 
-public class PurchaseStack extends StackOfCards {
+public class PurchasePile extends PileOfCards {
 
     private Card[] differentCards;
 
-    public PurchaseStack(Card[] differentCards) {
+    public PurchasePile(Card[] differentCards) {
         this.differentCards = differentCards;
     }
 
-    protected void fillStack(int numberOfCards) {
+    protected void fillPile(int numberOfCards) {
 
         for (int i = 0; i < numberOfCards; i++) {
 
@@ -25,4 +25,14 @@ public class PurchaseStack extends StackOfCards {
             }
         }
     }
+
+    public void retrieveCards(PileOfCards discardPile) {
+        System.out.println("\n Baralho vazio! Embaralhando pilha de descarte");
+        while(!discardPile.isEmpty()){//enquanto houver termos
+            addCard(discardPile.popCard());//sai do descarte e vai pra compra
+        }
+        shuffle();//embaralha novamente a pilha de compra
+    }
 }
+
+

@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+import java.util.ArrayList;
 
 public class App {
     public static void main (String[] args){
@@ -15,34 +15,41 @@ public class App {
             new DamageCard("chute na cabeça", 7, 12, "desfere um chute com a perna direita na cabeça do inimigo"),
             new DamageCard("soco cruzado", 5, 9, "desfere um soco lateral na cabeça do inimigo"),
             new DamageCard("uppercut", 6, 11, "desfere um soco ascendente na cabeça do inimigo"),
-            new ShieldCard("focar", 3, 8, "concentra-se no próximo movimento adverário, reduzindo o dano causado")
+            new ShieldCard("focar", 2, 5, "concentra-se no próximo movimento adverário, reduzindo o dano causado"),
+            new ShieldCard("desviar", 3, 8, "se esquiva do ataque do inimigo"),
+            new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
+            new ShieldCard("agachar", 2, 4, "busca se esconder do inimigo rapidamente")
         };
 
-        PurchaseStack drawPile = new PurchaseStack(hits);
-        drawPile.fillStack(7);
+        PurchasePile drawPile = new PurchasePile(hits);
+        drawPile.fillPile(hits.length);
         drawPile.shuffle();
 
-        StackOfCards discardPile = new StackOfCards();
-
-        PlayerHand playerHand = new PlayerHand(2); 
-
-
-        Turns turns = new Turns(hero, enemy, drawPile, discardPile, playerHand, hits);
+        DiscardPile discardPile = new DiscardPile();
+        ArrayList<Card> enemyCards = new ArrayList<>();
+        PlayerHand playerHand = new PlayerHand(3); 
 
 
+        Turns turns = new Turns();
 
         System.out.println("=== A Luta Começou! ===");
-
-        System.out.println(hero.getName() + " VS " + enemy.getName());
+        System.out.println(hero.getName() + " VS " + enemy.getName() + "\n");
 
         while (hero.isAlive() && enemy.isAlive()){
 
-            turns.HeroTurn(scanner);//passei o turno do heroi para turns
+            if(drawPile.isEmpty())
+                drawPile.retrieveCards(discardPile);
+
+            enemyCards = enemy.chooseCards(hits);
+            enemy.printIntentions(enemyCards);
+
+            playerHand.drawCards(scanner, drawPile);
+            turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile);//passei o turno do heroi para turns
 
             if (enemy.isAlive()){
                 enemy.newTurn();
-                turns.printIntroduction();
-                turns.enemyTurn();
+                turns.printIntroduction(hero, enemy);
+                turns.enemyTurn(enemyCards, hero, enemy);
             }
         }
 

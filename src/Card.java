@@ -12,7 +12,7 @@ public abstract class Card {
         this.description = description;
     }
 
-    protected abstract void useCard(Hero hero, Enemy enemy);
+    protected abstract void useCard(Entity attacker, Entity receiver);
     public abstract void printCardStats();
     public abstract int getMainStat();
 

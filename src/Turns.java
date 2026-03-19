@@ -1,91 +1,40 @@
-import java.util.Random;
+//import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Turns {
     
-    private Hero hero;
-    private Enemy enemy;
-    private PurchaseStack drawPile;
-    private StackOfCards discardPile;//Pile porque nao esta organizado(stack e organizado)
-    private PlayerHand playerHand;
-    private Card[] hits;
-
-    public Turns(Hero hero, Enemy enemy, PurchaseStack drawPile, StackOfCards discardPile, PlayerHand playerHand, Card[] hits) {
-        this.hero = hero;
-        this.enemy = enemy;
-        this.drawPile = drawPile;
-        this.discardPile = discardPile;
-        this.playerHand = playerHand;
-        this.hits = hits;
-    }
-
-    public Card chooseCard() {
-        Random number = new Random();
-        int action = number.nextInt(6);//ataques do inimigo escolhidos
-
-        return this.hits[action];
-    }
-
-    public void enemyTurn(){
-        while(enemy.getStamina() > 0){        
-            Card Card = chooseCard();//o array tem tipos shield e dano
-            if(Card instanceof DamageCard){
-                if(enemy.getStamina() >= Card.getStaminaCost() && hero.isAlive()){
-                    DamageCard damageCard = (DamageCard) Card;//isso e casting
-                    App.pause(1000);
-                    enemy.attack(hero, damageCard);//aqui eu transferi o método para dentro de enemy
-                    if(! hero.isAlive()){//se o ataque matou
-                        break;
-                    }
-                }
-                else if(enemy.getStamina() < 3){
-                    break;//esse e o minimo de stamina para o golpe minimo-forçado a encerrar
-                }
-                else if (hero.isAlive()){
-                    continue;//pode ser que tenha energia suficiente para outro golpe
-                }
+    public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy){
+        for (int i = 0; i < chosenCards.size(); i++) {
+            if (hero.isAlive()) {
+                chosenCards.get(i).useCard(enemy, hero);
+                System.out.println();
             }
-            else{//shield card
-                if (enemy.getStamina() >= Card.getStaminaCost() && hero.isAlive()) {
-                    ShieldCard shieldCard = (ShieldCard) Card;
-                    App.pause(1000);
-                    System.out.println(enemy.getName() + " aumentou seus reflexos\n");
-                    enemy.gainShield(shieldCard.getDamageBlocked());
-                    enemy.spendStamina(shieldCard.getStaminaCost());
-                }
-                else{//se nao rodar if - ou hero morreu ou nao tem menos de 3 de energia
-                    break;
-                }
+            else{
+                System.out.println(hero.getName() + "foi derrotado!");
+                break;
             }
-        }
+        }      
         if (hero.isAlive()) {
             App.pause(1000);
-            System.out.println(enemy.getName() + " encerrou seu turno");
+            System.out.println(enemy.getName() + " encerrou seu turno\n");
+            printIntroduction(hero, enemy);
         }
+
     }
 
-    public void HeroTurn(Scanner scanner) {
+
+    public void HeroTurn(Scanner scanner, Hero hero, Enemy enemy, PlayerHand playerHand, DiscardPile discardPile) {
         hero.newTurn();
         boolean playerTurn = true;
-        //fase de compra
-        for(int i = 0; i < 4; i++){
-            if(drawPile.isEmpty()){
-                System.out.println("\n Baralho vazio! Embaralhando pilha de descarte");
-                while(!discardPile.isEmpty()){//enquanto houver termos
-                    drawPile.addCard(discardPile.popCard());//sai do descarte e vai pra compra
-                }
-                drawPile.shuffle();//embaralha novamente a pilha de compra
-            }
-            if(!drawPile.isEmpty() && !playerHand.isFull()){
-                playerHand.addCard(drawPile.popCard());//sai da loja para a mao
-            }
-        }
+
         while (playerTurn && hero.isAlive() && enemy.isAlive() && !playerHand.isEmpty()){
+
             App.pause(1000);
-            printIntroduction();
+            printIntroduction(hero, enemy);
+            hero.printStats();
+
             System.out.println("Fôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
-            System.out.println("Golpes possíveis:");
             playerHand.printHand();
             
             int numCards = playerHand.getHandSize();
@@ -114,13 +63,9 @@ public class Turns {
                     playerTurn = false;
                 }
             }
-            ArrayList<Card> unused_cards = playerHand.discardAll();//descarte de cartas que sobrou
-            for(Card i : unused_cards){
-                discardPile.addCard(i);
-            }
     }
 
-    public void printIntroduction() {
+    public void printIntroduction(Hero hero, Enemy enemy) {
         System.out.println("\n----------------------------------");
         hero.printStats();
         System.out.println("VS");

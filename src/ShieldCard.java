@@ -7,14 +7,15 @@ public class ShieldCard extends Card {
         this.damageBlocked = damageBlocked;
     }
 
-    public void useCard(Hero hero, Enemy enemy){
-        System.out.println("Você usou " + super.getName() + "!");
-        hero.spendStamina(super.getStaminaCost());
-        hero.gainShield(this.damageBlocked);
+    public void useCard(Entity attacker, Entity receiver){
+        System.out.println(attacker.getName() + " usou " + super.getName() + "!");
+        attacker.spendStamina(super.getStaminaCost());
+        attacker.gainShield(this.damageBlocked);
+        attacker.printStats();
     }
 
     public void printCardStats() {
-        System.out.println(this.getName() + " no próximo movimento do adversário (Bloqueio: " + this.getDamageBlocked() + " | Custo: " + this.getStaminaCost() + ")");
+        System.out.println(this.getName() + " (Bloqueio: " + this.getDamageBlocked() + " | Custo: " + this.getStaminaCost() + ")");
     }
 
     public int getDamageBlocked(){

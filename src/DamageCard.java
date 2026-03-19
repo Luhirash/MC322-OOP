@@ -7,10 +7,11 @@ public class DamageCard extends Card{
         this.damageInflicted = damageInflicted;
     }
     
-    public void useCard (Hero hero, Enemy enemy) {
-        hero.spendStamina(super.getStaminaCost());
-        enemy.receiveDamage((damageInflicted));
-        System.out.println("-> Voce usou " + this.getName() + " e causou " + this.damageInflicted + " de dano!");
+    public void useCard (Entity attacker, Entity receiver) {
+        attacker.spendStamina(super.getStaminaCost());
+        receiver.receiveDamage((damageInflicted));
+        System.out.println(attacker.getName() + " usou " + this.getName() + " e causou " + this.damageInflicted + " de dano!");
+        receiver.printStats();
     }
 
     public void printCardStats() {

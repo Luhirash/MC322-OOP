@@ -29,7 +29,6 @@ public abstract class Entity {
             this.shield = 0;
             this.health -= realDamage;
         }
-        System.out.println(this.name + " (vida: " + this.health + "/" + this.maxHealth + ") (reflexos: " + this.shield + ")\n");
     }
 
     public void gainShield(int shieldPoints){
@@ -38,7 +37,10 @@ public abstract class Entity {
     }
 
     public void printStats() {
-        System.out.println(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+        if (isAlive())
+            System.out.println(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+        else
+            System.out.println(this.getName() + " (Vida: 0/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
     }
 
     public boolean isAlive(){
