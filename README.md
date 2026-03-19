@@ -1,5 +1,3 @@
-
------------------------------------------------------------------------------------------------------------------
 # A Luta — Jogo de Combate por Turnos em Java
 
 ## Descrição
@@ -27,7 +25,13 @@ A cada turno, o jogador dispõe de um recurso chamado **fôlego** (stamina), que
 | 2 | Direto (Cross)    | Ataque  | 8  de dano     | 5               |
 | 3 | Chute na perna    | Ataque  | 10 de dano     | 6               |
 | 4 | Chute na cabeça   | Ataque  | 12 de dano     | 7               |
-| 5 | Focar             | Escudo  | 8  de reflexo  | 3               |
+| 5 | Soco cruzado      | Ataque  | 9  de dano     | 5               |
+| 6 | Uppercut          | Ataque  | 11 de dano     | 6               |
+| 7 | Focar             | Escudo  | 8  de reflexo  | 3               |
+| 8 | Desviar           | Escudo  | 8  de reflexo  | 3               |
+| 9 | Andar para trás   | Escudo  | 2  de reflexo  | 1               |
+|10 | Agachar           | Escudo  | 4 de reflexo   | 2               |
+
 
 ---
 
@@ -40,6 +44,10 @@ A cada turno, o jogador dispõe de um recurso chamado **fôlego** (stamina), que
 ├── DamageCard.java   # Carta de ataque que causa dano ao inimigo
 ├── ShieldCard.java   # Carta de defesa que concede escudo/reflexos ao herói
 └── Turns.java        # Classe que gerencia os turnos 
+└── Entity.java       # Classe abstrata para as entidades(herois e viloes) 
+└── Card.java        # Classe abstrata para as cartas(dano e shield)
+└── PileOfCards.java       # Classe abstrata para as entidades(herois e viloes) 
+
 
 ```
 
