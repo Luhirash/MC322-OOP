@@ -45,7 +45,8 @@ public class App {
 
             playerHand.drawCards(scanner, drawPile);
             turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile);//passei o turno do heroi para turns
-
+            playerHand.returnCards(discardPile);
+            
             if (enemy.isAlive()){
                 enemy.newTurn();
                 turns.printIntroduction(hero, enemy);

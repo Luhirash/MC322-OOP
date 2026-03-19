@@ -66,11 +66,13 @@ public class Turns {
     }
 
     public void printIntroduction(Hero hero, Enemy enemy) {
+        App.pause(300);
         System.out.println("\n----------------------------------");
         hero.printStats();
         System.out.println("VS");
         enemy.printStats();
         System.out.println("----------------------------------\n");
+        App.pause(300);
     }
 }
 

@@ -57,33 +57,17 @@ public class PlayerHand {
     }
 
     public void drawCards(Scanner scanner, PurchasePile drawPile) {
-        int choice = 1;
-        if (isEmpty())
-            System.out.println("Sua mão está vazia!");
-        else
-            printHand();
-        while(!isFull() && choice == 1) {
-            System.out.println("O que você deseja?");
-            System.out.println("1 - comprar carta");
-            System.out.println("2 - seguir para seu turno");
-            choice = scanner.nextInt();
-            while (choice != 1 && choice != 2) {
-                System.out.println("Escolha inválida!");
-                choice = scanner.nextInt();
+        System.out.println("Você comprou essas cartas:\n");
+            while (!isFull()) {
+                addCard(drawPile.popCard());
             }
-
-            if (choice == 1) {
-                Card card = drawPile.popCard();
-                System.out.println("\nEsta foi a carta que você comprou:");
-                card.printCardStats();
-                System.out.println();
-                addCard(card);
-            }
-            else 
-                break;
-        }
-        if (isFull())
-            System.out.println("Sua mão está cheia!");
+        printHand();
     }
 
+    public void returnCards(DiscardPile discardPile) {
+        int handSize = hand.size();
+        for (int i = 0; i < handSize; i++) {
+            discardPile.addCard(hand.removeFirst());
+        }
+    }
 }
