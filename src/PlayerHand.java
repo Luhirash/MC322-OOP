@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PlayerHand {
     
@@ -40,7 +39,6 @@ public class PlayerHand {
     }
 
     public void printHand() {
-        System.out.println("Suas cartas disponíveis:");
         ArrayList<Card> hand = getHand();
         for (int i = 0; i < hand.size(); i++) {
             System.out.print(i + 1 + " - ");
@@ -56,7 +54,7 @@ public class PlayerHand {
         return hand.get(index);
     }
 
-    public void drawCards(Scanner scanner, PurchasePile drawPile) {
+    public void drawCards( PurchasePile drawPile) {
         System.out.println("Você comprou essas cartas:\n");
             while (!isFull()) {
                 addCard(drawPile.popCard());

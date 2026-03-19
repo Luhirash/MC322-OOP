@@ -6,7 +6,11 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         Hero hero = new Hero("Anderson Silva", 36, 10);
-        Enemy enemy = new Enemy( "Jon Jones", 42, 11);
+
+        Enemy[] enemies = {
+            new JonJones( "Jon Jones", 42, 11),
+            new ConnnorMcGregor("Connor McGregor", 30, 14)
+        };
 
         Card[] hits = {
             new DamageCard("jab", 3, 5, "desfere um soco com mão esquerda na cabeça do inimigo"),
@@ -31,6 +35,7 @@ public class App {
 
 
         Turns turns = new Turns();
+        Enemy enemy = turns.chooseEnemy(enemies, scanner);
 
         System.out.println("=== A Luta Começou! ===");
         System.out.println(hero.getName() + " VS " + enemy.getName() + "\n");
@@ -40,10 +45,10 @@ public class App {
             if(drawPile.isEmpty())
                 drawPile.retrieveCards(discardPile);
 
-            enemyCards = enemy.chooseCards(hits);
+            enemyCards = enemy.chooseCards(enemy.getHits());
             enemy.printIntentions(enemyCards);
 
-            playerHand.drawCards(scanner, drawPile);
+            playerHand.drawCards(drawPile);
             turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile);//passei o turno do heroi para turns
             playerHand.returnCards(discardPile);
             

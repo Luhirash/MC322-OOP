@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.util.ArrayList;
 
-public class Enemy extends Entity {
+public abstract class Enemy extends Entity {
     
     public Enemy(String name, int maxHealth, int maxStamina) {
         super(name, maxHealth, maxStamina);
@@ -28,20 +28,17 @@ public class Enemy extends Entity {
         return chosenCards;
     }
 
-    public void printIntentions(ArrayList<Card> chosenCards) {
-        System.out.println(getName() + " pretende fazer essas ações em seu próximo turno:");
-        printChosenCards(chosenCards);
-    }
+    public abstract void printIntentions(ArrayList<Card> chosenCards);
+    public abstract Card[] getHits();
 
-    private void printChosenCards(ArrayList<Card> chosenCards) {
+    protected void printChosenCards(ArrayList<Card> chosenCards) {
         for (int i = 0; i < chosenCards.size(); i++)
             chosenCards.get(i).printCardStats();
-        System.out.println();
     }
 
     private Card chooseRandomCard(Card[] hits) {
         Random number = new Random();
-        int action = number.nextInt(6);//ataques do inimigo escolhidos
+        int action = number.nextInt(hits.length);//ataques do inimigo escolhidos
         return hits[action];
     }
 

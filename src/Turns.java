@@ -35,6 +35,7 @@ public class Turns {
             hero.printStats();
 
             System.out.println("Fôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
+            System.out.println("Suas cartas disponíveis:");
             playerHand.printHand();
             
             int numCards = playerHand.getHandSize();
@@ -74,6 +75,21 @@ public class Turns {
         System.out.println("----------------------------------\n");
         App.pause(300);
     }
+
+    public Enemy chooseEnemy(Enemy[] enemies, Scanner scanner) {
+        System.out.println("Escolha seu inimigo:");
+        for (int i = 0; i < enemies.length; i++) {
+            System.out.print(i + 1 + " - " );
+            System.out.println(enemies[i].getName() + " (Vida: " + enemies[i].getMaxHealth() + ") (Fôlego: " + enemies[i].getMaxHealth() + ")");
+        } 
+        int choice = scanner.nextInt();
+        while (choice < 1 || choice > enemies.length) {
+            System.out.println("Escolha inválida!. Tente novamente:");
+            choice = scanner.nextInt();
+        }
+        return enemies[choice -1];
+    }
+
 }
 
 
