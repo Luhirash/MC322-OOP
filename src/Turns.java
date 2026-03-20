@@ -80,7 +80,7 @@ public class Turns {
         System.out.println("Escolha seu inimigo:");
         for (int i = 0; i < enemies.length; i++) {
             System.out.print(i + 1 + " - " );
-            System.out.println(enemies[i].getName() + " (Vida: " + enemies[i].getMaxHealth() + ") (Fôlego: " + enemies[i].getMaxHealth() + ")");
+            System.out.println(enemies[i].getName() + " (Vida: " + enemies[i].getMaxHealth() + ") (Fôlego: " + enemies[i].getMaxStamina() + ")");
         } 
         int choice = scanner.nextInt();
         while (choice < 1 || choice > enemies.length) {
