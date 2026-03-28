@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class Turns {
 
-    public enum events {
+    public enum Events {
         HEROSTART, HEROFINISH, ENEMYSTART, ENEMYFINISH
     }
+    public Events currentEvent = Events.HEROSTART;
+
     private ArrayList<Effect> subscriberList;
 
     public void subscribe(Effect effect) {
@@ -21,7 +23,7 @@ public class Turns {
     
     public void notify(int event) {
         for (Effect effect : subscriberList)
-            effect.beNotified(event);
+            effect.beNotified(this);
     }
 
     public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy){

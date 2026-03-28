@@ -6,9 +6,15 @@ public abstract class Effect{
     private Entity owner;
     private int intensity;
 
+    public Effect (String name, Entity owner, int intensity) {
+        this.name = name;
+        this.owner = owner;
+        this.intensity = intensity;
+    }
+
     public abstract void getString();
-    public abstract void useEffect(Entity entity);
-    public abstract void beNotified(int event);
+    protected abstract void useEffect(Turns turn);
+    public abstract void beNotified(Turns turn);
 
     public String getName() {
         return name;
@@ -35,5 +41,11 @@ public abstract class Effect{
                 effectIndex = i;
         }
         return effectIndex;
+    }
+
+    protected void effectFinish(Turns turn) {
+        ArrayList<Effect> ownerEffects = getOwner().getEffects();
+        ownerEffects.remove(getIndex(ownerEffects));
+        turn.unsubscribe(this);
     }
 }

@@ -39,6 +39,10 @@ public abstract class Entity {
         this.setShield(newShield);
     }
 
+    public void gainHealth(int healthPoints) {
+        setHealth(getHealth() + healthPoints);
+    }
+
     public void printStats() {
         if (isAlive())
             System.out.println(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
@@ -60,10 +64,10 @@ public abstract class Entity {
         this.setShield(0);
     }
 
-    public void applyEffect(Effect effect) {
+    public void applyEffect(Effect effect) { //Adiciona o efeito na lista de efeitos, ou aumenta sua intensidade
         int effectIndex = effect.getIndex(effects);
         if (effectIndex == -1)
-            effect.useEffect(this);
+            effects.add(effect);
         else
             effects.get(effectIndex).addIntensity(effect.getIntensity()); //adiciona intensidade no efeito já existente.
     }
