@@ -21,12 +21,15 @@ public class Turns {
         subscriberList.remove(effect.getIndex(subscriberList)); //remove o efeito da lista (se tiver o mesmo nome e dono)
     }
     
-    public void notify(int event) {
+    public void notifyEvent() {
         for (Effect effect : subscriberList)
             effect.beNotified(this);
     }
 
     public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy){
+        currentEvent = Events.ENEMYSTART;
+        notifyEvent();
+
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {
                 chosenCards.get(i).useCard(enemy, hero);
@@ -40,6 +43,10 @@ public class Turns {
         if (hero.isAlive()) {
             App.pause(1000);
             System.out.println(enemy.getName() + " encerrou seu turno\n");
+
+            currentEvent = Events.ENEMYFINISH;
+            notifyEvent();
+            
             printIntroduction(hero, enemy);
         }
 
@@ -48,9 +55,10 @@ public class Turns {
 
     public void HeroTurn(Scanner scanner, Hero hero, Enemy enemy, PlayerHand playerHand, DiscardPile discardPile) {
         hero.newTurn();
-        boolean playerTurn = true;
+        currentEvent = Events.HEROSTART;
+        notifyEvent();
 
-        while (playerTurn && hero.isAlive() && enemy.isAlive() && !playerHand.isEmpty()){
+        while (currentEvent == Events.HEROSTART && hero.isAlive() && enemy.isAlive() && !playerHand.isEmpty()){
 
             App.pause(1000);
             printIntroduction(hero, enemy);
@@ -73,7 +81,8 @@ public class Turns {
                 }
             } 
             else if(choice == exitChoice){
-                playerTurn = false;
+                currentEvent = Events.HEROFINISH;
+                notifyEvent();
                 System.out.println("Turno encerrado pelo jogador.");
             }
             else{
@@ -83,7 +92,8 @@ public class Turns {
             if(hero.getStamina() <= 0){
                     App.pause(2000);
                     System.out.println("\nAcabou seu fôlego! Vez do inimigo");
-                    playerTurn = false;
+                currentEvent = Events.HEROFINISH;
+                notifyEvent();
                 }
             }
     }
