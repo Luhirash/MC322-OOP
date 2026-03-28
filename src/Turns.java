@@ -3,7 +3,27 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Turns {
+
+    public enum events {
+        HEROSTART, HEROFINISH, ENEMYSTART, ENEMYFINISH
+    }
+    private ArrayList<Effect> subscriberList;
+
+    public void subscribe(Effect effect) {
+        if (effect.getIndex(effect.getOwner().getEffects()) == -1)
+            subscriberList.add(effect); //Se o efeito ainda não existe (não está aplicado no dono), ele é adicionado
+        effect.getOwner().applyEffect(effect); //De qualquer maneira, é aplicado no dono
+    }
+
+    public void unsubscribe(Effect effect) {
+        subscriberList.remove(effect.getIndex(subscriberList)); //remove o efeito da lista (se tiver o mesmo nome e dono)
+    }
     
+    public void notify(int event) {
+        for (Effect effect : subscriberList)
+            effect.beNotified(event);
+    }
+
     public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy){
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {

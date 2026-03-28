@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Entity {
 
     private String name;//fato de estar private torna encapsulado
@@ -6,6 +8,7 @@ public abstract class Entity {
     private int shield;
     private int stamina;
     private int maxStamina;
+    private ArrayList<Effect> effects;
 
     public Entity(String name, int maxHealth, int maxStamina){//funcao que cria a entidade
         this.name = name;
@@ -56,6 +59,14 @@ public abstract class Entity {
         this.setStamina(this.getMaxStamina());;
         this.setShield(0);
     }
+
+    public void applyEffect(Effect effect) {
+        int effectIndex = effect.getIndex(effects);
+        if (effectIndex == -1)
+            effect.useEffect(this);
+        else
+            effects.get(effectIndex).addIntensity(effect.getIntensity()); //adiciona intensidade no efeito já existente.
+    }
     
     public int getHealth() {
         return this.health;
@@ -92,4 +103,7 @@ public abstract class Entity {
         return this.name;
     }
 
+    public ArrayList<Effect> getEffects() {
+        return effects;
+    }
 }
