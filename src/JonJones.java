@@ -22,4 +22,12 @@ public class JonJones extends Enemy{
     public Card[] getHits() {
         return jonesHits;
     }
+
+    @Override
+    public void applyEffects(Turns turns, Hero hero) {
+        System.out.println("[Jon Jones] Fica raivoso e ganha 2 acúmulos de Força!");
+        Strength strength = new Strength("Força", this, 2);
+        turns.subscribe(strength);
+        this.printStats();
+    }
 }

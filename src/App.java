@@ -12,6 +12,9 @@ public class App {
             new ConnnorMcGregor("Connor McGregor", 30, 14)
         };
 
+        //Turns e criado antes para ser passado para cartas de efeito
+        Turns turns = new Turns();
+
         Card[] hits = {
             new DamageCard("jab", 3, 5, "desfere um soco com mão esquerda na cabeça do inimigo"),
             new DamageCard("direto", 5, 8, "desfere um soco com a mão direita na cabeça do inimigo"),
@@ -22,7 +25,10 @@ public class App {
             new ShieldCard("focar", 2, 5, "concentra-se no próximo movimento adverário, reduzindo o dano causado"),
             new ShieldCard("desviar", 3, 8, "se esquiva do ataque do inimigo"),
             new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
-            new ShieldCard("agachar", 2, 4, "busca se esconder do inimigo rapidamente")
+            new ShieldCard("agachar", 2, 4, "busca se esconder do inimigo rapidamente"),
+            //cartas de efeito
+            new bleedingCard("golpe lascerante", 3, 3, "aplica 3 acúmulos de sangramento no inimigo", turns),
+            new timeoutCard("concentrar na respiração", 4, 2, "recupera 2 pontos de vida por turno por 2 turnos", turns)
         };
 
         PurchasePile drawPile = new PurchasePile(hits);
@@ -33,8 +39,6 @@ public class App {
         ArrayList<Card> enemyCards = new ArrayList<>();
         PlayerHand playerHand = new PlayerHand(3); 
 
-
-        Turns turns = new Turns();
         Enemy enemy = turns.chooseEnemy(enemies, scanner);
 
         System.out.println("=== A Luta Começou! ===");
@@ -49,7 +53,7 @@ public class App {
             enemy.printIntentions(enemyCards);
 
             playerHand.drawCards(drawPile);
-            turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile);//passei o turno do heroi para turns
+            turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile);
             playerHand.returnCards(discardPile);
             
             if (enemy.isAlive()){

@@ -7,148 +7,111 @@
 O jogador controla o herói **Anderson Silva** e escolhe um inimigo para enfrentar: **Jon Jones** ou **Connor McGregor**. A cada turno, cartas são compradas de um baralho e o jogador decide quais usar, gastando **fôlego** (stamina). As cartas podem causar dano ao inimigo ou conceder **reflexo** (escudo) ao herói. Após o turno do jogador, o inimigo age automaticamente com movimentos escolhidos no início do turno. O combate continua até que um dos lutadores seja derrotado.
 
 
-## Hierarquia de Classes
 
-O projeto foi refatorado utilizando **herança** e **classes abstratas** para eliminar duplicação de código:
+## Como compilar
 
-```
-Entity  (abstrata)
-├── Hero
-└── Enemy  (abstrata)
-    ├── JonJones
-    └── ConnnorMcGregor
-
-Card  (abstrata)
-├── DamageCard
-└── ShieldCard
-
-PileOfCards
-├── PurchasePile
-└── DiscardPile
-
-PlayerHand
-Turns
-App
-```
-
-### `Entity` (abstrata)
-Representa qualquer personagem da batalha. Centraliza os atributos `name`, `health`, `shield`, `stamina` e métodos como `receiveDamage`, `gainShield`, `isAlive`, `newTurn` e `printStats`, evitando repetição entre herói e inimigos.
-
-### `Hero`
-Herda de `Entity`. Representa o personagem controlado pelo jogador (Anderson Silva).
-
-### `Enemy` (abstrata)
-Herda de `Entity`. Contém a lógica de escolha aleatória de cartas (`chooseCards`) e declara os métodos abstratos `printIntentions` e `getHits`, que cada inimigo concreto deve implementar.
-
-### `JonJones` e `ConnnorMcGregor`
-Inimigos concretos que herdam de `Enemy`. Cada um possui seu próprio conjunto de cartas e implementa `printIntentions` com uma mensagem personalizada — parte do **desafio extra**.
-
-### `Card` (abstrata)
-Representa o conceito geral de uma carta jogável. Centraliza `name`, `description`, `staminaCost` e o método `tryCard`, que verifica se o herói tem fôlego suficiente antes de executar o efeito.
-
-### `DamageCard`
-Herda de `Card`. Causa dano ao inimigo ao ser usada.
-
-### `ShieldCard`
-Herda de `Card`. Concede reflexo (escudo) ao herói ao ser usada.
-
----
-
-## Sistema de Baralho
-
-O jogador possui um baralho gerenciado por três estruturas:
-
-| Estrutura | Classe | Descrição |
-|---|---|---|
-| Pilha de compra | `PurchasePile` | Cartas disponíveis para compra a cada turno |
-| Mão do jogador | `PlayerHand` | Cartas disponíveis para uso no turno atual (máximo 3) |
-| Pilha de descarte | `DiscardPile` | Cartas usadas ou não jogadas ao fim do turno |
-
-**Fluxo a cada turno:**
-1. O herói recupera todo o seu fôlego e o escudo é zerado;
-2. O jogador compra cartas da pilha de compra até encher a mão (3 cartas);
-3. O jogador escolhe quais cartas usar ou encerra o turno manualmente;
-4. Cartas usadas vão para a pilha de descarte imediatamente;
-5. Cartas restantes na mão ao fim do turno também vão para o descarte;
-6. O inimigo executa as ações que anunciou no início do turno.
-
-Quando a pilha de compra se esgota, as cartas da pilha de descarte são embaralhadas e repostas como nova pilha de compra.
-
----
-
-## Desafio Extra — Anúncio de Intenções
-
-Implementado conforme o item 3.5 da tarefa. No início de cada turno, antes do jogador agir, o inimigo **anuncia quais cartas pretende usar** naquele turno. O método `printIntentions` é declarado como abstrato em `Enemy` e cada inimigo concreto o implementa com sua própria mensagem:
-
-- **Jon Jones:** *"Jon Jones tem muita energia! Por isso pretende usar:"*
-- **Connor McGregor:** *"Connor McGregor é leve e rápido, então vai usar:"*
-
-Isso permite ao jogador montar sua estratégia antes de agir, priorizando ataque ou defesa de acordo com a ameaça do inimigo.
-
----
-
-## Cartas Disponíveis
-
-| Carta | Tipo | Efeito | Custo de Fôlego |
-|---|---|---|---|
-| Jab | Ataque | 5 de dano | 3 |
-| Direto | Ataque | 8 de dano | 5 |
-| Chute na perna | Ataque | 10 de dano | 6 |
-| Chute na cabeça | Ataque | 12 de dano | 7 |
-| Soco cruzado | Ataque | 9 de dano | 5 |
-| Uppercut | Ataque | 11 de dano | 6 |
-| Focar | Escudo | 5 de reflexo | 2 |
-| Desviar | Escudo | 8 de reflexo | 3 |
-| Andar para trás | Escudo | 2 de reflexo | 1 |
-| Agachar | Escudo | 4 de reflexo | 2 |
-
----
-
-## Inimigos
-
-| Inimigo | Vida | Fôlego | Cartas |
-|---|---|---|---|
-| Jon Jones | 42 | 11 | Chute na perna, Soco cruzado, Desviar |
-| Connor McGregor | 30 | 14 | Chute na cabeça, Direto, Andar para trás |
-
----
-
-## Estrutura do Projeto
-
-```
-src/
-├── App.java              # Ponto de entrada; gerencia o loop principal do jogo
-├── Entity.java           # Classe abstrata base para herói e inimigos
-├── Hero.java             # Herói controlado pelo jogador
-├── Enemy.java            # Classe abstrata para inimigos; lógica de turno automático
-├── JonJones.java         # Inimigo concreto com cartas e intenções próprias
-├── ConnnorMcGregor.java  # Inimigo concreto com cartas e intenções próprias
-├── Card.java             # Classe abstrata base para todas as cartas
-├── DamageCard.java       # Carta de ataque que causa dano ao inimigo
-├── ShieldCard.java       # Carta de defesa que concede reflexo ao herói
-├── PileOfCards.java      # Estrutura base de pilha de cartas (LinkedList)
-├── PurchasePile.java     # Pilha de compra; reabastece a partir do descarte
-├── DiscardPile.java      # Pilha de descarte
-├── PlayerHand.java       # Mão do jogador; gerencia compra e devolução de cartas
-└── Turns.java            # Gerencia os turnos do herói e do inimigo
-```
-
----
-
-## Compilação
-
-No terminal, a partir da raiz do repositório:
+A partir da **raiz do repositório**, execute:
 
 ```bash
 javac -d bin $(find src -name "*.java")
 ```
 
----
-
-## Execução
+## Como executar
 
 ```bash
 java -cp bin App
 ```
 
-O jogo iniciará no terminal. Escolha o inimigo e, a cada turno, digite o número da carta que deseja usar ou o número para encerrar o turno. Pressione **Enter** após cada escolha.
+---
+
+## Funcionamento do jogo
+
+O jogador controla **Anderson Silva** em uma batalha de cartas contra um dos inimigos disponíveis:
+
+- **Jon Jones** — lutador resistente que aplica Força em si mesmo
+- **Connor McGregor** — lutador rápido que envenena o herói
+
+A cada turno:
+1. O inimigo revela suas intenções (cartas que pretende usar)
+2. O jogador compra 3 cartas do baralho e escolhe quais jogar, gastando fôlego
+3. Ao encerrar o turno, o inimigo executa suas ações
+
+O combate termina quando o herói ou o inimigo chega a 0 de vida.
+
+---
+
+## Efeitos implementados
+
+### 1. Sangramento (`Bleeding`)
+- **Tipo:** Debuff (aplicado no inimigo ou no herói)
+- **Gatilho:** Final do turno do herói (`HEROFINISH`)
+- **Comportamento:** A entidade afligida sofre X de dano, onde X é a quantidade atual de acúmulos. Em seguida, perde 1 acúmulo. Quando os acúmulos chegam a zero, o efeito é removido.
+- **Exemplo:** 3 acúmulos de Sangramento → 3 de dano no turno 1, 2 no turno 2, 1 no turno 3, depois removido.
+
+### 2. Timeout / Recuperação (`Timeout`)
+- **Tipo:** Buff (aplicado no herói)
+- **Gatilho:** Início do turno do herói (`HEROSTART`)
+- **Comportamento:** O herói recupera X pontos de vida, onde X é a quantidade de acúmulos. Em seguida, perde 1 acúmulo. Quando os acúmulos chegam a zero, o efeito é removido.
+- **Exemplo:** 2 acúmulos de Recuperação → cura 2 de vida no turno 1, cura 2 no turno 2 (acúmulos decrementam até 0).
+
+### 3. Força (`Strength`)
+- **Tipo:** Buff passivo (aplicado no inimigo)
+- **Gatilho:** Passivo — sempre ativo enquanto o efeito existir
+- **Comportamento:** Aumenta o dano de todas as `DamageCard` usadas pela entidade afligida em X pontos. Jon Jones aplica 2 acúmulos de Força em si mesmo a cada turno.
+
+---
+
+## Cartas que aplicam efeitos
+
+### `bleedingCard` — "golpe lascerante"
+- Custo: 3 de fôlego
+- Aplica **3 acúmulos de Sangramento** no inimigo
+- O sangramento age no final de cada turno do herói
+
+### `TimeoutCard` — "segundo fôlego"
+- Custo: 4 de fôlego
+- Aplica **2 acúmulos de Recuperação** no próprio herói
+- A cura age no início de cada turno do herói
+
+---
+
+## Padrão de Design Observer
+
+A classe `Turns` age como **Publisher**. Mantém uma lista de `Effect` (Subscribers) e os notifica via `notifyEvent()` sempre que um evento de combate ocorre:
+
+| Evento         | Descrição                        |
+|----------------|----------------------------------|
+| `HEROSTART`    | Início do turno do herói         |
+| `HEROFINISH`   | Fim do turno do herói            |
+| `ENEMYSTART`   | Início do turno do inimigo       |
+| `ENEMYFINISH`  | Fim do turno do inimigo          |
+
+Cada `Effect` implementa `beNotified(Turns turn)` e decide sozinho se deve agir com base no `turn.currentEvent`. Efeitos se inscrevem via `turns.subscribe(effect)` e são removidos via `turns.unsubscribe(effect)` quando seus acúmulos chegam a zero.
+
+---
+
+## Estrutura de arquivos
+
+```
+src/
+├── App.java            — Ponto de entrada
+├── Entity.java         — Classe abstrata base para herói e inimigos
+├── Hero.java           — Herói jogável
+├── Enemy.java          — Classe abstrata para inimigos
+├── JonJones.java       — Inimigo: aplica Força em si mesmo
+├── ConnnorMcGregor.java— Inimigo: aplica Veneno no herói
+├── Card.java           — Classe abstrata de carta
+├── DamageCard.java     — Carta de ataque (com bônus de Força)
+├── ShieldCard.java     — Carta de defesa
+├── bleedingCard.java   — Carta que aplica Sangramento (NOVA)
+├── TimeoutCard.java    — Carta que aplica Recuperação (NOVA)
+├── Effect.java         — Classe abstrata de efeito (Subscriber)
+├── Bleeding.java       — Efeito Sangramento (NOVO)
+├── Strength.java       — Efeito Força (NOVO)
+├── Timeout.java        — Efeito Recuperação
+├── Turns.java          — Gerenciador de turnos (Publisher)
+├── PileOfCards.java    — Pilha genérica de cartas
+├── PurchasePile.java   — Baralho de compra
+├── DiscardPile.java    — Pilha de descarte
+└── PlayerHand.java     — Mão do jogador
+```

@@ -31,6 +31,9 @@ public abstract class Enemy extends Entity {
     public abstract void printIntentions(ArrayList<Card> chosenCards);
     public abstract Card[] getHits();
 
+
+    public abstract void applyEffects(Turns turns, Hero hero);//inimigos aplicam efeitos também
+
     protected void printChosenCards(ArrayList<Card> chosenCards) {
         for (int i = 0; i < chosenCards.size(); i++)
             chosenCards.get(i).printCardStats();

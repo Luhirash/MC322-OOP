@@ -12,6 +12,7 @@ public class ConnnorMcGregor extends Enemy{
         new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
     };
 
+    @Override
     public void printIntentions(ArrayList<Card> chosenCards) {
         System.out.println("Connor McGregor é leve e rápido, então vai usar:");
         for (int i = 0; i < chosenCards.size(); i++)
@@ -19,7 +20,16 @@ public class ConnnorMcGregor extends Enemy{
         System.out.println("----------------------------------\n");
     }
 
+    @Override
     public Card[] getHits() {
         return mcGregorHits;
+    }
+
+    @Override
+    public void applyEffects(Turns turns, Hero hero) {
+        System.out.println("[Connor McGregor] Acerta um direto de raspão na testa do adversário e aplica 3 acúmulos de sangramento " + hero.getName() + "!");
+        Bleeding bleeding = new Bleeding("Sangramento", hero, 3);
+        turns.subscribe(bleeding);
+        hero.printStats();
     }
 }

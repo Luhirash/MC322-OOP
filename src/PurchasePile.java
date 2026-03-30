@@ -10,14 +10,22 @@ public class PurchasePile extends PileOfCards {
 
     protected void fillPile(int numberOfCards) {
 
-        for (int i = 0; i < numberOfCards; i++) {
+        for (int i = 0; i < numberOfCards; i++) {//agora ele coloca na pilha as cartas de efeito tambem
 
             Random number = new Random();
             int index = number.nextInt(differentCards.length);
 
             Card originalCard = differentCards[index];
 
-            if (originalCard instanceof DamageCard) {
+            if (originalCard instanceof bleedingCard) {
+                bleedingCard pc = (bleedingCard) originalCard;
+                super.addCard(new bleedingCard(pc.getName(), pc.getStaminaCost(), pc.getMainStat(), pc.get_description(), pc.getTurns()));
+            }
+            else if (originalCard instanceof timeoutCard) {
+                timeoutCard tc = (timeoutCard) originalCard;
+                super.addCard(new timeoutCard(tc.getName(), tc.getStaminaCost(), tc.getMainStat(), tc.get_description(), tc.getTurns()));
+            }
+            else if (originalCard instanceof DamageCard) {
                 super.addCard(new DamageCard(originalCard.getName(), originalCard.getStaminaCost(), originalCard.getMainStat(), originalCard.get_description()));
             }
             else {
@@ -34,5 +42,3 @@ public class PurchasePile extends PileOfCards {
         shuffle();//embaralha novamente a pilha de compra
     }
 }
-
-

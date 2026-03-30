@@ -12,7 +12,7 @@ public abstract class Effect{
         this.intensity = intensity;
     }
 
-    public abstract void getString();
+    public abstract String getString();
     protected abstract void useEffect(Turns turn);
     public abstract void beNotified(Turns turn);
 
@@ -37,7 +37,7 @@ public abstract class Effect{
     public int getIndex(ArrayList<Effect> effects) {
         int effectIndex = -1;
         for (int i = 0; i < effects.size(); i++) {
-            if (effects.get(i).getName() == getName() && effects.get(i).getOwner() == getOwner())
+            if (effects.get(i).getName().equals(getName()) && effects.get(i).getOwner() == getOwner())
                 effectIndex = i;
         }
         return effectIndex;

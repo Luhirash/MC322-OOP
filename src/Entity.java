@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class Entity {
+public abstract class Entity{
 
     private String name;//fato de estar private torna encapsulado
     private int health;
@@ -17,6 +17,7 @@ public abstract class Entity {
         this.shield = 0;
         this.maxStamina = maxStamina;
         this.stamina = maxStamina;
+        this.effects = new ArrayList<Effect>();
     }
 
     public void receiveDamage(int damageInflicted){
@@ -39,15 +40,25 @@ public abstract class Entity {
         this.setShield(newShield);
     }
 
-    public void gainHealth(int healthPoints) {
+    public void gainHealth(int healthPoints){
         setHealth(getHealth() + healthPoints);
     }
 
     public void printStats() {
         if (isAlive())
-            System.out.println(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+            System.out.print(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
         else
-            System.out.println(this.getName() + " (Vida: 0/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+            System.out.print(this.getName() + " (Vida: 0/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+        // Imprime efeitos ativos ao lado dos stats
+        if (!effects.isEmpty()) {
+            System.out.print(" [Efeitos: ");
+            for (int i = 0; i < effects.size(); i++) {
+                System.out.print(effects.get(i).getString());
+                if (i < effects.size() - 1) System.out.print(", ");
+            }
+            System.out.print("]");
+        }
+        System.out.println();
     }
 
     public boolean isAlive(){
@@ -105,6 +116,14 @@ public abstract class Entity {
 
     public String getName(){
         return this.name;
+    }
+
+    public int getStrengthBonus() {
+        for (Effect e : effects) {
+            if (e.getName().equals("Força"))
+                return e.getIntensity();//retorna o bonus de dano se houver efeito
+        }
+        return 0;
     }
 
     public ArrayList<Effect> getEffects() {

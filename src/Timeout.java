@@ -4,8 +4,8 @@ public class Timeout extends Effect{
         super(name, owner, intensity);
     }
 
-    public void getString() {
-        System.out.println("Pede um tempo, que revigora sua vida inicilmente em " + getIntensity() + " pontos.");
+    public String getString() {
+        return getName() + "(" + getIntensity() + ")";
     }
 
     public void beNotified(Turns turn) {

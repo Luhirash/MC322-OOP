@@ -9,8 +9,12 @@ public class DamageCard extends Card{
     
     public void useCard (Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());
-        receiver.receiveDamage((damageInflicted));
-        System.out.println(attacker.getName() + " usou " + this.getName() + " e causou " + this.damageInflicted + " de dano!");
+        int totalDamage = damageInflicted + attacker.getStrengthBonus();
+        receiver.receiveDamage(totalDamage);
+        if (attacker.getStrengthBonus() > 0)
+            System.out.println(attacker.getName() + " usou " + this.getName() + " e causou " + totalDamage + " de dano! (+" + attacker.getStrengthBonus() + " de Força)");
+        else
+            System.out.println(attacker.getName() + " usou " + this.getName() + " e causou " + totalDamage + " de dano!");
         receiver.printStats();
     }
 

@@ -9,7 +9,7 @@ public class Turns {
     }
     public Events currentEvent = Events.HEROSTART;
 
-    private ArrayList<Effect> subscriberList;
+    private ArrayList<Effect> subscriberList = new ArrayList<Effect>();
 
     public void subscribe(Effect effect) {
         if (effect.getIndex(effect.getOwner().getEffects()) == -1)
@@ -18,11 +18,16 @@ public class Turns {
     }
 
     public void unsubscribe(Effect effect) {
-        subscriberList.remove(effect.getIndex(subscriberList)); //remove o efeito da lista (se tiver o mesmo nome e dono)
+        int idx = effect.getIndex(subscriberList);
+        if (idx != -1)
+            subscriberList.remove(idx); //remove o efeito da lista (se tiver o mesmo nome e dono)
     }
     
     public void notifyEvent() {
-        for (Effect effect : subscriberList)
+        // Itera sobre cópia para evitar ConcurrentModificationException
+        // caso um efeito se desinscreva durante a notificação
+        ArrayList<Effect> copy = new ArrayList<Effect>(subscriberList);
+        for (Effect effect : copy)
             effect.beNotified(this);
     }
 
@@ -30,13 +35,16 @@ public class Turns {
         currentEvent = Events.ENEMYSTART;
         notifyEvent();
 
+        // Inimigo aplica seus efeitos no início do turno
+        enemy.applyEffects(this, hero);
+
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {
                 chosenCards.get(i).useCard(enemy, hero);
                 System.out.println();
             }
             else{
-                System.out.println(hero.getName() + "foi derrotado!");
+                System.out.println(hero.getName() + " foi derrotado!");
                 break;
             }
         }      
@@ -123,5 +131,3 @@ public class Turns {
     }
 
 }
-
-
