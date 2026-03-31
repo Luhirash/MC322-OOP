@@ -55,11 +55,10 @@ public class PlayerHand {
     }
 
     public void drawCards( PurchasePile drawPile) {
-        System.out.println("Você comprou essas cartas:\n");
-            while (!isFull()) {
-                addCard(drawPile.popCard());
-            }
-        printHand();
+        System.out.println("Você comprou novas cartas!\n");
+        while (!isFull()) {
+            addCard(drawPile.popCard());
+        }
     }
 
     public void returnCards(DiscardPile discardPile) {

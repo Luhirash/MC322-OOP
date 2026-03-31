@@ -4,7 +4,7 @@
 
 **A Luta** é um jogo de combate por turnos inspirado em *Slay the Spire*, desenvolvido em Java.
 
-O jogador controla o herói **Anderson Silva** e escolhe um inimigo para enfrentar: **Jon Jones** ou **Connor McGregor**. A cada turno, cartas são compradas de um baralho e o jogador decide quais usar, gastando **fôlego** (stamina). As cartas podem causar dano ao inimigo ou conceder **reflexo** (escudo) ao herói. Após o turno do jogador, o inimigo age automaticamente com movimentos escolhidos no início do turno. O combate continua até que um dos lutadores seja derrotado.
+O jogador controla o herói **Anderson Silva** e escolhe um inimigo para enfrentar: **Jon Jones** ou **Connor McGregor**. A cada turno, cartas são compradas de um baralho e o jogador decide quais usar, gastando **fôlego** (stamina). As cartas podem causar dano ao inimigo ou conceder **bloqueio** (escudo) ao herói. Após o turno do jogador, o inimigo age automaticamente com movimentos escolhidos no início do turno. O combate continua até que um dos lutadores seja derrotado.
 
 
 

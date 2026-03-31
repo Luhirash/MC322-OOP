@@ -1,4 +1,4 @@
-//import java.util.Random;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -36,7 +36,10 @@ public class Turns {
         notifyEvent();
 
         // Inimigo aplica seus efeitos no início do turno
-        enemy.applyEffects(this, hero);
+        Random number = new Random();
+        int num = number.nextInt(2);
+        if (num == 0)
+            enemy.applyEffects(this, hero);
 
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {
@@ -69,10 +72,9 @@ public class Turns {
         while (currentEvent == Events.HEROSTART && hero.isAlive() && enemy.isAlive() && !playerHand.isEmpty()){
 
             App.pause(1000);
-            printIntroduction(hero, enemy);
-            hero.printStats();
+            //hero.printStats();
 
-            System.out.println("Fôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
+            System.out.println("\nFôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
             System.out.println("Suas cartas disponíveis:");
             playerHand.printHand();
             
@@ -89,9 +91,8 @@ public class Turns {
                 }
             } 
             else if(choice == exitChoice){
-                currentEvent = Events.HEROFINISH;
-                notifyEvent();
                 System.out.println("Turno encerrado pelo jogador.");
+                break;
             }
             else{
                 System.out.println("Escolha inválida!");
@@ -100,10 +101,13 @@ public class Turns {
             if(hero.getStamina() <= 0){
                     App.pause(2000);
                     System.out.println("\nAcabou seu fôlego! Vez do inimigo");
-                currentEvent = Events.HEROFINISH;
-                notifyEvent();
+                    break;
                 }
             }
+        if (enemy.isAlive()) {
+            currentEvent = Events.HEROFINISH;
+            notifyEvent();
+        }
     }
 
     public void printIntroduction(Hero hero, Enemy enemy) {
@@ -124,7 +128,7 @@ public class Turns {
         } 
         int choice = scanner.nextInt();
         while (choice < 1 || choice > enemies.length) {
-            System.out.println("Escolha inválida!. Tente novamente:");
+            System.out.println("Escolha inválida! Tente novamente:");
             choice = scanner.nextInt();
         }
         return enemies[choice -1];

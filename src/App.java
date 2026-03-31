@@ -58,6 +58,7 @@ public class App {
             
             if (enemy.isAlive()){
                 enemy.newTurn();
+                pause(2000);
                 turns.printIntroduction(hero, enemy);
                 turns.enemyTurn(enemyCards, hero, enemy);
             }

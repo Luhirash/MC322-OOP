@@ -46,9 +46,9 @@ public abstract class Entity{
 
     public void printStats() {
         if (isAlive())
-            System.out.print(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+            System.out.print(this.getName() + " (Vida: " + this.getHealth() + "/" + this.getMaxHealth() + ") (Bloqueio: " + this.getShield() + ")");
         else
-            System.out.print(this.getName() + " (Vida: 0/" + this.getMaxHealth() + ") (Reflexos: " + this.getShield() + ")");
+            System.out.print(this.getName() + " (Vida: 0/" + this.getMaxHealth() + ") (Bloqueio: " + this.getShield() + ")");
         // Imprime efeitos ativos ao lado dos stats
         if (!effects.isEmpty()) {
             System.out.print(" [Efeitos: ");

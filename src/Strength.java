@@ -11,7 +11,12 @@ public class Strength extends Effect {
 
     @Override
     public void beNotified(Turns turn) {
-        //nada acontece, o bonus e aplicado no momento de ataque
+        if (turn.currentEvent == Turns.Events.ENEMYFINISH) {
+            this.addIntensity(-1);
+            if (this.getIntensity() <= 0) {
+                this.effectFinish(turn); // Remove o efeito se chegar a 0
+            }
+        }
     }
 
     @Override
