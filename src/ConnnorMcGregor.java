@@ -15,6 +15,7 @@ public class ConnnorMcGregor extends Enemy{
 
     @Override
     public void printIntentions(ArrayList<Card> chosenCards) {
+        System.out.println("----------------------------------");
         System.out.println("Connor McGregor é leve e rápido, então vai usar:");
         for (int i = 0; i < chosenCards.size(); i++)
             chosenCards.get(i).printCardStats();
@@ -24,13 +25,5 @@ public class ConnnorMcGregor extends Enemy{
     @Override
     public Card[] getHits() {
         return mcGregorHits;
-    }
-
-    @Override
-    public void applyEffects(Turns turns, Hero hero) {
-        System.out.println("[Connor McGregor] Acerta um direto de raspão na testa do adversário e aplica 3 acúmulos de sangramento " + hero.getName() + "!");
-        Bleeding bleeding = new Bleeding("Sangramento", hero, 3);
-        turns.subscribe(bleeding);
-        hero.printStats();
     }
 }

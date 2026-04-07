@@ -10,10 +10,10 @@ public class Bleeding extends Effect {
 
     @Override
     public void beNotified(Turns turn) {
-        // Sangramento age no fim do turno do herói
-        if (turn.currentEvent == Turns.Events.HEROFINISH) {
+        // Sangramento age no fim do turno do turno do atacante
+        if (turn.currentEvent == Turns.Events.HEROFINISH && getOwner() instanceof Enemy ||
+            turn.currentEvent == Turns.Events.ENEMYFINISH && getOwner() instanceof Hero) 
             useEffect(turn);
-        }
     }
 
     @Override

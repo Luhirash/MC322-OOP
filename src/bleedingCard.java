@@ -9,7 +9,7 @@ public class bleedingCard extends Card {
 
     protected void useCard(Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
-        System.out.println(attacker.getName() + " usou " + getName() + " e cortou " + receiver.getName() + " causando " + bleedingIntensity + " acúmulo(s) de sangramento!");
+        System.out.println(attacker.getName() + " usou " + getName() + " e cortou " + receiver.getName() + " causando " + getMainStat() + " acúmulo(s) de sangramento!");
         Bleeding bleeding = new Bleeding("Sangramento", receiver, bleedingIntensity);
         turns.subscribe(bleeding);
         receiver.printStats();

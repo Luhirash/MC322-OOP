@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -34,12 +33,6 @@ public class Turns {
     public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy){
         currentEvent = Events.ENEMYSTART;
         notifyEvent();
-
-        // Inimigo aplica seus efeitos no início do turno
-        // Random number = new Random();
-        // int num = number.nextInt(2);
-        // if (num == 0)
-        //     enemy.applyEffects(this, hero);
 
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {

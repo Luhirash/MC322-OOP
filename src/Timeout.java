@@ -9,13 +9,16 @@ public class Timeout extends Effect{
     }
 
     public void beNotified(Turns turn) {
-        if (turn.currentEvent == Turns.Events.HEROSTART) {
+        //Recuperação por pedido de tempo é no início do turno daquele que usou a carta
+        if (turn.currentEvent == Turns.Events.HEROSTART && getOwner() instanceof Hero ||
+            turn.currentEvent == Turns.Events.ENEMYSTART && getOwner() instanceof Enemy) {
             useEffect(turn);
         }
     }
 
     protected void useEffect(Turns turn) {
         getOwner().gainHealth(getIntensity());
+        System.out.println("[Recuperação] " + getOwner() + " recuperou " + getIntensity() + "de vida");
         addIntensity(-1);
         if (getIntensity() == 0)
             effectFinish(turn);

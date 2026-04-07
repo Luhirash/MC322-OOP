@@ -35,7 +35,7 @@ public class PurchasePile extends PileOfCards {
     }
 
     public void retrieveCards(PileOfCards discardPile) {
-        System.out.println("\n Baralho vazio! Embaralhando pilha de descarte");
+        System.out.println("Baralho vazio! Embaralhando pilha de descarte\n");
         while(!discardPile.isEmpty()){//enquanto houver termos
             addCard(discardPile.popCard());//sai do descarte e vai pra compra
         }

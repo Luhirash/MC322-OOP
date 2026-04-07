@@ -35,6 +35,8 @@ public abstract class Entity{
         }
     }
 
+    public abstract Card[] getHits();
+
     public void gainShield(int shieldPoints){
         int newShield = this.getShield() + shieldPoints;
         this.setShield(newShield);
