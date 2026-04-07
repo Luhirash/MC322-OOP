@@ -12,7 +12,7 @@ public class timeoutCard extends Card {
     @Override//ela age em quem utilizou mesmo, por isso override
     protected void useCard(Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
-        System.out.println(attacker.getName() + " usou " + getName() + " e ganhou " + healStacks + " acúmulo(s) de recuperação!");
+        System.out.println(attacker.getName() + " usou " + getName() + " e ganhou recuperação de intensidade " + healStacks + "!");
         Timeout timeout = new Timeout("Recuperação", attacker, healStacks);
         turns.subscribe(timeout);
         attacker.printStats();

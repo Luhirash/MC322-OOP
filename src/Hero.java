@@ -17,7 +17,7 @@ public class Hero extends Entity{
             new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
             new ShieldCard("agachar", 2, 4, "busca se esconder do inimigo rapidamente"),
             //cartas de efeito
-            new bleedingCard("golpe lascerante", 3, 3, "aplica 3 acúmulos de sangramento no inimigo"),
+            new bleedingCard("golpe lascerante", 3, 3, "aplica 3 de intensidade de sangramento no inimigo"),
             new timeoutCard("pedir tempo técnico", 4, 2, "recupera 2 pontos de vida por turno por 2 turnos")
         };
 
