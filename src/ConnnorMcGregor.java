@@ -10,6 +10,7 @@ public class ConnnorMcGregor extends Enemy{
         new DamageCard("chute na cabeça", 7, 12, "desfere um chute com a perna direita na cabeça do inimigo"),
         new DamageCard("direto", 5, 8, "desfere um soco com a mão direita na cabeça do inimigo"),
         new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
+        new bleedingCard("raspão na testa", 3, 2, "Acerta um direto de raspão na testa do adversário")
     };
 
     @Override

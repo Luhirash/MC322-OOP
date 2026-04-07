@@ -36,14 +36,14 @@ public class Turns {
         notifyEvent();
 
         // Inimigo aplica seus efeitos no início do turno
-        Random number = new Random();
-        int num = number.nextInt(2);
-        if (num == 0)
-            enemy.applyEffects(this, hero);
+        // Random number = new Random();
+        // int num = number.nextInt(2);
+        // if (num == 0)
+        //     enemy.applyEffects(this, hero);
 
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {
-                chosenCards.get(i).useCard(enemy, hero);
+                chosenCards.get(i).useCard(enemy, hero, this);
                 System.out.println();
             }
             else{
@@ -85,7 +85,7 @@ public class Turns {
             int choice = scanner.nextInt();
             if(choice >= 1 && choice <= numCards){
                 Card chosenCard = playerHand.getCard(choice - 1);
-                if(chosenCard.tryCard(hero, enemy)){//se for possivel usar a carta
+                if(chosenCard.tryCard(hero, enemy, this)){//se for possivel usar a carta
                     playerHand.useCard(choice - 1);
                     discardPile.addCard(chosenCard);//depois do uso a carta vai para descarte
                 }

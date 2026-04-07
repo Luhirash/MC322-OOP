@@ -12,13 +12,13 @@ public abstract class Card {
         this.description = description;
     }
 
-    protected abstract void useCard(Entity attacker, Entity receiver);
+    protected abstract void useCard(Entity attacker, Entity receiver, Turns turns);
     public abstract void printCardStats();
     public abstract int getMainStat();
 
-    public boolean tryCard(Hero hero, Enemy enemy){
+    public boolean tryCard(Hero hero, Enemy enemy, Turns turns){
         if(hero.getStamina() >= this.getStaminaCost()) {
-            this.useCard(hero, enemy);
+            this.useCard(hero, enemy, turns);
             this.setWasUsed(true);
             return true;//realizou o golpe
         }

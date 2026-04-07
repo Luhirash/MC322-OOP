@@ -1,33 +1,28 @@
 public class bleedingCard extends Card {
 
-    private int bleedingStacks; 
-    private Turns turns;      
-
-    public bleedingCard(String name, int staminaCost, int bleedingStacks, String description, Turns turns) {
+    private int bleedingIntensity; 
+     
+    public bleedingCard(String name, int staminaCost, int bleedingIntensity, String description) {
         super(name, staminaCost, description);
-        this.bleedingStacks = bleedingStacks;
-        this.turns = turns;
+        this.bleedingIntensity = bleedingIntensity;
     }
 
-    protected void useCard(Entity attacker, Entity receiver) {
+    protected void useCard(Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
-        System.out.println(attacker.getName() + " usou " + getName() + " e cortou " + receiver.getName() + " causando " + bleedingStacks + " acúmulo(s) de sangramento!");
-        Bleeding bleeding = new Bleeding("Sangramento", receiver, bleedingStacks);
+        System.out.println(attacker.getName() + " usou " + getName() + " e cortou " + receiver.getName() + " causando " + bleedingIntensity + " acúmulo(s) de sangramento!");
+        Bleeding bleeding = new Bleeding("Sangramento", receiver, bleedingIntensity);
         turns.subscribe(bleeding);
         receiver.printStats();
     }
 
     @Override
     public void printCardStats() {
-        System.out.println(getName() + " (Sangramento: " + bleedingStacks + " | Custo: " + getStaminaCost() + ")");
+        System.out.println(getName() + " (Sangramento: " + bleedingIntensity + " | Custo: " + getStaminaCost() + ")");
     }
 
     @Override
     public int getMainStat() {
-        return bleedingStacks;
+        return bleedingIntensity;
     }
 
-    public Turns getTurns() {
-        return turns;
-    }
 }

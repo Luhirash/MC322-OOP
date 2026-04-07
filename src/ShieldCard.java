@@ -7,7 +7,7 @@ public class ShieldCard extends Card {
         this.damageBlocked = damageBlocked;
     }
 
-    public void useCard(Entity attacker, Entity receiver){
+    public void useCard(Entity attacker, Entity receiver, Turns turns){
         System.out.println(attacker.getName() + " usou " + super.getName() + "!");
         attacker.spendStamina(super.getStaminaCost());
         attacker.gainShield(this.damageBlocked);

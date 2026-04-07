@@ -19,11 +19,11 @@ public class PurchasePile extends PileOfCards {
 
             if (originalCard instanceof bleedingCard) {
                 bleedingCard pc = (bleedingCard) originalCard;
-                super.addCard(new bleedingCard(pc.getName(), pc.getStaminaCost(), pc.getMainStat(), pc.get_description(), pc.getTurns()));
+                super.addCard(new bleedingCard(pc.getName(), pc.getStaminaCost(), pc.getMainStat(), pc.get_description()));
             }
             else if (originalCard instanceof timeoutCard) {
                 timeoutCard tc = (timeoutCard) originalCard;
-                super.addCard(new timeoutCard(tc.getName(), tc.getStaminaCost(), tc.getMainStat(), tc.get_description(), tc.getTurns()));
+                super.addCard(new timeoutCard(tc.getName(), tc.getStaminaCost(), tc.getMainStat(), tc.get_description()));
             }
             else if (originalCard instanceof DamageCard) {
                 super.addCard(new DamageCard(originalCard.getName(), originalCard.getStaminaCost(), originalCard.getMainStat(), originalCard.get_description()));

@@ -7,7 +7,7 @@ public class DamageCard extends Card{
         this.damageInflicted = damageInflicted;
     }
     
-    public void useCard (Entity attacker, Entity receiver) {
+    public void useCard (Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
         int totalDamage = damageInflicted + attacker.getStrengthBonus();
         receiver.receiveDamage(totalDamage);

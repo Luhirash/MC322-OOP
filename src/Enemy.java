@@ -16,11 +16,13 @@ public abstract class Enemy extends Entity {
     public ArrayList<Card> chooseCards(Card[] hits) {
         ArrayList<Card> chosenCards = new ArrayList<Card>();
         int availableStamina = getMaxStamina();
-        while (availableStamina > 0) {
+        int numberOfCards = 0;
+        while (availableStamina > 0 && numberOfCards < 3) {
             Card possibleCard = chooseRandomCard(hits);
             if (availableStamina >= possibleCard.getStaminaCost()) {
                 chosenCards.add(possibleCard);
                 availableStamina -= possibleCard.getStaminaCost();
+                numberOfCards++;
             }
             else
                 break;
