@@ -1,7 +1,24 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * Classe principal do jogo de luta baseado em cartas.
+ * <p>
+ * Inicializa os personagens, o baralho e controla o loop principal da partida,
+ * alternando turnos entre o herói e o inimigo escolhido até que um dos dois seja derrotado.
+ * </p>
+ */
 public class App {
+
+    /**
+     * Ponto de entrada do programa.
+     * <p>
+     * Cria o herói, os inimigos, as pilhas de cartas e executa o loop de combate,
+     * alternando entre o turno do herói e o turno do inimigo.
+     * </p>
+     *
+     * @param args argumentos de linha de comando (não utilizados)
+     */
     public static void main (String[] args){
         Scanner scanner = new Scanner(System.in);
 
@@ -59,6 +76,11 @@ public class App {
         scanner.close();
     }
 
+    /**
+     * Pausa a execução do programa pelo tempo especificado.
+     *
+     * @param miliseconds tempo de pausa em milissegundos
+     */
     public static void pause(int miliseconds) {
         try {
             Thread.sleep(miliseconds);
