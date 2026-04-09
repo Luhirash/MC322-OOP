@@ -1,7 +1,7 @@
 public class StrengthCard extends Card{
 
     private int strengthIntensity; 
-     
+    
     public StrengthCard(String name, int staminaCost, int strengthIntensity, String description) {
         super(name, staminaCost, description);
         this.strengthIntensity = strengthIntensity;

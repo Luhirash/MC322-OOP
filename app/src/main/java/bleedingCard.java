@@ -1,7 +1,7 @@
 public class bleedingCard extends Card {
 
     private int bleedingIntensity; 
-     
+    
     public bleedingCard(String name, int staminaCost, int bleedingIntensity, String description) {
         super(name, staminaCost, description);
         this.bleedingIntensity = bleedingIntensity;
