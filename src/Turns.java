@@ -14,7 +14,7 @@ public class Turns {
     public void subscribe(Effect effect) {
         if (effect.getIndex(effect.getOwner().getEffects()) == -1)
             subscriberList.add(effect); //Se o efeito ainda não existe (não está aplicado no dono), ele é adicionado
-        effect.getOwner().applyEffect(effect); //De qualquer maneira, é aplicado no dono
+        effect.getOwner().applyEffect(effect); //De qualquer maneira, é aplicado no dono(se ele ja tiver ativo adiciona acumulos)
     }
 
     public void unsubscribe(Effect effect) {
@@ -24,8 +24,7 @@ public class Turns {
     }
     
     public void notifyEvent() {
-        // Itera sobre cópia para evitar ConcurrentModificationException
-        // caso um efeito se desinscreva durante a notificação
+        // Itera sobre cópia para evitar ConcurrentModificationException(o array lista muda de tamanho)
         ArrayList<Effect> copy = new ArrayList<Effect>(subscriberList);
         for (Effect effect : copy)
             effect.beNotified(this);

@@ -1,4 +1,4 @@
-public class Strength extends Effect {
+public class Strength extends Effect {//e um subscriber
 
     public Strength(String name, Entity owner, int intensity) {
         super(name, owner, intensity);

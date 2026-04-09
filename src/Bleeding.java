@@ -1,4 +1,4 @@
-public class Bleeding extends Effect {
+public class Bleeding extends Effect {//e um subscriber
 
     public Bleeding(String name, Entity owner, int intensity) {
         super(name, owner, intensity);
@@ -21,7 +21,7 @@ public class Bleeding extends Effect {
         System.out.println("[Sangramento] " + getOwner().getName() + " sofre " + getIntensity() + " de dano pelo sangramento!");
         getOwner().receiveDamage(getIntensity());
         getOwner().printStats();
-        addIntensity(-1);
+        addIntensity(-1);//aqui o dano causado pelo sangramento diminui depois de 1 acumulo ser gasto
         if (getIntensity() == 0) {
             System.out.println("[Sangramento] O sangramento em " + getOwner().getName() + " foi estancado.");
             effectFinish(turn);

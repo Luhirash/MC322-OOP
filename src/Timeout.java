@@ -1,4 +1,4 @@
-public class Timeout extends Effect{
+public class Timeout extends Effect{//e um subscriber
 
     public Timeout(String name, Entity owner, int intensity) {
         super(name, owner, intensity);
