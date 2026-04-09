@@ -1,29 +1,29 @@
 /**
- * Carta de combate que aplica o efeito de {@link Timeout recuperação} ao usuário.
+ * Carta de combate que aplica o efeito de {@link Healing recuperação} ao usuário.
  * <p>
  * Ao ser jogada, cria e registra um efeito de recuperação no gerenciador de turnos,
  * restaurando pontos de vida ao atacante no início de seus próximos turnos.
  * </p>
  *
  * @see Card
- * @see Timeout
+ * @see Healing
  */
-public class timeoutCard extends Card {
+public class HealingCard extends Card {
 
     /** Quantidade de vida recuperada por turno (intensidade do efeito de recuperação). */
-    private int healStacks; 
+    private int healingIntensity; 
 
     /**
      * Constrói uma carta de recuperação de vida.
      *
      * @param name        nome da carta
      * @param staminaCost custo em fôlego para usá-la
-     * @param healStacks  quantidade de vida recuperada por turno
+     * @param healingIntensity  quantidade de vida recuperada por turno
      * @param description descrição textual da ação
      */
-    public timeoutCard(String name, int staminaCost, int healStacks, String description) {
+    public HealingCard(String name, int staminaCost, int healingIntensity, String description) {
         super(name, staminaCost, description);
-        this.healStacks = healStacks;
+        this.healingIntensity = healingIntensity;
     }
 
     /**
@@ -40,9 +40,9 @@ public class timeoutCard extends Card {
     @Override
     protected void useCard(Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
-        System.out.println(attacker.getName() + " usou " + getName() + " e ganhou recuperação de intensidade " + healStacks + "!");
-        Timeout timeout = new Timeout("Recuperação", attacker, healStacks);
-        turns.subscribe(timeout);
+        System.out.println(attacker.getName() + " usou " + getName() + " e ganhou recuperação de intensidade " + healingIntensity + "!");
+        Healing healing = new Healing("Recuperação", attacker, healingIntensity);
+        turns.subscribe(healing);
         attacker.printStats();
     }
 
@@ -51,7 +51,7 @@ public class timeoutCard extends Card {
      */
     @Override
     public void printCardStats() {
-        System.out.println(getName() + " (Recuperação: " + healStacks + " | Custo: " + getStaminaCost() + ")");
+        System.out.println(getName() + " (Recuperação: " + healingIntensity + " | Custo: " + getStaminaCost() + ")");
     }
 
     /**
@@ -61,6 +61,6 @@ public class timeoutCard extends Card {
      */
     @Override
     public int getMainStat() {
-        return healStacks;
+        return healingIntensity;
     }
 }

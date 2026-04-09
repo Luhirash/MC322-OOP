@@ -1,16 +1,16 @@
 /**
  * Efeito de recuperação de vida aplicado no início do turno do dono.
  * <p>
- * Criado pela {@link timeoutCard}, este efeito restaura pontos de vida
+ * Criado pela {@link HealingCard}, este efeito restaura pontos de vida
  * ao dono no início de cada um de seus turnos. A intensidade representa
  * a quantidade de vida recuperada por ativação e é decrementada a cada uso.
  * Quando chega a zero, o efeito é removido.
  * </p>
  *
  * @see Effect
- * @see timeoutCard
+ * @see HealingCard
  */
-public class Timeout extends Effect{
+public class Healing extends Effect{
 
     /**
      * Constrói um efeito de recuperação de vida.
@@ -19,7 +19,7 @@ public class Timeout extends Effect{
      * @param owner     entidade que receberá a cura
      * @param intensity quantidade de vida recuperada por ativação
      */
-    public Timeout(String name, Entity owner, int intensity) {
+    public Healing(String name, Entity owner, int intensity) {
         super(name, owner, intensity);
     }
 

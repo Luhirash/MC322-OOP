@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @see Bleeding
  * @see Strength
- * @see Timeout
+ * @see Healing
  */
 public abstract class Effect{
     

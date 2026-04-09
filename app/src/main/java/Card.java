@@ -9,7 +9,7 @@
  * @see DamageCard
  * @see ShieldCard
  * @see bleedingCard
- * @see timeoutCard
+ * @see HealingCard
  * @see StrengthCard
  */
 public abstract class Card {
