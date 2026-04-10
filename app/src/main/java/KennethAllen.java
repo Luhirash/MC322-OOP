@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * <p>
  * Kenneth Allen  é caracterizado por ser fraco e ter pouca defesa,
  * com um conjunto de cartas que inclui ataques de dano variados,
- * e a habilidade de causar cãibra nele mesmo com {@link bleedingCard}.
+ * e a habilidade desferir uma paulistinha em seu adversário {@link bleedingCard}.
  * </p>
  *
  * @see Enemy

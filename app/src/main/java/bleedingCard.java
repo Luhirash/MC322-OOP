@@ -1,26 +1,38 @@
 /**
  * Carta de combate que aplica o efeito de {@link Bleeding sangramento} ao alvo.
- * <p>
- * Ao ser jogada, cria e registra um efeito de sangramento no gerenciador de turnos,
- * que passará a causar dano periódico ao receptor a cada fim de turno do atacante.
- * Se o alvo já estiver sangrando, a intensidade é acumulada.
- * </p>
+ *
+ * <p>Ao ser jogada, cria um efeito de {@link Bleeding} sobre o receptor e o inscreve
+ * no gerenciador de turnos ({@link Turns#subscribe(Effect)}). A partir desse momento,
+ * o alvo sofrerá dano periódico a cada fim de turno do atacante:
+ * se o herói jogar esta carta, o inimigo sangrará ao fim do turno do herói
+ * ({@link Turns.Events#HEROFINISH}); e vice-versa.</p>
+ *
+ * <p>Se o alvo já estiver sob efeito de sangramento, a nova intensidade é somada
+ * à existente (acumulação de efeitos).</p>
+ *
+ * <p>Exemplos do deck do herói: "golpe lascerante" (3 de intensidade),
+ * "cotovelada cortante" (4 de intensidade).</p>
  *
  * @see Card
  * @see Bleeding
+ * @see Turns#subscribe(Effect)
  */
 public class bleedingCard extends Card {
 
-    /** Intensidade do sangramento aplicado ao alvo. */
+    /**
+     * Intensidade inicial do sangramento aplicado ao alvo.
+     * <p>Representa o dano por turno causado pelo efeito. A cada ativação,
+     * a intensidade é decrementada em 1 até chegar a zero e o efeito ser removido.</p>
+     */
     private int bleedingIntensity; 
     
     /**
      * Constrói uma carta de sangramento.
      *
-     * @param name               nome da carta
-     * @param staminaCost        custo em fôlego para usá-la
-     * @param bleedingIntensity  intensidade do sangramento aplicado (dano por turno)
-     * @param description        descrição textual do golpe
+     * @param name              nome da carta exibido nas mensagens de combate
+     * @param staminaCost       custo em fôlego para usá-la
+     * @param bleedingIntensity intensidade do sangramento (dano por turno aplicado ao alvo)
+     * @param description       descrição textual do golpe
      */
     public bleedingCard(String name, int staminaCost, int bleedingIntensity, String description) {
         super(name, staminaCost, description);
@@ -28,12 +40,16 @@ public class bleedingCard extends Card {
     }
 
     /**
-     * Executa o golpe: gasta fôlego do atacante, cria um efeito de sangramento
-     * sobre o receptor e o registra no gerenciador de turnos.
+     * Executa o golpe: gasta o fôlego do atacante, cria um efeito de {@link Bleeding}
+     * sobre o receptor e o inscreve no gerenciador de turnos.
      *
-     * @param attacker entidade que usa a carta
+     * <p>O efeito age sobre o <b>receptor</b> (quem recebeu o corte), não sobre o atacante.
+     * Se o receptor já estiver sangrando, a intensidade é acumulada via
+     * {@link Entity#applyEffect(Effect)}.</p>
+     *
+     * @param attacker entidade que usa a carta (terá seu fôlego reduzido)
      * @param receiver entidade que receberá o efeito de sangramento
-     * @param turns    gerenciador de turnos onde o efeito será inscrito
+     * @param turns    gerenciador de turnos onde o efeito de sangramento será inscrito
      */
     protected void useCard(Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
@@ -44,7 +60,8 @@ public class bleedingCard extends Card {
     }
 
     /**
-     * Imprime no console as estatísticas da carta (nome, intensidade do sangramento e custo de fôlego).
+     * Imprime no console as estatísticas da carta no formato:
+     * <pre>NomeDaCarta (Sangramento: X | Custo: Y)</pre>
      */
     @Override
     public void printCardStats() {
@@ -52,9 +69,9 @@ public class bleedingCard extends Card {
     }
 
     /**
-     * Retorna o atributo principal da carta, que é a intensidade do sangramento.
+     * Retorna o atributo principal da carta, que é a intensidade do sangramento aplicado.
      *
-     * @return intensidade do sangramento aplicado
+     * @return intensidade do sangramento (dano por turno causado ao alvo)
      */
     @Override
     public int getMainStat() {

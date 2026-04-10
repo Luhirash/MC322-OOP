@@ -1,46 +1,56 @@
 /**
- * Efeito de recuperação de vida aplicado no início do turno do dono.
- * <p>
- * Criado pela {@link HealingCard}, este efeito restaura pontos de vida
- * ao dono no início de cada um de seus turnos. A intensidade representa
- * a quantidade de vida recuperada por ativação e é decrementada a cada uso.
- * Quando chega a zero, o efeito é removido.
- * </p>
+ * Efeito de status de recuperação que restaura pontos de vida ao dono no início de cada turno.
+ *
+ * <p>Criado pela {@link HealingCard}, este efeito é aplicado sobre o <b>próprio usuário</b>
+ * da carta. A cada início de turno do dono, recupera pontos de vida iguais à
+ * {@link Effect#getIntensity() intensidade atual} e decrementa a intensidade em 1.
+ * Quando a intensidade chega a zero, o efeito é removido automaticamente.</p>
+ *
+ * <h2>Momento de ativação</h2>
+ * <ul>
+ *   <li>Se o dono for o {@link Hero herói}: age em {@link Turns.Events#HEROSTART}
+ *       (início do turno do herói).</li>
+ *   <li>Se o dono for um {@link Enemy inimigo}: age em {@link Turns.Events#ENEMYSTART}
+ *       (início do turno do inimigo).</li>
+ * </ul>
  *
  * @see Effect
  * @see HealingCard
+ * @see Turns.Events
  */
 public class Healing extends Effect{
 
     /**
      * Constrói um efeito de recuperação de vida.
      *
-     * @param name      nome do efeito (geralmente "Recuperação")
-     * @param owner     entidade que receberá a cura
-     * @param intensity quantidade de vida recuperada por ativação
+     * @param name      nome do efeito (convencionalmente "Recuperação")
+     * @param owner     entidade que receberá a cura a cada turno
+     * @param intensity quantidade de vida recuperada por ativação e duração em turnos
      */
     public Healing(String name, Entity owner, int intensity) {
         super(name, owner, intensity);
     }
 
     /**
-     * Retorna a representação textual do efeito no formato "Nome(intensidade)".
+     * Retorna a representação textual do efeito para exibição no status da entidade.
      *
-     * @return string descritiva da recuperação
+     * @return string no formato {@code "Recuperação(X)"}, onde X é a intensidade atual
      */
     public String getString() {
         return getName() + "(" + getIntensity() + ")";
     }
 
     /**
-     * Verifica se o evento atual é o início do turno do dono do efeito
-     * e chama {@link #useEffect} quando aplicável.
-     * <p>
-     * Age em {@link Turns.Events#HEROSTART} para o herói e
-     * {@link Turns.Events#ENEMYSTART} para inimigos.
-     * </p>
+     * Verifica se o evento atual é o início do turno do dono e chama
+     * {@link #useEffect(Turns)} quando aplicável.
      *
-     * @param turn referência ao gerenciador de turnos com o evento atual
+     * <p>Regra de ativação:</p>
+     * <ul>
+     *   <li>{@link Turns.Events#HEROSTART} → ativa se o dono for o {@link Hero herói}.</li>
+     *   <li>{@link Turns.Events#ENEMYSTART} → ativa se o dono for um {@link Enemy inimigo}.</li>
+     * </ul>
+     *
+     * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
      */
     public void beNotified(Turns turn) {
         if (turn.currentEvent == Turns.Events.HEROSTART && getOwner() instanceof Hero ||
@@ -50,12 +60,17 @@ public class Healing extends Effect{
     }
 
     /**
-     * Recupera vida ao dono do efeito e reduz a intensidade em 1.
-     * <p>
-     * Quando a intensidade chega a zero, o efeito é encerrado e removido.
-     * </p>
+     * Recupera vida ao dono do efeito e decrementa a intensidade em 1.
      *
-     * @param turn referência ao gerenciador de turnos (usado para remover o efeito ao fim)
+     * <p>Sequência de execução:</p>
+     * <ol>
+     *   <li>Adiciona vida ao dono igual à intensidade atual via {@link Entity#gainHealth(int)}.</li>
+     *   <li>Exibe mensagem informando a quantidade de vida recuperada.</li>
+     *   <li>Reduz a intensidade em 1 via {@link Effect#addIntensity(int)}.</li>
+     *   <li>Se a intensidade chegar a zero, remove o efeito via {@link Effect#effectFinish(Turns)}.</li>
+     * </ol>
+     *
+     * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     protected void useEffect(Turns turn) {
         getOwner().gainHealth(getIntensity());

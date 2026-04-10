@@ -1,31 +1,44 @@
 /**
- * Efeito de força que concede bônus de dano à entidade afetada.
- * <p>
- * O bônus de dano é consultado diretamente em {@link Entity#getStrengthBonus()} durante o cálculo
- * de dano das {@link DamageCard}s. A cada fim de turno do dono do efeito,
- * a intensidade é reduzida em 1. Quando a intensidade chega a zero, o efeito é removido.
- * </p>
+ * Efeito de status de força que concede bônus de dano ao dono em suas {@link DamageCard}s.
+ *
+ * <p>Criado pela {@link StrengthCard}, este efeito age de forma <b>passiva</b>:
+ * o bônus de dano é lido diretamente por {@link Entity#getStrengthBonus()} a cada vez
+ * que o dono usa uma {@link DamageCard}, sem precisar de ativação explícita.</p>
+ *
+ * <p>O decaimento do efeito ocorre ao <b>fim do turno do dono</b>: a intensidade é
+ * decrementada em 1 por turno. Quando chega a zero, o efeito é removido e o bônus
+ * de dano deixa de existir.</p>
+ *
+ * <h2>Momento de decaimento</h2>
+ * <ul>
+ *   <li>Se o dono for o {@link Hero herói}: decai em {@link Turns.Events#HEROFINISH}
+ *       (fim do turno do herói).</li>
+ *   <li>Se o dono for um {@link Enemy inimigo}: decai em {@link Turns.Events#ENEMYFINISH}
+ *       (fim do turno do inimigo).</li>
+ * </ul>
  *
  * @see Effect
  * @see StrengthCard
+ * @see Entity#getStrengthBonus()
+ * @see DamageCard
  */
 public class Strength extends Effect {
 
     /**
      * Constrói um efeito de força.
      *
-     * @param name      nome do efeito (geralmente "Força")
+     * @param name      nome do efeito (convencionalmente "Força")
      * @param owner     entidade que receberá o bônus de dano
-     * @param intensity intensidade inicial (quantidade de bônus de dano por uso)
+     * @param intensity intensidade inicial: valor do bônus de dano e duração em turnos
      */
     public Strength(String name, Entity owner, int intensity) {
         super(name, owner, intensity);
     }
 
     /**
-     * Retorna a representação textual do efeito no formato "Nome(intensidade)".
+     * Retorna a representação textual do efeito para exibição no status da entidade.
      *
-     * @return string descritiva da força
+     * @return string no formato {@code "Força(X)"}, onde X é a intensidade atual
      */
     @Override
     public String getString() {
@@ -33,14 +46,16 @@ public class Strength extends Effect {
     }
 
     /**
-     * Verifica se o evento atual corresponde ao fim do turno do dono do efeito
-     * e chama {@link #useEffect} quando aplicável.
-     * <p>
-     * Age em {@link Turns.Events#ENEMYFINISH} para inimigos e
-     * {@link Turns.Events#HEROFINISH} para o herói.
-     * </p>
+     * Verifica se o evento atual é o fim do turno do dono e chama
+     * {@link #useEffect(Turns)} quando aplicável.
      *
-     * @param turn referência ao gerenciador de turnos com o evento atual
+     * <p>Regra de decaimento:</p>
+     * <ul>
+     *   <li>{@link Turns.Events#HEROFINISH} → ativa se o dono for o {@link Hero herói}.</li>
+     *   <li>{@link Turns.Events#ENEMYFINISH} → ativa se o dono for um {@link Enemy inimigo}.</li>
+     * </ul>
+     *
+     * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
      */
     @Override
     public void beNotified(Turns turn) {
@@ -50,14 +65,14 @@ public class Strength extends Effect {
     }
 
     /**
-     * Reduz a intensidade do efeito em 1 ao fim do turno do dono.
-     * <p>
-     * O bônus de dano em si é lido passivamente por {@link Entity#getStrengthBonus()};
-     * este método apenas contabiliza o decaimento do efeito.
-     * Quando a intensidade chega a zero, o efeito é removido.
-     * </p>
+     * Decrementa a intensidade do efeito em 1 ao fim do turno do dono.
      *
-     * @param turn referência ao gerenciador de turnos (usado para remover o efeito ao fim)
+     * <p>O bônus de dano em si é lido passivamente por {@link Entity#getStrengthBonus()};
+     * este método apenas contabiliza o desgaste do efeito ao longo dos turnos.
+     * Quando a intensidade chega a zero, exibe uma mensagem e remove o efeito
+     * via {@link Effect#effectFinish(Turns)}.</p>
+     *
+     * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     @Override
     protected void useEffect(Turns turn) {

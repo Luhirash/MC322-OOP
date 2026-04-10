@@ -1,26 +1,35 @@
 /**
  * Carta de combate que aplica o efeito de {@link Strength força} ao usuário.
- * <p>
- * Ao ser jogada, cria e registra um efeito de força no gerenciador de turnos,
- * concedendo bônus de dano nas {@link DamageCard}s usadas pelo atacante
- * durante os próximos turnos. Se a força já estiver ativa, a intensidade é acumulada.
- * </p>
+ *
+ * <p>Ao ser jogada, cria um efeito de {@link Strength} sobre o <b>próprio atacante</b>
+ * e o inscreve no gerenciador de turnos. Enquanto ativo, o efeito de força é consultado
+ * passivamente por todas as {@link DamageCard}s do usuário através de
+ * {@link Entity#getStrengthBonus()}, somando o bônus ao dano de cada golpe.</p>
+ *
+ * <p>O efeito decai em 1 ponto de intensidade ao fim de cada turno do dono.
+ * Se a força já estiver ativa, a nova intensidade é acumulada à existente.</p>
  *
  * @see Card
  * @see Strength
+ * @see Entity#getStrengthBonus()
+ * @see DamageCard
  */
 public class StrengthCard extends Card{
 
-    /** Intensidade do bônus de força concedido ao usuário. */
+    /**
+     * Intensidade do bônus de força concedido ao usuário.
+     * <p>Representa o bônus adicional de dano somado a cada {@link DamageCard} usada
+     * enquanto o efeito estiver ativo. Decrementado em 1 ao fim de cada turno do dono.</p>
+     */
     private int strengthIntensity; 
     
     /**
      * Constrói uma carta de força.
      *
-     * @param name               nome da carta
-     * @param staminaCost        custo em fôlego para usá-la
-     * @param strengthIntensity  intensidade do bônus de força (bônus de dano por turno)
-     * @param description        descrição textual da ação
+     * @param name              nome da carta exibido nas mensagens de combate
+     * @param staminaCost       custo em fôlego para usá-la
+     * @param strengthIntensity intensidade do bônus de força (bônus de dano por turno ativo)
+     * @param description       descrição textual da ação
      */
     public StrengthCard(String name, int staminaCost, int strengthIntensity, String description) {
         super(name, staminaCost, description);
@@ -28,12 +37,17 @@ public class StrengthCard extends Card{
     }
 
     /**
-     * Executa a carta: gasta fôlego do atacante, cria um efeito de força sobre ele
-     * e o registra no gerenciador de turnos.
+     * Executa a carta: gasta o fôlego do atacante, cria um efeito de {@link Strength}
+     * sobre ele e o inscreve no gerenciador de turnos.
+     *
+     * <p>O efeito é aplicado sobre o <b>atacante</b> (quem jogou a carta).
+     * Ao contrário de {@link bleedingCard}, a força beneficia o usuário, não o receptor.
+     * O status exibido é o do receptor (inimigo), pois a força não altera os status
+     * visíveis do herói imediatamente.</p>
      *
      * @param attacker entidade que usa a carta e receberá o bônus de força
-     * @param receiver entidade-alvo (não é diretamente afetada por esta carta)
-     * @param turns    gerenciador de turnos onde o efeito será inscrito
+     * @param receiver entidade-alvo (não afetada diretamente — seus status são exibidos para contexto)
+     * @param turns    gerenciador de turnos onde o efeito de força será inscrito
      */
     protected void useCard(Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
@@ -44,7 +58,8 @@ public class StrengthCard extends Card{
     }
 
     /**
-     * Imprime no console as estatísticas da carta (nome, intensidade da força e custo de fôlego).
+     * Imprime no console as estatísticas da carta no formato:
+     * <pre>NomeDaCarta (Força: X | Custo: Y)</pre>
      */
     @Override
     public void printCardStats() {
@@ -54,7 +69,7 @@ public class StrengthCard extends Card{
     /**
      * Retorna o atributo principal da carta, que é a intensidade do bônus de força.
      *
-     * @return intensidade do bônus de força
+     * @return intensidade do bônus de força concedido ao usuário
      */
     @Override
     public int getMainStat() {

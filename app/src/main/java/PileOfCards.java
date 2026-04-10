@@ -3,18 +3,28 @@ import java.util.Collections;
 
 /**
  * Classe base que representa uma pilha genérica de cartas.
- * <p>
- * Utiliza uma {@link LinkedList} internamente para suportar operações de pilha
- * (push/pop). É estendida por {@link PurchasePile} (pilha de compra/baralho)
- * e {@link DiscardPile} (pilha de descarte).
- * </p>
+ *
+ * <p>Utiliza internamente uma {@link LinkedList} para suportar eficientemente
+ * as operações de pilha (empilhar/desempilhar pelo topo). Serve de base para
+ * {@link PurchasePile} (o baralho de compra do herói) e {@link DiscardPile}
+ * (a pilha de descarte das cartas usadas).</p>
+ *
+ * <h2>Fluxo das cartas no jogo</h2>
+ * <pre>
+ * PurchasePile → (compra) → PlayerHand → (uso) → DiscardPile
+ *      ↑                                               |
+ *      └────── (baralho vazio: retrieveCards) ─────────┘
+ * </pre>
  *
  * @see PurchasePile
  * @see DiscardPile
  */
 public class PileOfCards {
     
-    /** Estrutura interna que armazena as cartas da pilha. */
+    /**
+     * Estrutura interna que armazena as cartas desta pilha.
+     * <p>O topo da pilha corresponde ao início da lista ({@code push}/{@code pop}).</p>
+     */
     protected LinkedList<Card> pile = new LinkedList<Card>();
     
     /**
@@ -28,22 +38,24 @@ public class PileOfCards {
 
     /**
      * Remove e retorna a carta do topo da pilha.
+     * <p>Usado por {@link PlayerHand#drawCards(PurchasePile)} para comprar cartas.</p>
      *
-     * @return carta removida do topo
+     * @return carta removida do topo da pilha
+     * @throws java.util.NoSuchElementException se a pilha estiver vazia
      */
     public Card popCard() {
         return pile.pop();
     }
 
     /**
-     * Remove todas as cartas da pilha.
+     * Remove todas as cartas da pilha, deixando-a vazia.
      */
     public void clearPile() {
         pile.clear();
     }
 
     /**
-     * Retorna a quantidade de cartas na pilha.
+     * Retorna a quantidade de cartas atualmente na pilha.
      *
      * @return número de cartas presentes
      */
@@ -53,6 +65,8 @@ public class PileOfCards {
 
     /**
      * Embaralha aleatoriamente as cartas da pilha.
+     * <p>Chamado pelo {@link PurchasePile} após o preenchimento inicial
+     * e após recuperar cartas do descarte.</p>
      */
     public void shuffle(){
         Collections.shuffle(pile);
@@ -61,7 +75,7 @@ public class PileOfCards {
     /**
      * Verifica se a pilha está vazia.
      *
-     * @return {@code true} se não houver cartas; {@code false} caso contrário
+     * @return {@code true} se não houver cartas na pilha; {@code false} caso contrário
      */
     public boolean isEmpty(){
         return pile.isEmpty();

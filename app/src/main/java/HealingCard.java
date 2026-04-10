@@ -1,25 +1,34 @@
 /**
- * Carta de combate que aplica o efeito de {@link Healing recuperação} ao usuário.
- * <p>
- * Ao ser jogada, cria e registra um efeito de recuperação no gerenciador de turnos,
- * restaurando pontos de vida ao atacante no início de seus próximos turnos.
- * </p>
+ * Carta de combate que aplica o efeito de {@link Healing recuperação} de vida ao usuário.
+ *
+ * <p>Diferente de {@link HealthCard} (que recupera vida instantaneamente), esta carta
+ * cria um efeito de {@link Healing} que restaura pontos de vida no <b>início de cada
+ * turno</b> do usuário, por uma quantidade de rodadas igual à intensidade definida.
+ * O efeito age sobre o próprio atacante (quem jogou a carta), não sobre o receptor.</p>
+ *
+ * <p>Exemplos do deck do herói: "pedir tempo técnico" (intensidade 2),
+ * "beber suco secreto" (intensidade 3).</p>
  *
  * @see Card
  * @see Healing
+ * @see Turns#subscribe(Effect)
  */
 public class HealingCard extends Card {
 
-    /** Quantidade de vida recuperada por turno (intensidade do efeito de recuperação). */
+    /**
+     * Intensidade do efeito de recuperação criado ao jogar esta carta.
+     * <p>Representa tanto a quantidade de vida recuperada por turno quanto
+     * a duração do efeito em turnos (a intensidade é decrementada em 1 por ativação).</p>
+     */
     private int healingIntensity; 
 
     /**
      * Constrói uma carta de recuperação de vida.
      *
-     * @param name        nome da carta
-     * @param staminaCost custo em fôlego para usá-la
-     * @param healingIntensity  quantidade de vida recuperada por turno
-     * @param description descrição textual da ação
+     * @param name             nome da carta exibido nas mensagens de combate
+     * @param staminaCost      custo em fôlego para usá-la
+     * @param healingIntensity intensidade da recuperação (vida recuperada por turno e duração em turnos)
+     * @param description      descrição textual da ação de cura
      */
     public HealingCard(String name, int staminaCost, int healingIntensity, String description) {
         super(name, staminaCost, description);
@@ -27,15 +36,16 @@ public class HealingCard extends Card {
     }
 
     /**
-     * Executa a carta: gasta fôlego do atacante, cria um efeito de recuperação sobre ele
-     * e o registra no gerenciador de turnos.
-     * <p>
-     * O efeito age sobre o próprio usuário da carta, e não sobre o receptor.
-     * </p>
+     * Executa a carta: gasta o fôlego do atacante, cria um efeito de {@link Healing}
+     * sobre ele e o inscreve no gerenciador de turnos.
+     *
+     * <p>O efeito de recuperação age no <b>início dos próximos turnos</b> do usuário
+     * ({@link Turns.Events#HEROSTART} para o herói), restaurando vida a cada rodada
+     * até a intensidade se esgotar.</p>
      *
      * @param attacker entidade que usa a carta e receberá a recuperação de vida
-     * @param receiver entidade-alvo (não utilizada nesta carta)
-     * @param turns    gerenciador de turnos onde o efeito será inscrito
+     * @param receiver entidade-alvo (não utilizada — a recuperação é sempre para o atacante)
+     * @param turns    gerenciador de turnos onde o efeito de recuperação será inscrito
      */
     @Override
     protected void useCard(Entity attacker, Entity receiver, Turns turns) {
@@ -47,7 +57,8 @@ public class HealingCard extends Card {
     }
 
     /**
-     * Imprime no console as estatísticas da carta (nome, quantidade de recuperação e custo de fôlego).
+     * Imprime no console as estatísticas da carta no formato:
+     * <pre>NomeDaCarta (Recuperação: X | Custo: Y)</pre>
      */
     @Override
     public void printCardStats() {
@@ -55,9 +66,9 @@ public class HealingCard extends Card {
     }
 
     /**
-     * Retorna o atributo principal da carta, que é a quantidade de vida recuperada por turno.
+     * Retorna o atributo principal da carta, que é a intensidade da recuperação de vida.
      *
-     * @return quantidade de vida recuperada por turno
+     * @return intensidade do efeito de recuperação (vida recuperada por turno)
      */
     @Override
     public int getMainStat() {
