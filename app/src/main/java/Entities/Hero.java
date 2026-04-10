@@ -1,3 +1,13 @@
+package Entities;
+import Core.Turns;
+import Cards.Card;
+import Cards.DamageCard;
+import Cards.HealingCard;
+import Cards.HealthCard;
+import Cards.ShieldCard;
+import Cards.bleedingCard;
+import Piles.PurchasePile;
+
 /**
  * Representa o herói controlado pelo jogador.
  *

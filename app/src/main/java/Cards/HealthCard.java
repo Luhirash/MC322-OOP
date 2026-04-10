@@ -1,3 +1,7 @@
+package Cards;
+import Core.Turns;
+import Entities.Entity;
+
 /**
  * Carta de combate que restaura pontos de vida ao usuário instantaneamente.
  *

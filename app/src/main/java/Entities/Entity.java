@@ -1,4 +1,11 @@
+package Entities;
 import java.util.ArrayList;
+
+import Core.Turns;
+import Cards.Card;
+import Cards.DamageCard;
+import Effects.Effect;
+import Effects.Strength;
 
 /**
  * Classe base abstrata que representa qualquer participante de um combate.

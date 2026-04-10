@@ -1,3 +1,9 @@
+package Effects;
+import Core.Turns;
+import Entities.Enemy;
+import Entities.Entity;
+import Entities.Hero;
+
 /**
  * Efeito de status de sangramento que causa dano periódico à entidade afetada.
  *

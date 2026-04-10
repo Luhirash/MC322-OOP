@@ -1,3 +1,9 @@
+package Cards;
+import Core.Turns;
+import Effects.Effect;
+import Effects.Healing;
+import Entities.Entity;
+
 /**
  * Carta de combate que aplica o efeito de {@link Healing recuperação} de vida ao usuário.
  *
@@ -48,7 +54,7 @@ public class HealingCard extends Card {
      * @param turns    gerenciador de turnos onde o efeito de recuperação será inscrito
      */
     @Override
-    protected void useCard(Entity attacker, Entity receiver, Turns turns) {
+    public void useCard(Entity attacker, Entity receiver, Turns turns) {
         attacker.spendStamina(super.getStaminaCost());
         System.out.println(attacker.getName() + " usou " + getName() + " e ganhou recuperação de intensidade " + healingIntensity + "!");
         Healing healing = new Healing("Recuperação", attacker, healingIntensity);

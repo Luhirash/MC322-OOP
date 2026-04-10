@@ -1,4 +1,11 @@
+package Effects;
 import java.util.ArrayList;
+
+import Core.Turns;
+import Cards.HealingCard;
+import Cards.StrengthCard;
+import Cards.bleedingCard;
+import Entities.Entity;
 
 /**
  * Classe abstrata que representa um efeito de status aplicado a uma {@link Entity}.

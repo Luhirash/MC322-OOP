@@ -1,4 +1,15 @@
+package Core;
 import java.util.Scanner;
+
+import Cards.Card;
+import Entities.ConnnorMcGregor;
+import Entities.Enemy;
+import Entities.Hero;
+import Entities.JonJones;
+import Piles.DiscardPile;
+import Piles.PlayerHand;
+import Piles.PurchasePile;
+
 import java.util.ArrayList;
 
 /**

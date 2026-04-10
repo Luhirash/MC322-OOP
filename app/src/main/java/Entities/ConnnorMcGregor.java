@@ -1,4 +1,10 @@
+package Entities;
 import java.util.ArrayList;
+
+import Cards.Card;
+import Cards.DamageCard;
+import Cards.ShieldCard;
+import Cards.bleedingCard;
 
 /**
  * Inimigo que representa Connor McGregor no combate.

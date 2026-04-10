@@ -1,4 +1,8 @@
+package Piles;
 import java.util.LinkedList;
+
+import Cards.Card;
+
 import java.util.Collections;
 
 /**

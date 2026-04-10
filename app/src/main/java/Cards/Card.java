@@ -1,3 +1,11 @@
+package Cards;
+import Core.Turns;
+import Entities.Enemy;
+import Entities.Entity;
+import Entities.Hero;
+import Piles.DiscardPile;
+import Piles.PlayerHand;
+
 /**
  * Classe abstrata que representa uma carta de combate do jogo.
  *
@@ -93,6 +101,11 @@ public abstract class Card {
      * @return valor do atributo principal da carta
      */
     public abstract int getMainStat();
+
+
+    public void enemyUseCard(Entity attacker, Entity receiver, Turns turns) {
+        useCard(attacker, receiver, turns);
+    }
 
     /**
      * Tenta jogar a carta verificando se o herói possui fôlego suficiente.

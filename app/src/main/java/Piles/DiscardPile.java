@@ -1,3 +1,4 @@
+package Piles;
 /**
  * Pilha de descarte que recebe as cartas usadas ou devolvidas pelo jogador.
  * <p>

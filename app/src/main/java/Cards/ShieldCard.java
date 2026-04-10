@@ -1,3 +1,7 @@
+package Cards;
+import Core.Turns;
+import Entities.Entity;
+
 /**
  * Carta de combate que concede pontos de escudo (bloqueio) ao usuário.
  *

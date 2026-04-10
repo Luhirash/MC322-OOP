@@ -1,4 +1,18 @@
+package Core;
+
 import java.util.Scanner;
+
+import Cards.Card;
+import Effects.Bleeding;
+import Effects.Effect;
+import Effects.Healing;
+import Effects.Strength;
+import Entities.Enemy;
+import Entities.Entity;
+import Entities.Hero;
+import Piles.DiscardPile;
+import Piles.PlayerHand;
+
 import java.util.ArrayList;
 
 /**
@@ -127,7 +141,7 @@ public class Turns {
 
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {
-                chosenCards.get(i).useCard(enemy, hero, this);
+                chosenCards.get(i).enemyUseCard(enemy, hero, this);
                 System.out.println();
             }
             else{

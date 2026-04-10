@@ -1,4 +1,7 @@
+package Piles;
 import java.util.ArrayList;
+
+import Cards.Card;
 
 public class PlayerHand {
     

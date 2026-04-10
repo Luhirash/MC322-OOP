@@ -1,3 +1,8 @@
+package Cards;
+import Core.Turns;
+import Effects.Strength;
+import Entities.Entity;
+
 /**
  * Carta de combate que causa dano direto ao alvo.
  *

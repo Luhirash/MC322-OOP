@@ -1,3 +1,8 @@
+package Cards;
+import Core.Turns;
+import Effects.Strength;
+import Entities.Entity;
+
 /**
  * Carta de combate que aplica o efeito de {@link Strength força} ao usuário.
  *

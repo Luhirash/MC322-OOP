@@ -1,4 +1,10 @@
+package Entities;
 import java.util.Random;
+
+import Core.Turns;
+import Cards.Card;
+import Cards.DamageCard;
+
 import java.util.ArrayList;
 
 /**

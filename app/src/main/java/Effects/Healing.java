@@ -1,3 +1,9 @@
+package Effects;
+import Core.Turns;
+import Entities.Enemy;
+import Entities.Entity;
+import Entities.Hero;
+
 /**
  * Efeito de status de recuperação que restaura pontos de vida ao dono no início de cada turno.
  *
@@ -74,7 +80,7 @@ public class Healing extends Effect{
      */
     protected void useEffect(Turns turn) {
         getOwner().gainHealth(getIntensity());
-        System.out.println("[Recuperação] " + getOwner() + " recuperou " + getIntensity() + "de vida");
+        System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + getIntensity() + "de vida");
         addIntensity(-1);
         if (getIntensity() == 0)
             effectFinish(turn);

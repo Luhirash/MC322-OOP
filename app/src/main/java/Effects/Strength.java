@@ -1,3 +1,9 @@
+package Effects;
+import Core.Turns;
+import Entities.Enemy;
+import Entities.Entity;
+import Entities.Hero;
+
 /**
  * Efeito de status de força que concede bônus de dano ao dono em suas {@link DamageCard}s.
  *

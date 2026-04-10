@@ -1,4 +1,13 @@
+package Piles;
 import java.util.Random;
+
+import Core.App;
+import Cards.Card;
+import Cards.DamageCard;
+import Cards.HealingCard;
+import Cards.ShieldCard;
+import Cards.bleedingCard;
+import Entities.Hero;
 
 /**
  * Pilha de compra que funciona como o baralho principal do herói.
@@ -49,7 +58,7 @@ public class PurchasePile extends PileOfCards {
      *
      * @param numberOfCards quantidade de cartas a adicionar ao baralho
      */
-    protected void fillPile(int numberOfCards) {
+    public void fillPile(int numberOfCards) {
 
         for (int i = 0; i < numberOfCards; i++) {
 
