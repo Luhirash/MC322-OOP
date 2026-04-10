@@ -1,6 +1,5 @@
 package Entities;
 import java.util.ArrayList;
-
 import Core.Turns;
 import Cards.Card;
 import Cards.DamageCard;

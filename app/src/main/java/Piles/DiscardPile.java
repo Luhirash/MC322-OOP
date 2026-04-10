@@ -1,4 +1,5 @@
 package Piles;
+
 /**
  * Pilha de descarte que recebe as cartas usadas ou devolvidas pelo jogador.
  * <p>
@@ -11,6 +12,7 @@ package Piles;
  * @see PurchasePile
  * @see PlayerHand
  */
+
 public class DiscardPile extends PileOfCards{
     
     /**

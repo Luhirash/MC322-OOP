@@ -1,19 +1,10 @@
 package Core;
-
 import java.util.Scanner;
-
-import Cards.Card;
-import Effects.Bleeding;
-import Effects.Effect;
-import Effects.Healing;
-import Effects.Strength;
-import Entities.Enemy;
-import Entities.Entity;
-import Entities.Hero;
-import Piles.DiscardPile;
-import Piles.PlayerHand;
-
 import java.util.ArrayList;
+import Cards.*;
+import Effects.*;
+import Entities.*;
+import Piles.*;
 
 /**
  * Gerencia o fluxo de combate e coordena o sistema de efeitos de status.

@@ -1,11 +1,9 @@
 package Entities;
 import java.util.Random;
-
+import java.util.ArrayList;
 import Core.Turns;
 import Cards.Card;
 import Cards.DamageCard;
-
-import java.util.ArrayList;
 
 /**
  * Classe abstrata que representa um inimigo controlado pela IA no combate.

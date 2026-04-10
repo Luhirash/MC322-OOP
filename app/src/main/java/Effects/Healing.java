@@ -1,8 +1,6 @@
 package Effects;
 import Core.Turns;
-import Entities.Enemy;
-import Entities.Entity;
-import Entities.Hero;
+import Entities.*;
 
 /**
  * Efeito de status de recuperação que restaura pontos de vida ao dono no início de cada turno.

@@ -1,12 +1,7 @@
 package Piles;
 import java.util.Random;
-
-import Core.App;
-import Cards.Card;
-import Cards.DamageCard;
-import Cards.HealingCard;
-import Cards.ShieldCard;
-import Cards.bleedingCard;
+import Core.*;
+import Cards.*;
 import Entities.Hero;
 
 /**

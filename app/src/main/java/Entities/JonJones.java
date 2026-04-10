@@ -1,10 +1,6 @@
 package Entities;
 import java.util.ArrayList;
-
-import Cards.Card;
-import Cards.DamageCard;
-import Cards.ShieldCard;
-import Cards.StrengthCard;
+import Cards.*;
 
 /**
  * Inimigo que representa Jon Jones no combate.

@@ -1,10 +1,7 @@
 package Effects;
 import java.util.ArrayList;
-
 import Core.Turns;
-import Cards.HealingCard;
-import Cards.StrengthCard;
-import Cards.bleedingCard;
+import Cards.*;
 import Entities.Entity;
 
 /**

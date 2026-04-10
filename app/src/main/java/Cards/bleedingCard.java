@@ -1,4 +1,9 @@
 package Cards;
+import Core.Turns;
+import Effects.Bleeding;
+import Effects.Effect;
+import Entities.Entity;
+
 /**
  * Carta de combate que aplica o efeito de {@link Bleeding sangramento} ao alvo.
  *
@@ -18,11 +23,6 @@ package Cards;
  * @see Bleeding
  * @see Turns#subscribe(Effect)
  */
-
-import Core.Turns;
-import Effects.Bleeding;
-import Effects.Effect;
-import Entities.Entity;
 
 public class bleedingCard extends Card {
 

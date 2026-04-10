@@ -1,9 +1,9 @@
 package Piles;
 import java.util.LinkedList;
-
+import java.util.Collections;
 import Cards.Card;
 
-import java.util.Collections;
+
 
 /**
  * Classe base que representa uma pilha genérica de cartas.

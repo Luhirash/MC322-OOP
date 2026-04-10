@@ -1,8 +1,6 @@
 package Cards;
 import Core.Turns;
-import Entities.Enemy;
-import Entities.Entity;
-import Entities.Hero;
+import Entities.*;
 import Piles.DiscardPile;
 import Piles.PlayerHand;
 
