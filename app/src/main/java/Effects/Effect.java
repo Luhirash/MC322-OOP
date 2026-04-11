@@ -1,6 +1,6 @@
 package Effects;
 import java.util.ArrayList;
-import Core.Turns;
+import Core.*;
 import Cards.*;
 import Entities.Entity;
 
@@ -73,7 +73,7 @@ public abstract class Effect{
      *
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao fim)
      */
-    protected abstract void useEffect(Turns turn);
+    protected abstract void useEffect(GameManager gameManager);
 
     /**
      * Recebe a notificação de um evento de turno do gerenciador {@link Turns}.
@@ -85,7 +85,7 @@ public abstract class Effect{
      * @param turn referência ao gerenciador de turnos com o evento atual definido em
      *             {@link Turns#currentEvent}
      */
-    public abstract void beNotified(Turns turn);
+    public abstract void beNotified(GameManager gameManager);
 
     /**
      * Retorna o nome do efeito.
@@ -163,9 +163,9 @@ public abstract class Effect{
      * @param turn referência ao gerenciador de turnos para cancelar a inscrição via
      *             {@link Turns#unsubscribe(Effect)}
      */
-    protected void effectFinish(Turns turn) {
+    protected void effectFinish(GameManager gameManager) {
         ArrayList<Effect> ownerEffects = getOwner().getEffects();
         ownerEffects.remove(getIndex(ownerEffects));
-        turn.unsubscribe(this);
+        gameManager.unsubscribe(this);
     }
 }

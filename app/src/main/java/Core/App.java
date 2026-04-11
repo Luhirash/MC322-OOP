@@ -60,6 +60,7 @@ public class App {
 
         //Turns e criado antes para ser passado para cartas de efeito
         Turns turns = new Turns();
+        GameManager gameManager = new GameManager();
 
         PurchasePile drawPile = new PurchasePile(hero.getHits());
         drawPile.fillPile(hero.getHits().length);
@@ -83,14 +84,14 @@ public class App {
             enemy.printIntentions(enemyCards);
 
             playerHand.drawCards(drawPile);
-            turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile);
+            turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile, gameManager);
             playerHand.returnCards(discardPile);
             
             if (enemy.isAlive()){
                 enemy.newTurn();
                 pause(2000);
                 turns.printIntroduction(hero, enemy);
-                turns.enemyTurn(enemyCards, hero, enemy);
+                turns.enemyTurn(enemyCards, hero, enemy, gameManager);
             }
         }
 

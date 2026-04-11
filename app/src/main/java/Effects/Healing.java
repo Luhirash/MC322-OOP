@@ -1,4 +1,6 @@
 package Effects;
+import Cards.HealingCard;
+import Core.GameManager;
 import Core.Turns;
 import Entities.*;
 
@@ -56,10 +58,10 @@ public class Healing extends Effect{
      *
      * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
      */
-    public void beNotified(Turns turn) {
-        if (turn.currentEvent == Turns.Events.HEROSTART && getOwner() instanceof Hero ||
-            turn.currentEvent == Turns.Events.ENEMYSTART && getOwner() instanceof Enemy) {
-            useEffect(turn);
+    public void beNotified(GameManager gameManager) {
+        if (gameManager.currentEvent == GameManager.Events.HEROSTART && getOwner() instanceof Hero ||
+            gameManager.currentEvent == GameManager.Events.ENEMYSTART && getOwner() instanceof Enemy) {
+            useEffect(gameManager);
         }
     }
 
@@ -76,11 +78,11 @@ public class Healing extends Effect{
      *
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
-    protected void useEffect(Turns turn) {
+    protected void useEffect(GameManager gameManager) {
         getOwner().gainHealth(getIntensity());
         System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + getIntensity() + "de vida");
         addIntensity(-1);
         if (getIntensity() == 0)
-            effectFinish(turn);
+            effectFinish(gameManager);
     }  
 }

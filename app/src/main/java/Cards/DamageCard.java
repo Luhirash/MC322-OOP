@@ -1,4 +1,5 @@
 package Cards;
+import Core.GameManager;
 import Core.Turns;
 import Effects.Strength;
 import Entities.Entity;
@@ -50,7 +51,7 @@ public class DamageCard extends Card{
      * @param receiver entidade que recebe o dano (terá escudo/vida reduzidos)
      * @param turns    referência ao gerenciador de turnos (não utilizado diretamente aqui)
      */
-    public void useCard (Entity attacker, Entity receiver, Turns turns) {
+    public void useCard (Entity attacker, Entity receiver, GameManager gameManager) {
         attacker.spendStamina(super.getStaminaCost());
         int totalDamage = damageInflicted + attacker.getStrengthBonus();
         receiver.receiveDamage(totalDamage);

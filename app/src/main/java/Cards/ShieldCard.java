@@ -1,4 +1,5 @@
 package Cards;
+import Core.GameManager;
 import Core.Turns;
 import Entities.Entity;
 
@@ -49,7 +50,7 @@ public class ShieldCard extends Card {
      * @param receiver entidade-alvo (ignorada nesta carta — o escudo é sempre para o atacante)
      * @param turns    referência ao gerenciador de turnos (não utilizado aqui)
      */
-    public void useCard(Entity attacker, Entity receiver, Turns turns){
+    public void useCard(Entity attacker, Entity receiver, GameManager gameManager){
         System.out.println(attacker.getName() + " usou " + super.getName() + "!");
         attacker.spendStamina(super.getStaminaCost());
         attacker.gainShield(this.damageBlocked);

@@ -1,4 +1,7 @@
 package Effects;
+import Cards.DamageCard;
+import Cards.StrengthCard;
+import Core.GameManager;
 import Core.Turns;
 import Entities.*;
 
@@ -62,10 +65,10 @@ public class Strength extends Effect {
      * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
      */
     @Override
-    public void beNotified(Turns turn) {
-        if (turn.currentEvent == Turns.Events.ENEMYFINISH && super.getOwner() instanceof Enemy || 
-            turn.currentEvent == Turns.Events.HEROFINISH && super.getOwner() instanceof Hero) 
-            useEffect(turn);
+    public void beNotified(GameManager gameManager) {
+        if (gameManager.currentEvent == GameManager.Events.ENEMYFINISH && super.getOwner() instanceof Enemy || 
+            gameManager.currentEvent == GameManager.Events.HEROFINISH && super.getOwner() instanceof Hero) 
+            useEffect(gameManager);
     }
 
     /**
@@ -79,11 +82,11 @@ public class Strength extends Effect {
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     @Override
-    protected void useEffect(Turns turn) {
+    protected void useEffect(GameManager gameManager) {
         this.addIntensity(-1);
         if (this.getIntensity() == 0) {
             System.out.println("[Força] A força extra de " + getOwner().getName() + " acabou");
-            this.effectFinish(turn);
+            this.effectFinish(gameManager);
             }
     }
 }

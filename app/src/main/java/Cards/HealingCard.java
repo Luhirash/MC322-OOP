@@ -1,5 +1,5 @@
 package Cards;
-import Core.Turns;
+import Core.GameManager;
 import Effects.Effect;
 import Effects.Healing;
 import Entities.Entity;
@@ -54,11 +54,11 @@ public class HealingCard extends Card {
      * @param turns    gerenciador de turnos onde o efeito de recuperação será inscrito
      */
     @Override
-    public void useCard(Entity attacker, Entity receiver, Turns turns) {
+    public void useCard(Entity attacker, Entity receiver, GameManager gameManager) {
         attacker.spendStamina(super.getStaminaCost());
         System.out.println(attacker.getName() + " usou " + getName() + " e ganhou recuperação de intensidade " + healingIntensity + "!");
         Healing healing = new Healing("Recuperação", attacker, healingIntensity);
-        turns.subscribe(healing);
+        gameManager.subscribe(healing);
         attacker.printStats();
     }
 

@@ -1,4 +1,6 @@
 package Effects;
+import Cards.bleedingCard;
+import Core.GameManager;
 import Core.Turns;
 import Entities.*;
 
@@ -64,10 +66,10 @@ public class Bleeding extends Effect {
      * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
      */
     @Override
-    public void beNotified(Turns turn) {
-        if (turn.currentEvent == Turns.Events.HEROFINISH && getOwner() instanceof Enemy ||
-            turn.currentEvent == Turns.Events.ENEMYFINISH && getOwner() instanceof Hero) 
-            useEffect(turn);
+    public void beNotified(GameManager gameManager) {
+        if (gameManager.currentEvent == GameManager.Events.HEROFINISH && getOwner() instanceof Enemy ||
+            gameManager.currentEvent == GameManager.Events.ENEMYFINISH && getOwner() instanceof Hero) 
+            useEffect(gameManager);
     }
 
     /**
@@ -86,14 +88,14 @@ public class Bleeding extends Effect {
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     @Override
-    protected void useEffect(Turns turn) {
+    protected void useEffect(GameManager gameManager) {
         System.out.println("[Sangramento] " + getOwner().getName() + " sofre " + getIntensity() + " de dano pelo sangramento!");
         getOwner().receiveDamage(getIntensity());
         getOwner().printStats();
         addIntensity(-1);
         if (getIntensity() == 0) {
             System.out.println("[Sangramento] O sangramento em " + getOwner().getName() + " foi estancado.");
-            effectFinish(turn);
+            effectFinish(gameManager);
         }
     }
 }

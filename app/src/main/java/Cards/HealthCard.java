@@ -1,4 +1,5 @@
 package Cards;
+import Core.GameManager;
 import Core.Turns;
 import Entities.Entity;
 
@@ -55,7 +56,7 @@ public class HealthCard extends Card{
      * @param receiver entidade-alvo (não utilizada — a cura é sempre para o atacante)
      * @param turns    referência ao gerenciador de turnos (não utilizado aqui)
      */
-    public void useCard (Entity attacker, Entity receiver, Turns turns) {
+    public void useCard (Entity attacker, Entity receiver, GameManager gameManager) {
         attacker.spendStamina(super.getStaminaCost());
         int totalHealthAdded = 0;
         if (attacker.getMaxHealth() - attacker.getHealth() < 0)
