@@ -1,5 +1,5 @@
 package Effects;
-import Cards.bleedingCard;
+import Cards.BleedingCard;
 import Core.GameManager;
 import Core.Turns;
 import Entities.*;
@@ -7,7 +7,7 @@ import Entities.*;
 /**
  * Efeito de status de sangramento que causa dano periódico à entidade afetada.
  *
- * <p>Criado pela {@link bleedingCard}, este efeito é aplicado sobre o <b>alvo</b> do golpe
+ * <p>Criado pela {@link BleedingCard}, este efeito é aplicado sobre o <b>alvo</b> do golpe
  * (geralmente o inimigo, quando o herói usa a carta). O sangramento age automaticamente
  * ao fim do turno do atacante — ou seja, ao fim do turno de quem o aplicou:</p>
  * <ul>

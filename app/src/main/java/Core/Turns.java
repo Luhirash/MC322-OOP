@@ -62,7 +62,9 @@ public class Turns {
 
         for (int i = 0; i < chosenCards.size(); i++) {
             if (hero.isAlive()) {
-                chosenCards.get(i).enemyUseCard(enemy, hero, gameManager);
+                Effect effect = chosenCards.get(i).useCard(enemy, hero);
+                if (effect != null)
+                    gameManager.subscribe(effect);
                 System.out.println();
             }
             else{
@@ -125,8 +127,12 @@ public class Turns {
             int choice = scanner.nextInt();
             if(choice >= 1 && choice <= numCards){
                 Card chosenCard = playerHand.getCard(choice - 1);
-                if(chosenCard.tryCard(hero, enemy, gameManager)){//se for possivel usar a carta
-                    playerHand.useCard(choice - 1);
+                if(chosenCard.tryCard(hero)){//se for possivel usar a carta
+                    Effect effect = chosenCard.useCard(hero, enemy);
+                    if(effect != null)
+                        gameManager.subscribe(effect);
+                    printIntroduction(hero, enemy);
+                    playerHand.removeCard(choice - 1);
                     discardPile.addCard(chosenCard);//depois do uso a carta vai para descarte
                 }
             } 

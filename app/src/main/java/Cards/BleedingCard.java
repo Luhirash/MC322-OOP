@@ -1,5 +1,4 @@
 package Cards;
-import Core.GameManager;
 import Core.Turns;
 import Effects.Bleeding;
 import Effects.Effect;
@@ -25,7 +24,7 @@ import Entities.Entity;
  * @see Turns#subscribe(Effect)
  */
 
-public class bleedingCard extends Card {
+public class BleedingCard extends EffectCard {
 
     /**
      * Intensidade inicial do sangramento aplicado ao alvo.
@@ -42,7 +41,7 @@ public class bleedingCard extends Card {
      * @param bleedingIntensity intensidade do sangramento (dano por turno aplicado ao alvo)
      * @param description       descrição textual do golpe
      */
-    public bleedingCard(String name, int staminaCost, int bleedingIntensity, String description) {
+    public BleedingCard(String name, int staminaCost, int bleedingIntensity, String description) {
         super(name, staminaCost, description);
         this.bleedingIntensity = bleedingIntensity;
     }
@@ -59,12 +58,10 @@ public class bleedingCard extends Card {
      * @param receiver entidade que receberá o efeito de sangramento
      * @param turns    gerenciador de turnos onde o efeito de sangramento será inscrito
      */
-    public void useCard(Entity attacker, Entity receiver, GameManager gameManager) {
+    public Effect useCard(Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());
         System.out.println(attacker.getName() + " usou " + getName() + " e cortou " + receiver.getName() + " causando um sangramento de intensidade " + getMainStat() + "!");
-        Bleeding bleeding = new Bleeding("Sangramento", receiver, bleedingIntensity);
-        gameManager.subscribe(bleeding);
-        receiver.printStats();
+        return new Bleeding("Sangramento", receiver, bleedingIntensity);
     }
 
     /**

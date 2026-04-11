@@ -62,9 +62,9 @@ public class PurchasePile extends PileOfCards {
 
             Card originalCard = differentCards[index];
 
-            if (originalCard instanceof bleedingCard) {
-                bleedingCard pc = (bleedingCard) originalCard;
-                super.addCard(new bleedingCard(pc.getName(), pc.getStaminaCost(), pc.getMainStat(), pc.get_description()));
+            if (originalCard instanceof BleedingCard) {
+                BleedingCard pc = (BleedingCard) originalCard;
+                super.addCard(new BleedingCard(pc.getName(), pc.getStaminaCost(), pc.getMainStat(), pc.get_description()));
             }
             else if (originalCard instanceof HealingCard) {
                 HealingCard tc = (HealingCard) originalCard;

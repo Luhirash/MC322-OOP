@@ -1,10 +1,8 @@
 package Cards;
-import Core.GameManager;
-import Core.Turns;
 import Entities.*;
 import Piles.DiscardPile;
 import Piles.PlayerHand;
-
+import Effects.Effect;
 /**
  * Classe abstrata que representa uma carta de combate do jogo.
  *
@@ -76,7 +74,7 @@ public abstract class Card {
      * @param receiver entidade que recebe o efeito da carta (pode ser ignorada em algumas cartas)
      * @param turns    referência ao gerenciador de turnos, necessário para inscrever efeitos de status
      */
-    protected abstract void useCard(Entity attacker, Entity receiver, GameManager gameManager);
+    public abstract Effect useCard(Entity attacker, Entity receiver);
 
     /**
      * Imprime no console as estatísticas desta carta (nome, atributo principal e custo de fôlego).
@@ -101,11 +99,6 @@ public abstract class Card {
      */
     public abstract int getMainStat();
 
-
-    public void enemyUseCard(Entity attacker, Entity receiver, GameManager gameManager) {
-        useCard(attacker, receiver,gameManager);
-    }
-
     /**
      * Tenta jogar a carta verificando se o herói possui fôlego suficiente.
      *
@@ -119,9 +112,8 @@ public abstract class Card {
      * @param turns referência ao gerenciador de turnos
      * @return {@code true} se a carta foi usada com sucesso; {@code false} se fôlego insuficiente
      */
-    public boolean tryCard(Hero hero, Enemy enemy, GameManager gameManager){
+    public boolean tryCard(Hero hero){
         if(hero.getStamina() >= this.getStaminaCost()) {
-            this.useCard(hero, enemy, gameManager);
             this.setWasUsed(true);
             return true;
         }

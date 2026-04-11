@@ -1,8 +1,6 @@
 package Cards;
-import Core.GameManager;
-import Core.Turns;
 import Entities.Entity;
-
+import Effects.Effect;
 /**
  * Carta de combate que restaura pontos de vida ao usuário instantaneamente.
  *
@@ -56,7 +54,7 @@ public class HealthCard extends Card{
      * @param receiver entidade-alvo (não utilizada — a cura é sempre para o atacante)
      * @param turns    referência ao gerenciador de turnos (não utilizado aqui)
      */
-    public void useCard (Entity attacker, Entity receiver, GameManager gameManager) {
+    public Effect useCard (Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());
         int totalHealthAdded = 0;
         if (attacker.getMaxHealth() - attacker.getHealth() < 0)
@@ -66,6 +64,7 @@ public class HealthCard extends Card{
         attacker.gainHealth(totalHealthAdded);
         System.out.println(attacker.getName() + " usou " + this.getName() + " e recebeu " + totalHealthAdded+ " de vida a mais!");
         attacker.printStats();
+        return null;
     }
 
     /**

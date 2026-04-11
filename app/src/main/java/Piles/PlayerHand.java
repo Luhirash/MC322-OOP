@@ -15,7 +15,7 @@ public class PlayerHand {
         hand.add(card);
     }
 
-    public Card useCard(int index) {
+    public Card removeCard(int index) {
         return hand.remove(index);
     }
 

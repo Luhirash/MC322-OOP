@@ -1,7 +1,6 @@
 package Cards;
-import Core.GameManager;
-import Core.Turns;
 import Effects.Strength;
+import Effects.Effect;
 import Entities.Entity;
 
 /**
@@ -20,7 +19,7 @@ import Entities.Entity;
  * @see Entity#getStrengthBonus()
  * @see DamageCard
  */
-public class StrengthCard extends Card{
+public class StrengthCard extends EffectCard{
 
     /**
      * Intensidade do bônus de força concedido ao usuário.
@@ -55,12 +54,10 @@ public class StrengthCard extends Card{
      * @param receiver entidade-alvo (não afetada diretamente — seus status são exibidos para contexto)
      * @param turns    gerenciador de turnos onde o efeito de força será inscrito
      */
-    protected void useCard(Entity attacker, Entity receiver, GameManager gameManager) {
+    public Effect useCard(Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());
         System.out.println(attacker.getName() + " usou " + getName() + " aumentando sua força em " + getMainStat());
-        Strength strength = new Strength("Força", attacker, strengthIntensity);
-        gameManager.subscribe(strength);
-        receiver.printStats();
+        return new Strength("Força", attacker, strengthIntensity);
     }
 
     /**

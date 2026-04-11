@@ -1,7 +1,6 @@
 package Cards;
-import Core.GameManager;
-import Core.Turns;
 import Entities.Entity;
+import Effects.Effect;
 
 /**
  * Carta de combate que concede pontos de escudo (bloqueio) ao usuário.
@@ -50,11 +49,12 @@ public class ShieldCard extends Card {
      * @param receiver entidade-alvo (ignorada nesta carta — o escudo é sempre para o atacante)
      * @param turns    referência ao gerenciador de turnos (não utilizado aqui)
      */
-    public void useCard(Entity attacker, Entity receiver, GameManager gameManager){
+    public Effect useCard(Entity attacker, Entity receiver){
         System.out.println(attacker.getName() + " usou " + super.getName() + "!");
         attacker.spendStamina(super.getStaminaCost());
         attacker.gainShield(this.damageBlocked);
         attacker.printStats();
+        return null;
     }
 
     /**
