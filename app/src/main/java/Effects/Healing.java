@@ -61,7 +61,7 @@ public class Healing extends Effect{
     public void beNotified(GameManager gameManager) {
         if (gameManager.currentEvent == GameManager.Events.HEROSTART && getOwner() instanceof Hero ||
             gameManager.currentEvent == GameManager.Events.ENEMYSTART && getOwner() instanceof Enemy) {
-            useEffect(gameManager);
+            useEffect();
         }
     }
 
@@ -73,16 +73,13 @@ public class Healing extends Effect{
      *   <li>Adiciona vida ao dono igual à intensidade atual via {@link Entity#gainHealth(int)}.</li>
      *   <li>Exibe mensagem informando a quantidade de vida recuperada.</li>
      *   <li>Reduz a intensidade em 1 via {@link Effect#addIntensity(int)}.</li>
-     *   <li>Se a intensidade chegar a zero, remove o efeito via {@link Effect#effectFinish(Turns)}.</li>
      * </ol>
      *
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
-    protected void useEffect(GameManager gameManager) {
+    protected void useEffect() {
         getOwner().gainHealth(getIntensity());
         System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + getIntensity() + "de vida");
         addIntensity(-1);
-        if (getIntensity() == 0)
-            effectFinish(gameManager);
     }  
 }

@@ -58,6 +58,7 @@ public class Turns {
      */
     public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy, GameManager gameManager){
     
+        gameManager.currentEvent = GameManager.Events.ENEMYSTART;
         gameManager.notifyEvent();
 
         for (int i = 0; i < chosenCards.size(); i++) {

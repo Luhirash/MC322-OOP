@@ -43,7 +43,7 @@ public class GameManager implements Publisher{
      * @param effect efeito a ser inscrito e aplicado
      * @see Entity#applyEffect(Effect)
      */
-    
+
     public void subscribe(Effect effect) {
         if (effect.getIndex(effect.getOwner().getEffects()) == -1)
             subscriberList.add(effect); //Se o efeito ainda não existe (não está aplicado no dono), ele é adicionado
@@ -52,7 +52,7 @@ public class GameManager implements Publisher{
 
     /**
      * Remove um efeito da lista de inscritos, cancelando suas futuras notificações.
-     * <p>Chamado automaticamente por {@link Effect#effectFinish(Turns)} quando
+     * <p>Chamado automaticamente por {@link GameManager#notifyEvent()} quando
      * a intensidade do efeito chega a zero.</p>
      *
      * @param effect efeito a ser removido da lista de inscritos
@@ -69,6 +69,8 @@ public class GameManager implements Publisher{
      * <p>Itera sobre uma cópia da lista de inscritos para evitar
      * {@link java.util.ConcurrentModificationException} caso algum efeito se desinscreva
      * durante a notificação (ex: sangramento que expira após o último dano).</p>
+     * 
+     * <p>Remove os efeitos que chegam à intensidade 0.</p>
      */
     public void notifyEvent() {
         // Itera sobre cópia para evitar ConcurrentModificationException
@@ -76,5 +78,14 @@ public class GameManager implements Publisher{
         ArrayList<Effect> copy = new ArrayList<Effect>(subscriberList);
         for (Effect effect : copy)
             effect.beNotified(this);
+
+        for (int i = subscriberList.size() - 1; i >= 0; i--) {
+            Effect effect = subscriberList.get(i);
+            if (effect.isExpired()) {
+                ArrayList<Effect> ownerEffects = effect.getOwner().getEffects();
+                ownerEffects.remove(effect.getIndex(ownerEffects));
+                this.unsubscribe(effect);
+            }
+        }
     }
 }

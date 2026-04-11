@@ -68,7 +68,7 @@ public class Strength extends Effect {
     public void beNotified(GameManager gameManager) {
         if (gameManager.currentEvent == GameManager.Events.ENEMYFINISH && super.getOwner() instanceof Enemy || 
             gameManager.currentEvent == GameManager.Events.HEROFINISH && super.getOwner() instanceof Hero) 
-            useEffect(gameManager);
+            useEffect();
     }
 
     /**
@@ -76,17 +76,15 @@ public class Strength extends Effect {
      *
      * <p>O bônus de dano em si é lido passivamente por {@link Entity#getStrengthBonus()};
      * este método apenas contabiliza o desgaste do efeito ao longo dos turnos.
-     * Quando a intensidade chega a zero, exibe uma mensagem e remove o efeito
-     * via {@link Effect#effectFinish(Turns)}.</p>
+     * Quando a intensidade chega a zero, exibe uma mensagem.</p>
      *
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     @Override
-    protected void useEffect(GameManager gameManager) {
+    protected void useEffect() {
         this.addIntensity(-1);
         if (this.getIntensity() == 0) {
             System.out.println("[Força] A força extra de " + getOwner().getName() + " acabou");
-            this.effectFinish(gameManager);
             }
     }
 }

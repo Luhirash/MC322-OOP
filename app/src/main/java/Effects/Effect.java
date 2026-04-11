@@ -20,8 +20,7 @@ import Entities.Entity;
  *
  * <h2>Acumulação e remoção</h2>
  * <p>Se o mesmo efeito for aplicado duas vezes à mesma entidade, a intensidade
- * é acumulada ({@link Entity#applyEffect(Effect)}). Quando a intensidade chega a zero,
- * o efeito chama {@link #effectFinish(Turns)} para se remover automaticamente.</p>
+ * é acumulada ({@link Entity#applyEffect(Effect)})</p>
  *
  * @see Bleeding
  * @see Strength
@@ -69,11 +68,11 @@ public abstract class Effect{
      * Executa a lógica principal do efeito sobre o {@link #owner dono}.
      * <p>Chamado internamente por {@link #beNotified(Turns)} quando o evento correto
      * é detectado. Cada subclasse define o que acontece (causar dano, curar, decrementar etc.)
-     * e é responsável por chamar {@link #effectFinish(Turns)} quando a intensidade zerar.</p>
+     * </p>
      *
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao fim)
      */
-    protected abstract void useEffect(GameManager gameManager);
+    protected abstract void useEffect();
 
     /**
      * Recebe a notificação de um evento de turno do gerenciador {@link Turns}.
@@ -118,7 +117,7 @@ public abstract class Effect{
     /**
      * Soma um valor à intensidade atual do efeito.
      * <p>Use valores negativos para decrementar (ex: {@code addIntensity(-1)} a cada turno).
-     * Quando a intensidade chegar a zero, o efeito deve ser removido via {@link #effectFinish(Turns)}.</p>
+     *</p>
      *
      * @param value valor a somar (positivo para aumentar, negativo para reduzir)
      */
@@ -139,7 +138,7 @@ public abstract class Effect{
      * Localiza este efeito dentro de uma lista de efeitos pelo nome e pela referência do dono.
      *
      * <p>Usado para verificar se o efeito já está ativo ({@link Entity#applyEffect(Effect)})
-     * e para removê-lo de listas ({@link #effectFinish(Turns)}).</p>
+     * </p>
      *
      * @param effects lista de efeitos onde buscar
      * @return índice deste efeito na lista, ou {@code -1} se não encontrado
@@ -163,9 +162,8 @@ public abstract class Effect{
      * @param turn referência ao gerenciador de turnos para cancelar a inscrição via
      *             {@link Turns#unsubscribe(Effect)}
      */
-    protected void effectFinish(GameManager gameManager) {
-        ArrayList<Effect> ownerEffects = getOwner().getEffects();
-        ownerEffects.remove(getIndex(ownerEffects));
-        gameManager.unsubscribe(this);
+
+    public boolean isExpired() {
+        return this.getIntensity() <= 0;
     }
 }

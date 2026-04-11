@@ -19,8 +19,7 @@ import Entities.*;
  *
  * <h2>Decaimento do efeito</h2>
  * <p>A cada ativação, causa dano igual à {@link Effect#getIntensity() intensidade atual}
- * e a reduz em 1. Quando a intensidade chega a zero, o efeito é removido automaticamente
- * via {@link Effect#effectFinish(Turns)}.</p>
+ * e a reduz em 1.</p>
  *
  * <h2>Acumulação</h2>
  * <p>Se um novo sangramento for aplicado enquanto o efeito já estiver ativo, a intensidade
@@ -69,7 +68,7 @@ public class Bleeding extends Effect {
     public void beNotified(GameManager gameManager) {
         if (gameManager.currentEvent == GameManager.Events.HEROFINISH && getOwner() instanceof Enemy ||
             gameManager.currentEvent == GameManager.Events.ENEMYFINISH && getOwner() instanceof Hero) 
-            useEffect(gameManager);
+            useEffect();
     }
 
     /**
@@ -81,21 +80,18 @@ public class Bleeding extends Effect {
      *   <li>Aplica o dano igual à intensidade atual via {@link Entity#receiveDamage(int)}.</li>
      *   <li>Exibe os status atualizados do dono.</li>
      *   <li>Reduz a intensidade em 1 via {@link Effect#addIntensity(int)}.</li>
-     *   <li>Se a intensidade chegar a zero, exibe mensagem e remove o efeito via
-     *       {@link Effect#effectFinish(Turns)}.</li>
+     *   <li>Se a intensidade chegar a zero, exibe mensagem..</li>
      * </ol>
      *
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     @Override
-    protected void useEffect(GameManager gameManager) {
+    protected void useEffect() {
         System.out.println("[Sangramento] " + getOwner().getName() + " sofre " + getIntensity() + " de dano pelo sangramento!");
         getOwner().receiveDamage(getIntensity());
         getOwner().printStats();
         addIntensity(-1);
-        if (getIntensity() == 0) {
+        if (getIntensity() == 0) 
             System.out.println("[Sangramento] O sangramento em " + getOwner().getName() + " foi estancado.");
-            effectFinish(gameManager);
-        }
     }
 }
