@@ -10,27 +10,14 @@ import Piles.*;
 /**
  * Gerencia o fluxo de combate e coordena o sistema de efeitos de status.
  *
- * <p>Esta classe cumpre dois papéis principais:</p>
+ * 
  * <ol>
  *   <li><b>Controlador de turnos:</b> orquestra a sequência de ações em cada rodada,
  *       executando o turno do herói ({@link #HeroTurn}) e o turno do inimigo ({@link #enemyTurn}),
  *       além de auxiliar na escolha do inimigo ({@link #chooseEnemy}).</li>
- *   <li><b>Publisher (padrão Observer):</b> mantém uma lista de {@link Effect efeitos de status}
- *       inscritos e os notifica a cada mudança de evento de turno ({@link #notifyEvent}).
- *       Efeitos se inscrevem via {@link #subscribe(Effect)} e se removem via
- *       {@link #unsubscribe(Effect)} quando expiram.</li>
  * </ol>
  *
  * <h2>Sequência de eventos por rodada</h2>
- * <pre>
- * HEROSTART  → efeitos do herói ativados no início (ex: Recuperação)
- *   [herói joga suas cartas]
- * HEROFINISH → efeitos do inimigo ativados no fim do turno do herói (ex: Sangramento no inimigo)
- *
- * ENEMYSTART → efeitos do inimigo ativados no início (ex: Recuperação no inimigo)
- *   [inimigo executa suas cartas]
- * ENEMYFINISH → efeitos do herói ativados no fim do turno do inimigo (ex: Sangramento no herói)
- * </pre>
  *
  * @see Effect
  * @see Bleeding
@@ -44,10 +31,10 @@ public class Turns {
      *
      * <p>Sequência de execução:</p>
      * <ol>
-     *   <li>Dispara {@link Events#ENEMYSTART} e notifica efeitos.</li>
+     *   <li>Dispara {@link Events#ENEMYSTART} .</li>
      *   <li>O inimigo executa cada carta da lista {@code chosenCards} contra o herói.</li>
      *   <li>Se o herói morrer durante o ataque, a sequência é interrompida.</li>
-     *   <li>Ao final, dispara {@link Events#ENEMYFINISH} e notifica efeitos.</li>
+     *   <li>Ao final, dispara {@link Events#ENEMYFINISH}.</li>
      *   <li>Exibe o placar atualizado ({@link #printIntroduction}).</li>
      * </ol>
      *
