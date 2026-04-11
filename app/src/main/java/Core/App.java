@@ -6,6 +6,7 @@ import Entities.ConnnorMcGregor;
 import Entities.Enemy;
 import Entities.Hero;
 import Entities.JonJones;
+import Entities.KennethAllen;
 import Piles.DiscardPile;
 import Piles.PlayerHand;
 import Piles.PurchasePile;
@@ -55,7 +56,8 @@ public class App {
 
         Enemy[] enemies = {
             new JonJones( "Jon Jones", 42, 11),
-            new ConnnorMcGregor("Connor McGregor", 30, 14)
+            new ConnnorMcGregor("Connor McGregor", 30, 14),
+            new KennethAllen("Kenneth Allen", 22, 9)
         };
 
         //Turns e criado antes para ser passado para cartas de efeito
