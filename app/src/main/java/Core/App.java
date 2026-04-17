@@ -1,17 +1,8 @@
 package Core;
 import java.util.Scanner;
 
-import Cards.Card;
-import Entities.ConnnorMcGregor;
-import Entities.Enemy;
-import Entities.Hero;
-import Entities.JonJones;
-import Entities.KennethAllen;
-import Piles.DiscardPile;
-import Piles.PlayerHand;
-import Piles.PurchasePile;
-
-import java.util.ArrayList;
+import Entities.*;
+import Piles.*;
 
 /**
  * Classe principal que inicializa e executa o jogo de combate baseado em cartas.
@@ -60,8 +51,6 @@ public class App {
             new KennethAllen("Kenneth Allen", 22, 9)
         };
 
-        //Turns e criado antes para ser passado para cartas de efeito
-        Turns turns = new Turns();
         GameManager gameManager = new GameManager();
 
         PurchasePile drawPile = new PurchasePile(hero.getHits());
@@ -69,41 +58,27 @@ public class App {
         drawPile.shuffle();
 
         DiscardPile discardPile = new DiscardPile();
-        ArrayList<Card> enemyCards = new ArrayList<>();
+
         PlayerHand playerHand = new PlayerHand(3); 
 
-        Enemy enemy = turns.chooseEnemy(enemies, scanner);
-
-        System.out.println("=== A Luta Começou! ===");
-        System.out.println(hero.getName() + " VS " + enemy.getName() + "\n");
-
-        while (hero.isAlive() && enemy.isAlive()){
-
-            if(drawPile.isEmpty())
-                drawPile.retrieveCards(discardPile);
-
-            enemyCards = enemy.chooseCards(enemy.getHits());
-            enemy.printIntentions(enemyCards);
-
-            playerHand.drawCards(drawPile);
-            turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile, gameManager);
-            playerHand.returnCards(discardPile);
-            
-            if (enemy.isAlive()){
-                enemy.newTurn();
-                pause(2000);
-                turns.printIntroduction(hero, enemy);
-                turns.enemyTurn(enemyCards, hero, enemy, gameManager);
-            }
+        System.out.println("Escolha seu inimigo:");
+        for (int i = 0; i < enemies.length; i++) {
+            System.out.print(i + 1 + " - " );
+            System.out.println(enemies[i].getName() + " (Vida: " + enemies[i].getMaxHealth() + ") (Fôlego: " + enemies[i].getMaxStamina() + ")");
+        } 
+        int choice = scanner.nextInt();
+        while (choice < 1 || choice > enemies.length) {
+            System.out.println("Escolha inválida! Tente novamente:");
+            choice = scanner.nextInt();
         }
+        Enemy enemy = enemies[choice -1];
 
-        System.out.println("\n--Fim da luta--");
-        if(hero.isAlive()){
-            System.out.println("Anderson silva ganhou a luta!");
-        }
-        else{
-            System.out.println("Anderson silva foi derrotado!");
-        }
+        
+        Battle battle = new Battle(hero, enemy, gameManager, scanner);
+
+        battle.printStart();
+        battle.executeBattle(drawPile, discardPile, playerHand);
+        battle.printResults();
 
         scanner.close();
     }

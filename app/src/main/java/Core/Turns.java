@@ -39,6 +39,16 @@ import Piles.*;
  */
 public class Turns {
 
+    private Hero hero;
+    private Enemy enemy;
+    private GameManager gameManager;
+
+    public Turns(Hero hero, Enemy enemy, GameManager gameManager) {
+        this.hero = hero;
+        this.enemy = enemy;
+        this.gameManager = gameManager;
+    }
+
     /**
      * Executa a sequência de ações planejadas pelo inimigo no seu turno.
      *
@@ -56,7 +66,7 @@ public class Turns {
      * @param hero        herói que será o alvo dos ataques
      * @param enemy       inimigo que está executando o turno
      */
-    public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy, GameManager gameManager){
+    public void enemyTurn(ArrayList<Card> chosenCards){
     
         gameManager.currentEvent = GameManager.Events.ENEMYSTART;
         gameManager.notifyEvent();
@@ -79,8 +89,6 @@ public class Turns {
 
             gameManager.currentEvent = Events.ENEMYFINISH;
             gameManager.notifyEvent();
-            
-            printIntroduction(hero, enemy);
         }
 
     }
@@ -107,7 +115,7 @@ public class Turns {
      * @param playerHand  mão atual do jogador com as cartas disponíveis
      * @param discardPile pilha de descarte que recebe as cartas jogadas
      */
-    public void HeroTurn(Scanner scanner, Hero hero, Enemy enemy, PlayerHand playerHand, DiscardPile discardPile, GameManager gameManager) {
+    public void HeroTurn(Scanner scanner, PlayerHand playerHand, DiscardPile discardPile) {
         hero.newTurn();
         gameManager.currentEvent = Events.HEROSTART;
         gameManager.notifyEvent();
@@ -132,7 +140,7 @@ public class Turns {
                     Effect effect = chosenCard.useCard(hero, enemy);
                     if(effect != null)
                         gameManager.subscribe(effect);
-                    printIntroduction(hero, enemy);
+                    //printIntroduction(hero, enemy);
                     playerHand.removeCard(choice - 1);
                     discardPile.addCard(chosenCard);//depois do uso a carta vai para descarte
                 }
@@ -156,54 +164,4 @@ public class Turns {
             gameManager.notifyEvent();
         }
     }
-
-    /**
-     * Exibe no terminal o placar atual da luta com os status de ambos os combatentes.
-     *
-     * <p>Formato exibido:</p>
-     * <pre>
-     * ----------------------------------
-     * Hero (Vida: X/MaxVida) (Bloqueio: Y)
-     * VS
-     * Enemy (Vida: X/MaxVida) (Bloqueio: Y) [Efeitos: ...]
-     * ----------------------------------
-     * </pre>
-     *
-     * @param hero  herói cujos status serão exibidos
-     * @param enemy inimigo cujos status serão exibidos
-     */
-    public void printIntroduction(Hero hero, Enemy enemy) {
-        App.pause(300);
-        System.out.println("\n----------------------------------");
-        hero.printStats();
-        System.out.println("VS");
-        enemy.printStats();
-        System.out.println("----------------------------------\n");
-        App.pause(300);
-    }
-
-    /**
-     * Apresenta a lista de inimigos disponíveis e aguarda a escolha do jogador via terminal.
-     *
-     * <p>Exibe nome, vida máxima e fôlego máximo de cada inimigo. Repete a solicitação
-     * enquanto a escolha for inválida (fora do intervalo [1, número de inimigos]).</p>
-     *
-     * @param enemies array com os inimigos disponíveis para escolha
-     * @param scanner entrada do usuário via terminal
-     * @return o inimigo escolhido pelo jogador
-     */
-    public Enemy chooseEnemy(Enemy[] enemies, Scanner scanner) {
-        System.out.println("Escolha seu inimigo:");
-        for (int i = 0; i < enemies.length; i++) {
-            System.out.print(i + 1 + " - " );
-            System.out.println(enemies[i].getName() + " (Vida: " + enemies[i].getMaxHealth() + ") (Fôlego: " + enemies[i].getMaxStamina() + ")");
-        } 
-        int choice = scanner.nextInt();
-        while (choice < 1 || choice > enemies.length) {
-            System.out.println("Escolha inválida! Tente novamente:");
-            choice = scanner.nextInt();
-        }
-        return enemies[choice -1];
-    }
-
 }
