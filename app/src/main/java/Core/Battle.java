@@ -55,13 +55,10 @@ public class Battle {
 
         while (hero.isAlive() && enemy.isAlive()){
 
-            if(drawPile.isEmpty())
-                drawPile.retrieveCards(discardPile);
-
             enemyCards = enemy.chooseCards(enemy.getHits());
             enemy.printIntentions(enemyCards);
 
-            playerHand.drawCards(drawPile);
+            playerHand.drawCards(drawPile, discardPile);
             battleTurns.HeroTurn(scanner, playerHand, discardPile);
             playerHand.returnCards(discardPile);
             
@@ -74,6 +71,7 @@ public class Battle {
             }
         }
         hero.clearEffects();
+        hero.setShield(0);
         enemy.clearEffects();
         gameManager.unsubscribeAll();
     }

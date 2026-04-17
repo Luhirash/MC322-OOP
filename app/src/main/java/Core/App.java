@@ -45,11 +45,6 @@ public class App {
 
         Hero hero = new Hero("Anderson Silva", 36, 10);
 
-        Enemy[] enemies = {
-            new JonJones( "Jon Jones", 42, 11),
-            new ConnnorMcGregor("Connor McGregor", 30, 14),
-            new KennethAllen("Kenneth Allen", 22, 9)
-        };
 
         GameManager gameManager = new GameManager();
 
@@ -57,28 +52,35 @@ public class App {
         drawPile.fillPile(hero.getHits().length);
         drawPile.shuffle();
 
-        DiscardPile discardPile = new DiscardPile();
 
+        DiscardPile discardPile = new DiscardPile();
         PlayerHand playerHand = new PlayerHand(3); 
 
-        System.out.println("Escolha seu inimigo:");
-        for (int i = 0; i < enemies.length; i++) {
-            System.out.print(i + 1 + " - " );
-            System.out.println(enemies[i].getName() + " (Vida: " + enemies[i].getMaxHealth() + ") (Fôlego: " + enemies[i].getMaxStamina() + ")");
-        } 
-        int choice = scanner.nextInt();
-        while (choice < 1 || choice > enemies.length) {
-            System.out.println("Escolha inválida! Tente novamente:");
-            choice = scanner.nextInt();
+        EnemyNode rootEnemyNode = new EnemyNode();
+        EnemyNode currentNode = rootEnemyNode.createTree();
+        boolean gameOn = true;
+
+        System.out.println("Seu herói, Anderson Silva, busca o cinturão do UFC, então começará sua jornada lutando contra: " + currentNode.getEnemy().getName());
+        while (gameOn) {
+            Enemy enemy = currentNode.getEnemy();
+            Battle battle = new Battle(hero, enemy, gameManager, scanner);
+
+            battle.printStart();
+            battle.executeBattle(drawPile, discardPile, playerHand);
+            battle.printResults();
+            
+            if (!hero.isAlive()) {
+                gameOn = false;
+            }
+            else if (currentNode.isLeaf()) {
+                gameOn = false;
+                System.out.println("Anderson Silva derrotou todos os inimigos em seu caminho");
+            }
+            else {
+                currentNode = currentNode.chooseNextEnemy(scanner);
+            }
+
         }
-        Enemy enemy = enemies[choice -1];
-
-        
-        Battle battle = new Battle(hero, enemy, gameManager, scanner);
-
-        battle.printStart();
-        battle.executeBattle(drawPile, discardPile, playerHand);
-        battle.printResults();
 
         scanner.close();
     }

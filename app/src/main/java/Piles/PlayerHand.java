@@ -56,9 +56,12 @@ public class PlayerHand {
         return hand.get(index);
     }
 
-    public void drawCards( PurchasePile drawPile) {
+    public void drawCards(PurchasePile drawPile, DiscardPile discardPile) {
+
         System.out.println("Você comprou novas cartas!\n");
         while (!isFull()) {
+            if(drawPile.isEmpty())
+                drawPile.retrieveCards(discardPile);
             addCard(drawPile.popCard());
         }
     }

@@ -79,7 +79,7 @@ public class Healing extends Effect{
      */
     protected void useEffect() {
         int trueHealing = 0;
-        if (getOwner().getMaxHealth() - getOwner().getHealth() <= getIntensity())
+        if (getOwner().getMaxHealth() - getOwner().getHealth() > getIntensity())
             trueHealing = getIntensity();
         else
             trueHealing = getOwner().getMaxHealth() - getOwner().getHealth();
