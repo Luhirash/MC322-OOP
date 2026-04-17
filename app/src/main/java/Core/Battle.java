@@ -48,6 +48,7 @@ public class Battle {
     private Turns createBattleTurns() {
         return new Turns(hero, enemy, gameManager);
     }
+
     public void executeBattle(PurchasePile drawPile, DiscardPile discardPile, PlayerHand playerHand) {
         Turns battleTurns = createBattleTurns();
         ArrayList<Card> enemyCards = new ArrayList<>();
@@ -72,6 +73,9 @@ public class Battle {
                 printIntroduction();
             }
         }
+        hero.clearEffects();
+        enemy.clearEffects();
+        gameManager.unsubscribeAll();
     }
 
     public void printResults() {

@@ -70,7 +70,7 @@ public class Healing extends Effect{
      *
      * <p>Sequência de execução:</p>
      * <ol>
-     *   <li>Adiciona vida ao dono igual à intensidade atual via {@link Entity#gainHealth(int)}.</li>
+     *   <li>Adiciona vida ao dono igual à intensidade atual, sem ultrapassar a vida máxima, via {@link Entity#gainHealth(int)}.</li>
      *   <li>Exibe mensagem informando a quantidade de vida recuperada.</li>
      *   <li>Reduz a intensidade em 1 via {@link Effect#addIntensity(int)}.</li>
      * </ol>
@@ -78,8 +78,13 @@ public class Healing extends Effect{
      * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     protected void useEffect() {
-        getOwner().gainHealth(getIntensity());
-        System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + getIntensity() + "de vida");
+        int trueHealing = 0;
+        if (getOwner().getMaxHealth() - getOwner().getHealth() <= getIntensity())
+            trueHealing = getIntensity();
+        else
+            trueHealing = getOwner().getMaxHealth() - getOwner().getHealth();
+        getOwner().gainHealth(trueHealing);
+        System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + trueHealing + "de vida");
         addIntensity(-1);
     }  
 }

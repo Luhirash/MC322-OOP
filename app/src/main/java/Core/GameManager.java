@@ -64,6 +64,14 @@ public class GameManager implements Publisher{
     }
     
     /**
+     * Remove todos os efeitos da lista de inscritos, cancelando suas notificações.
+     * Chamado ao final de uma batalha, para evitar efeitos fantasmas.
+     */
+    public void unsubscribeAll() {
+        subscriberList.clear();
+    }
+
+    /**
      * Notifica todos os efeitos inscritos sobre a mudança no evento de turno atual.
      *
      * <p>Itera sobre uma cópia da lista de inscritos para evitar
