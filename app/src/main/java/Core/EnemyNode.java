@@ -16,6 +16,10 @@ public class EnemyNode extends DefaultMutableTreeNode{
     }
     private Enemy[] enemies = {
         new KennethAllen("Kenneth Allen", 22, 9),
+        new FrancisNgannou("Francis Ngannou", 40, 8),
+        new MaxHolloway("Max Holloway", 28, 11),
+        new KhabibNurmagomedov("Khabib Nurmagomedov", 35, 10),
+        new IsraelAdesanya("Israel Adesanya", 24, 12),
         new JonJones( "Jon Jones", 42, 11),
         new ConnnorMcGregor("Connor McGregor", 30, 14)
     };
@@ -31,6 +35,10 @@ public class EnemyNode extends DefaultMutableTreeNode{
         EnemyNode[] nodes = transformEnemies();
         nodes[0].add(nodes[1]);
         nodes[0].add(nodes[2]);
+        nodes[1].add(nodes[3]);
+        nodes[1].add(nodes[4]);
+        nodes[2].add(nodes[5]);
+        nodes[2].add(nodes[6]);
 
         return nodes[0];
     }

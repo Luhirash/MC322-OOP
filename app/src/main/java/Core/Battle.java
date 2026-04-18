@@ -80,10 +80,10 @@ public class Battle {
 
         System.out.println("\n--Fim da luta--");
         if(hero.isAlive()){
-            System.out.println("Anderson silva ganhou a luta!");
+            System.out.println("Anderson silva ganhou a luta!\n");
         }
         else{
-            System.out.println("Anderson silva foi derrotado!");
+            System.out.println("Anderson silva foi derrotado!\n");
         }
 
     }

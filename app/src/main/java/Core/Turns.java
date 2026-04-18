@@ -133,7 +133,14 @@ public class Turns {
             int exitChoice = numCards + 1;
             System.out.println(exitChoice + " - Encerrar turno");
             System.out.print("\n Escolha sua ação: ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Opção inválida! Por favor, digite o número da carta.");
+                scanner.next(); // Limpa a entrada incorreta do buffer
+                System.out.print("Escolha sua ação: ");
+            }
             int choice = scanner.nextInt();
+            scanner.nextLine(); 
+            
             if(choice >= 1 && choice <= numCards){
                 Card chosenCard = playerHand.getCard(choice - 1);
                 if(chosenCard.tryCard(hero)){//se for possivel usar a carta

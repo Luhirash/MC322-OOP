@@ -84,7 +84,7 @@ public class Healing extends Effect{
         else
             trueHealing = getOwner().getMaxHealth() - getOwner().getHealth();
         getOwner().gainHealth(trueHealing);
-        System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + trueHealing + "de vida");
+        System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + trueHealing + " de vida");
         addIntensity(-1);
     }  
 }
