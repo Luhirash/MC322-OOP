@@ -9,16 +9,19 @@ import Piles.*;
  *
  * <p>O fluxo do jogo é o seguinte:</p>
  * <ol>
- *   <li>O jogador escolhe um inimigo entre os disponíveis.</li>
- *   <li>O baralho do herói é montado aleatoriamente, embaralhado e distribuído na mão.</li>
- *   <li>A cada rodada, o inimigo anuncia suas intenções e o herói joga suas cartas.</li>
- *   <li>Após o turno do herói, o inimigo executa as cartas anunciadas.</li>
- *   <li>O combate continua até que o herói ou o inimigo seja derrotado (vida chega a zero).</li>
+ *   <li>Uma árvore de inimigos é criada via {@link EnemyNode#createTree()}, e o combate
+ *       começa pelo nó raiz.</li>
+ *   <li>O baralho do herói é montado, embaralhado e as cartas são distribuídas na mão.</li>
+ *   <li>Cada luta é gerenciada por {@link Battle}, que alterna turnos entre herói e inimigo
+ *       até que um dos dois seja derrotado.</li>
+ *   <li>Ao vencer, o jogador escolhe o próximo inimigo navegando pela árvore.</li>
+ *   <li>O jogo termina quando o herói é derrotado ou todos os inimigos são vencidos.</li>
  * </ol>
  *
  * @see Hero
  * @see Enemy
- * @see Turns
+ * @see Battle
+ * @see EnemyNode
  * @see PurchasePile
  * @see DiscardPile
  * @see PlayerHand
@@ -30,12 +33,14 @@ public class App {
      *
      * <p>Responsável por:</p>
      * <ul>
-     *   <li>Instanciar o herói e os inimigos disponíveis.</li>
+     *   <li>Instanciar o herói.</li>
+     *   <li>Criar o {@link GameManager} compartilhado entre as batalhas.</li>
      *   <li>Criar o baralho de compra ({@link PurchasePile}), preenchê-lo e embaralhá-lo.</li>
      *   <li>Criar a pilha de descarte ({@link DiscardPile}) e a mão do jogador ({@link PlayerHand}).</li>
-     *   <li>Permitir que o jogador escolha o inimigo.</li>
-     *   <li>Executar o loop principal de combate, alternando turnos do herói e do inimigo.</li>
-     *   <li>Exibir o resultado final da luta.</li>
+     *   <li>Construir a árvore de inimigos e iniciar pelo nó raiz.</li>
+     *   <li>Executar o loop principal, instanciando uma {@link Battle} para cada luta.</li>
+     *   <li>Após cada vitória, permitir ao jogador escolher o próximo inimigo.</li>
+     *   <li>Exibir o resultado final ao término do jogo.</li>
      * </ul>
      *
      * @param args argumentos de linha de comando (não utilizados)
