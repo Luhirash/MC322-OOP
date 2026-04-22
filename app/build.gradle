@@ -9,6 +9,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
     id 'java'
+    id 'jacoco'
 }
 
 repositories {
@@ -50,4 +51,14 @@ tasks.named('test') {
 javadoc {
     destinationDir = file("${buildDir}/doc/javadoc")
     options.memberLevel = JavadocMemberLevel.PRIVATE
+}
+
+jacocoTestReport {
+    dependsOn test // O relatório só será gerado depois que os testes rodarem
+
+    reports {
+        xml.required = false
+        csv.required = false
+        html.required = true // Queremos o relatório visual em HTML
+    }
 }
