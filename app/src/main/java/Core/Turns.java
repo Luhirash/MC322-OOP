@@ -8,42 +8,72 @@ import Entities.*;
 import Piles.*;
 
 /**
- * Gerencia o fluxo de combate e coordena o sistema de efeitos de status.
+ * Gerencia o fluxo de turnos de uma batalha, coordenando ações do herói,
+ * do inimigo e o sistema de efeitos de status.
  *
- * 
+ * <p>Cada instância de {@code Turns} está vinculada a uma única {@link Battle} e
+ * é responsável por dois papéis:</p>
  * <ol>
- *   <li><b>Controlador de turnos:</b> orquestra a sequência de ações em cada rodada,
- *       executando o turno do herói ({@link #HeroTurn}) e o turno do inimigo ({@link #enemyTurn}),
- *       além de auxiliar na escolha do inimigo ({@link #chooseEnemy}).</li>
+ *   <li><b>Controlador de turnos:</b> executa o turno do herói ({@link #HeroTurn})
+ *       e o turno do inimigo ({@link #enemyTurn}), respeitando a ordem correta de
+ *       eventos e notificações de efeitos.</li>
+ *   <li><b>Coordenador de efeitos:</b> define o {@link GameManager#currentEvent}
+ *       correto antes de cada notificação, garantindo que apenas os efeitos
+ *       pertinentes atuem no momento adequado.</li>
  * </ol>
  *
  * <h2>Sequência de eventos por rodada</h2>
+ * <pre>
+ * HEROSTART   → efeitos ativos no início do turno do herói (ex: Recuperação do herói)
+ *   [herói joga suas cartas]
+ * HEROFINISH  → efeitos ativos no fim do turno do herói (ex: Sangramento no inimigo)
  *
+ * ENEMYSTART  → efeitos ativos no início do turno do inimigo (ex: Recuperação do inimigo)
+ *   [inimigo executa suas cartas]
+ * ENEMYFINISH → efeitos ativos no fim do turno do inimigo (ex: Sangramento no herói)
+ * </pre>
+ *
+ * @see GameManager
  * @see Effect
- * @see Bleeding
- * @see Healing
- * @see Strength
+ * @see Battle
  */
 public class Turns {
 
+    private Hero hero;
+    private Enemy enemy;
+    private GameManager gameManager;
+
     /**
-     * Executa a sequência de ações planejadas pelo inimigo no seu turno.
+     * Constrói o controlador de turnos para uma batalha específica.
+     *
+     * @param hero        herói controlado pelo jogador
+     * @param enemy       inimigo a ser enfrentado
+     * @param gameManager gerenciador de eventos e efeitos compartilhado com a batalha
+     */
+    public Turns(Hero hero, Enemy enemy, GameManager gameManager) {
+        this.hero = hero;
+        this.enemy = enemy;
+        this.gameManager = gameManager;
+    }
+
+    /**
+     * Executa a sequência de ações do inimigo no seu turno.
      *
      * <p>Sequência de execução:</p>
      * <ol>
-     *   <li>Dispara {@link Events#ENEMYSTART} .</li>
-     *   <li>O inimigo executa cada carta da lista {@code chosenCards} contra o herói.</li>
-     *   <li>Se o herói morrer durante o ataque, a sequência é interrompida.</li>
-     *   <li>Ao final, dispara {@link Events#ENEMYFINISH}.</li>
-     *   <li>Exibe o placar atualizado ({@link #printIntroduction}).</li>
+     *   <li>Define {@link GameManager#currentEvent} para {@link Events#ENEMYSTART}
+     *       e notifica os efeitos inscritos.</li>
+     *   <li>O inimigo executa cada carta da lista {@code chosenCards} contra o herói,
+     *       inscrevendo no {@link GameManager} qualquer efeito gerado.</li>
+     *   <li>Se o herói for derrotado durante a sequência, o loop é interrompido.</li>
+     *   <li>Ao final, define o evento para {@link Events#ENEMYFINISH} e notifica
+     *       os efeitos (ex: sangramento aplicado ao herói).</li>
      * </ol>
      *
-     * @param chosenCards cartas escolhidas pelo inimigo no início da rodada
-     *                    (via {@link Enemy#chooseCards(Card[])})
-     * @param hero        herói que será o alvo dos ataques
-     * @param enemy       inimigo que está executando o turno
+     * @param chosenCards cartas que o inimigo anunciou no início da rodada,
+     *                    obtidas via {@link Enemy#chooseCards(Cards.Card[])}
      */
-    public void enemyTurn(ArrayList<Card> chosenCards, Hero hero, Enemy enemy, GameManager gameManager){
+    public void enemyTurn(ArrayList<Card> chosenCards){
     
         gameManager.currentEvent = GameManager.Events.ENEMYSTART;
         gameManager.notifyEvent();
@@ -66,8 +96,6 @@ public class Turns {
 
             gameManager.currentEvent = Events.ENEMYFINISH;
             gameManager.notifyEvent();
-            
-            printIntroduction(hero, enemy);
         }
 
     }
@@ -77,24 +105,26 @@ public class Turns {
      *
      * <p>Sequência de execução:</p>
      * <ol>
-     *   <li>Restaura o fôlego e o escudo do herói ({@link Entity#newTurn()}).</li>
-     *   <li>Dispara {@link Events#HEROSTART} e notifica efeitos (ex: Recuperação).</li>
-     *   <li>Exibe as cartas disponíveis na mão ({@link PlayerHand#printHand()}).</li>
-     *   <li>Aguarda a escolha do jogador: número da carta ou opção de encerrar o turno.</li>
-     *   <li>Tenta jogar a carta escolhida ({@link Card#tryCard}). Se bem-sucedida, a carta
-     *       é removida da mão e enviada ao descarte ({@link DiscardPile}).</li>
-     *   <li>O loop continua até que o jogador encerre o turno, o fôlego acabe,
-     *       a mão fique vazia, ou um dos combatentes seja derrotado.</li>
-     *   <li>Ao final, dispara {@link Events#HEROFINISH} e notifica efeitos (ex: Sangramento no inimigo).</li>
+     *   <li>Restaura o fôlego e o escudo do herói via {@link Entities.Entity#newTurn()}.</li>
+     *   <li>Define {@link GameManager#currentEvent} para {@link Events#HEROSTART}
+     *       e notifica os efeitos (ex: Recuperação do herói).</li>
+     *   <li>Exibe o fôlego disponível e as cartas na mão via
+     *       {@link PlayerHand#printHand()}.</li>
+     *   <li>Aguarda a escolha do jogador: número da carta (1..N) ou encerrar o turno (N+1).</li>
+     *   <li>Se a carta escolhida puder ser usada ({@link Cards.Card#tryCard}), ela é jogada,
+     *       seu efeito (se houver) é inscrito no {@link GameManager}, a carta é removida
+     *       da mão e enviada ao {@link DiscardPile}.</li>
+     *   <li>O loop continua enquanto: o evento for {@link Events#HEROSTART}, ambos os
+     *       combatentes estiverem vivos, a mão não estiver vazia e houver fôlego.</li>
+     *   <li>Ao final, define o evento para {@link Events#HEROFINISH} e notifica
+     *       os efeitos (ex: sangramento no inimigo).</li>
      * </ol>
      *
      * @param scanner     entrada do usuário via terminal
-     * @param hero        herói controlado pelo jogador
-     * @param enemy       inimigo-alvo das ações do herói
      * @param playerHand  mão atual do jogador com as cartas disponíveis
-     * @param discardPile pilha de descarte que recebe as cartas jogadas
+     * @param discardPile pilha de descarte que recebe as cartas utilizadas
      */
-    public void HeroTurn(Scanner scanner, Hero hero, Enemy enemy, PlayerHand playerHand, DiscardPile discardPile, GameManager gameManager) {
+    public void HeroTurn(Scanner scanner, PlayerHand playerHand, DiscardPile discardPile) {
         hero.newTurn();
         gameManager.currentEvent = Events.HEROSTART;
         gameManager.notifyEvent();
@@ -102,7 +132,6 @@ public class Turns {
         while (gameManager.currentEvent == Events.HEROSTART && hero.isAlive() && enemy.isAlive() && !playerHand.isEmpty()){
 
             App.pause(1000);
-            //hero.printStats();
 
             System.out.println("\nFôlego: " + hero.getStamina() + "/" + hero.getMaxStamina());
             System.out.println("Suas cartas disponíveis:");
@@ -112,14 +141,20 @@ public class Turns {
             int exitChoice = numCards + 1;
             System.out.println(exitChoice + " - Encerrar turno");
             System.out.print("\n Escolha sua ação: ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Opção inválida! Por favor, digite o número da carta.");
+                scanner.next(); // Limpa a entrada incorreta do buffer
+                System.out.print("Escolha sua ação: ");
+            }
             int choice = scanner.nextInt();
+            scanner.nextLine(); 
+            
             if(choice >= 1 && choice <= numCards){
                 Card chosenCard = playerHand.getCard(choice - 1);
                 if(chosenCard.tryCard(hero)){//se for possivel usar a carta
                     Effect effect = chosenCard.useCard(hero, enemy);
                     if(effect != null)
                         gameManager.subscribe(effect);
-                    printIntroduction(hero, enemy);
                     playerHand.removeCard(choice - 1);
                     discardPile.addCard(chosenCard);//depois do uso a carta vai para descarte
                 }
@@ -143,54 +178,4 @@ public class Turns {
             gameManager.notifyEvent();
         }
     }
-
-    /**
-     * Exibe no terminal o placar atual da luta com os status de ambos os combatentes.
-     *
-     * <p>Formato exibido:</p>
-     * <pre>
-     * ----------------------------------
-     * Hero (Vida: X/MaxVida) (Bloqueio: Y)
-     * VS
-     * Enemy (Vida: X/MaxVida) (Bloqueio: Y) [Efeitos: ...]
-     * ----------------------------------
-     * </pre>
-     *
-     * @param hero  herói cujos status serão exibidos
-     * @param enemy inimigo cujos status serão exibidos
-     */
-    public void printIntroduction(Hero hero, Enemy enemy) {
-        App.pause(300);
-        System.out.println("\n----------------------------------");
-        hero.printStats();
-        System.out.println("VS");
-        enemy.printStats();
-        System.out.println("----------------------------------\n");
-        App.pause(300);
-    }
-
-    /**
-     * Apresenta a lista de inimigos disponíveis e aguarda a escolha do jogador via terminal.
-     *
-     * <p>Exibe nome, vida máxima e fôlego máximo de cada inimigo. Repete a solicitação
-     * enquanto a escolha for inválida (fora do intervalo [1, número de inimigos]).</p>
-     *
-     * @param enemies array com os inimigos disponíveis para escolha
-     * @param scanner entrada do usuário via terminal
-     * @return o inimigo escolhido pelo jogador
-     */
-    public Enemy chooseEnemy(Enemy[] enemies, Scanner scanner) {
-        System.out.println("Escolha seu inimigo:");
-        for (int i = 0; i < enemies.length; i++) {
-            System.out.print(i + 1 + " - " );
-            System.out.println(enemies[i].getName() + " (Vida: " + enemies[i].getMaxHealth() + ") (Fôlego: " + enemies[i].getMaxStamina() + ")");
-        } 
-        int choice = scanner.nextInt();
-        while (choice < 1 || choice > enemies.length) {
-            System.out.println("Escolha inválida! Tente novamente:");
-            choice = scanner.nextInt();
-        }
-        return enemies[choice -1];
-    }
-
 }

@@ -215,6 +215,10 @@ public abstract class Entity{
             effects.get(effectIndex).addIntensity(effect.getIntensity());
     }
 
+    public void clearEffects() {
+        getEffects().clear();
+    }
+
     /**
      * Retorna a vida atual da entidade.
      *

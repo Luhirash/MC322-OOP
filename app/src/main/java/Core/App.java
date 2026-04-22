@@ -1,33 +1,27 @@
 package Core;
 import java.util.Scanner;
 
-import Cards.Card;
-import Entities.ConnnorMcGregor;
-import Entities.Enemy;
-import Entities.Hero;
-import Entities.JonJones;
-import Entities.KennethAllen;
-import Piles.DiscardPile;
-import Piles.PlayerHand;
-import Piles.PurchasePile;
-
-import java.util.ArrayList;
+import Entities.*;
+import Piles.*;
 
 /**
  * Classe principal que inicializa e executa o jogo de combate baseado em cartas.
  *
  * <p>O fluxo do jogo é o seguinte:</p>
  * <ol>
- *   <li>O jogador escolhe um inimigo entre os disponíveis.</li>
- *   <li>O baralho do herói é montado aleatoriamente, embaralhado e distribuído na mão.</li>
- *   <li>A cada rodada, o inimigo anuncia suas intenções e o herói joga suas cartas.</li>
- *   <li>Após o turno do herói, o inimigo executa as cartas anunciadas.</li>
- *   <li>O combate continua até que o herói ou o inimigo seja derrotado (vida chega a zero).</li>
+ *   <li>Uma árvore de inimigos é criada via {@link EnemyNode#createTree()}, e o combate
+ *       começa pelo nó raiz.</li>
+ *   <li>O baralho do herói é montado, embaralhado e as cartas são distribuídas na mão.</li>
+ *   <li>Cada luta é gerenciada por {@link Battle}, que alterna turnos entre herói e inimigo
+ *       até que um dos dois seja derrotado.</li>
+ *   <li>Ao vencer, o jogador escolhe o próximo inimigo navegando pela árvore.</li>
+ *   <li>O jogo termina quando o herói é derrotado ou todos os inimigos são vencidos.</li>
  * </ol>
  *
  * @see Hero
  * @see Enemy
- * @see Turns
+ * @see Battle
+ * @see EnemyNode
  * @see PurchasePile
  * @see DiscardPile
  * @see PlayerHand
@@ -39,12 +33,14 @@ public class App {
      *
      * <p>Responsável por:</p>
      * <ul>
-     *   <li>Instanciar o herói e os inimigos disponíveis.</li>
+     *   <li>Instanciar o herói.</li>
+     *   <li>Criar o {@link GameManager} compartilhado entre as batalhas.</li>
      *   <li>Criar o baralho de compra ({@link PurchasePile}), preenchê-lo e embaralhá-lo.</li>
      *   <li>Criar a pilha de descarte ({@link DiscardPile}) e a mão do jogador ({@link PlayerHand}).</li>
-     *   <li>Permitir que o jogador escolha o inimigo.</li>
-     *   <li>Executar o loop principal de combate, alternando turnos do herói e do inimigo.</li>
-     *   <li>Exibir o resultado final da luta.</li>
+     *   <li>Construir a árvore de inimigos e iniciar pelo nó raiz.</li>
+     *   <li>Executar o loop principal, instanciando uma {@link Battle} para cada luta.</li>
+     *   <li>Após cada vitória, permitir ao jogador escolher o próximo inimigo.</li>
+     *   <li>Exibir o resultado final ao término do jogo.</li>
      * </ul>
      *
      * @param args argumentos de linha de comando (não utilizados)
@@ -54,55 +50,41 @@ public class App {
 
         Hero hero = new Hero("Anderson Silva", 36, 10);
 
-        Enemy[] enemies = {
-            new JonJones( "Jon Jones", 42, 11),
-            new ConnnorMcGregor("Connor McGregor", 30, 14),
-            new KennethAllen("Kenneth Allen", 22, 9)
-        };
 
-        //Turns e criado antes para ser passado para cartas de efeito
-        Turns turns = new Turns();
         GameManager gameManager = new GameManager();
 
         PurchasePile drawPile = new PurchasePile(hero.getHits());
         drawPile.fillPile(hero.getHits().length);
         drawPile.shuffle();
 
+
         DiscardPile discardPile = new DiscardPile();
-        ArrayList<Card> enemyCards = new ArrayList<>();
         PlayerHand playerHand = new PlayerHand(3); 
 
-        Enemy enemy = turns.chooseEnemy(enemies, scanner);
+        EnemyNode rootEnemyNode = new EnemyNode();
+        EnemyNode currentNode = rootEnemyNode.createTree();
+        boolean gameOn = true;
 
-        System.out.println("=== A Luta Começou! ===");
-        System.out.println(hero.getName() + " VS " + enemy.getName() + "\n");
+        System.out.println("Seu herói, Anderson Silva, busca o cinturão do UFC, então começará sua jornada lutando contra: " + currentNode.getEnemy().getName());
+        while (gameOn) {
+            Enemy enemy = currentNode.getEnemy();
+            Battle battle = new Battle(hero, enemy, gameManager, scanner);
 
-        while (hero.isAlive() && enemy.isAlive()){
-
-            if(drawPile.isEmpty())
-                drawPile.retrieveCards(discardPile);
-
-            enemyCards = enemy.chooseCards(enemy.getHits());
-            enemy.printIntentions(enemyCards);
-
-            playerHand.drawCards(drawPile);
-            turns.HeroTurn(scanner, hero, enemy, playerHand, discardPile, gameManager);
-            playerHand.returnCards(discardPile);
+            battle.printStart();
+            battle.executeBattle(drawPile, discardPile, playerHand);
+            battle.printResults();
             
-            if (enemy.isAlive()){
-                enemy.newTurn();
-                pause(2000);
-                turns.printIntroduction(hero, enemy);
-                turns.enemyTurn(enemyCards, hero, enemy, gameManager);
+            if (!hero.isAlive()) {
+                gameOn = false;
             }
-        }
+            else if (currentNode.isLeaf()) {
+                gameOn = false;
+                System.out.println("Anderson Silva derrotou todos os inimigos em seu caminho");
+            }
+            else {
+                currentNode = currentNode.chooseNextEnemy(scanner);
+            }
 
-        System.out.println("\n--Fim da luta--");
-        if(hero.isAlive()){
-            System.out.println("Anderson silva ganhou a luta!");
-        }
-        else{
-            System.out.println("Anderson silva foi derrotado!");
         }
 
         scanner.close();

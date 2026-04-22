@@ -3,23 +3,23 @@ import java.util.ArrayList;
 import Cards.*;
 
 /**
- * Representa a mão do jogador: o conjunto de cartas disponíveis para uso no turno atual.
+ * Representa a mão do jogador durante o combate, ou seja, o conjunto de cartas
+ * disponíveis para jogar na rodada atual.
  *
- * <p>A mão tem um tamanho máximo fixo ({@link #maximumSize}) e é reabastecida a cada turno
- * comprando cartas do baralho ({@link PurchasePile}). Ao final do turno, as cartas
- * restantes na mão são devolvidas à pilha de descarte ({@link DiscardPile}).</p>
- *
- * <h2>Ciclo de vida da mão por turno</h2>
+ * <p>A mão possui um tamanho máximo fixo ({@link #maximumSize}) definido na
+ * construção. O ciclo de vida das cartas na mão a cada rodada é:</p>
  * <ol>
- *   <li>{@link #drawCards(PurchasePile)} — compra cartas do baralho até atingir {@link #maximumSize}.</li>
- *   <li>{@link #printHand()} — exibe as cartas disponíveis para o jogador escolher.</li>
- *   <li>{@link #removeCard(int)} — remove e retorna a carta escolhida (ela vai para o descarte após o uso).</li>
- *   <li>{@link #returnCards(DiscardPile)} — ao fim do turno, devolve as cartas não usadas ao descarte.</li>
+ *   <li>Compra de cartas do {@link PurchasePile} via {@link #drawCards}, até
+ *       que a mão esteja cheia ou o baralho esgote.</li>
+ *   <li>O jogador escolhe e joga cartas individualmente via {@link #getCard}
+ *       e {@link #removeCard}, que seguem para o {@link DiscardPile}.</li>
+ *   <li>Ao fim do turno, as cartas restantes são devolvidas ao descarte
+ *       via {@link #returnCards}.</li>
  * </ol>
  *
  * @see PurchasePile
  * @see DiscardPile
- * @see Turns#HeroTurn
+ * @see Cards.Card
  */
 public class PlayerHand {
     
@@ -28,17 +28,13 @@ public class PlayerHand {
      */
     private ArrayList<Card> hand = new ArrayList<Card>();
 
-    /**
-     * Quantidade máxima de cartas que a mão pode conter ao mesmo tempo.
-     * <p>Definida na construção e usada por {@link #isFull()} e {@link #drawCards(PurchasePile)}
-     * para controlar quantas cartas são compradas por turno.</p>
-     */
+    /** Quantidade máxima de cartas que a mão pode conter simultaneamente. */
     private int maximumSize;
 
     /**
      * Constrói uma mão de jogador vazia com o tamanho máximo especificado.
      *
-     * @param maximumSize quantidade máxima de cartas que a mão pode conter simultaneamente
+     * @param maximumSize número máximo de cartas que a mão pode conter
      */
     public PlayerHand(int maximumSize) {
         this.maximumSize = maximumSize;
@@ -46,27 +42,24 @@ public class PlayerHand {
 
     /**
      * Adiciona uma carta à mão do jogador.
-     * <p>Chamado internamente por {@link #drawCards(PurchasePile)} durante a compra de cartas.</p>
      *
-     * @param card carta a ser adicionada à mão
+     * <p>Não verifica se a mão está cheia; use {@link #isFull()} antes de chamar
+     * este método se o limite precisar ser respeitado.</p>
+     *
+     * @param card carta a ser adicionada
      */
     public void addCard(Card card) {
         hand.add(card);
     }
 
     /**
-     * Remove e retorna a carta na posição indicada da mão.
+     * Remove e retorna a carta na posição indicada.
      *
-     * <p>Usada em dois contextos:</p>
-     * <ul>
-     *   <li>Em {@link Turns#HeroTurn}: remove a carta escolhida pelo jogador para jogá-la
-     *       e enviá-la ao descarte.</li>
-     *   <li>Em {@link DiscardPile#receiveCards(PlayerHand)}: esvazia a mão transferindo
-     *       cada carta ao descarte.</li>
-     * </ul>
+     * <p>Utilizado após o jogador escolher uma carta para jogá-la, antes de
+     * enviá-la ao {@link DiscardPile}.</p>
      *
-     * @param index índice (baseado em zero) da carta a ser removida
-     * @return a carta removida da mão
+     * @param index índice da carta na mão (base 0)
+     * @return a carta removida
      * @throws IndexOutOfBoundsException se o índice estiver fora do intervalo válido
      */
     public Card removeCard(int index) {
@@ -74,7 +67,7 @@ public class PlayerHand {
     }
 
     /**
-     * Retorna a quantidade de cartas atualmente na mão.
+     * Retorna a quantidade atual de cartas na mão.
      *
      * @return número de cartas presentes na mão
      */
@@ -103,8 +96,7 @@ public class PlayerHand {
     /**
      * Verifica se a mão atingiu sua capacidade máxima.
      *
-     * @return {@code true} se a mão estiver cheia ({@code handSize >= maximumSize});
-     *         {@code false} se ainda há espaço para mais cartas
+     * @return {@code true} se a mão estiver cheia; {@code false} caso contrário
      */
     public boolean isFull() {
         if (getHandSize() < getMaximumSize()) {
@@ -116,14 +108,10 @@ public class PlayerHand {
     }
 
     /**
-     * Exibe no console as cartas disponíveis na mão, numeradas a partir de 1.
+     * Exibe no terminal todas as cartas presentes na mão, numeradas a partir de 1.
      *
-     * <p>Formato exibido para cada carta:</p>
-     * <pre>
-     * 1 - NomeDaCarta (AtributoPrincipal: X | Custo: Y)
-     * 2 - ...
-     * </pre>
-     * <p>Chamado por {@link Turns#HeroTurn} antes de cada escolha do jogador.</p>
+     * <p>Cada linha exibe o número de seleção seguido das estatísticas da carta
+     * via {@link Cards.Card#printCardStats()}.</p>
      */
     public void printHand() {
         ArrayList<Card> hand = getHand();
@@ -134,22 +122,19 @@ public class PlayerHand {
     }
 
     /**
-     * Verifica se a mão está vazia (sem nenhuma carta disponível).
+     * Verifica se a mão está vazia.
      *
-     * @return {@code true} se não houver cartas na mão; {@code false} caso contrário
+     * @return {@code true} se não houver nenhuma carta na mão; {@code false} caso contrário
      */
     public boolean isEmpty(){
         return hand.isEmpty();
     }
 
     /**
-     * Retorna (sem remover) a carta na posição indicada da mão.
+     * Retorna a carta na posição indicada sem removê-la da mão.
      *
-     * <p>Usada por {@link Turns#HeroTurn} para inspecionar a carta escolhida antes
-     * de tentar jogá-la via {@link Card#tryCard(Hero, Enemy, Turns)}.</p>
-     *
-     * @param index índice (baseado em zero) da carta a consultar
-     * @return a carta na posição indicada, sem removê-la da mão
+     * @param index índice da carta (base 0)
+     * @return a carta na posição especificada
      * @throws IndexOutOfBoundsException se o índice estiver fora do intervalo válido
      */
     public Card getCard(int index){
@@ -157,27 +142,30 @@ public class PlayerHand {
     }
 
     /**
-     * Compra cartas do baralho até que a mão atinja sua capacidade máxima.
+     * Compra cartas do baralho de compra até que a mão esteja cheia.
      *
-     * <p>Exibe a mensagem "Você comprou novas cartas!" e adiciona cartas do topo do
-     * baralho ({@link PurchasePile#popCard()}) até que {@link #isFull()} retorne
-     * {@code true}. Chamado no início de cada turno do herói pelo loop em {@link App#main}.</p>
+     * <p>Se o {@link PurchasePile} estiver vazio antes de a mão encher, as cartas
+     * do {@link DiscardPile} são recuperadas e embaralhadas de volta ao baralho
+     * via {@link PurchasePile#retrieveCards(DiscardPile)}, garantindo continuidade.</p>
      *
-     * @param drawPile baralho de onde as cartas serão compradas
+     * @param drawPile    baralho de onde as cartas são compradas
+     * @param discardPile pilha de descarte usada para reabastecimento do baralho quando necessário
      */
-    public void drawCards(PurchasePile drawPile) {
+    public void drawCards(PurchasePile drawPile, DiscardPile discardPile) {
+
         System.out.println("Você comprou novas cartas!\n");
         while (!isFull()) {
+            if(drawPile.isEmpty())
+                drawPile.retrieveCards(discardPile);
             addCard(drawPile.popCard());
         }
     }
 
     /**
-     * Devolve todas as cartas restantes na mão para a pilha de descarte.
+     * Devolve todas as cartas restantes na mão para o {@link DiscardPile}.
      *
-     * <p>Chamado ao final do turno do herói (em {@link App#main}) para garantir que
-     * nenhuma carta fique retida na mão entre os turnos. As cartas são removidas
-     * da mão e adicionadas ao descarte na mesma ordem em que estavam.</p>
+     * <p>Chamado ao fim do turno do herói para descartar cartas não utilizadas.
+     * As cartas são removidas da mão em ordem e adicionadas ao topo do descarte.</p>
      *
      * @param discardPile pilha de descarte que receberá as cartas devolvidas
      */
