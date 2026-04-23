@@ -21,7 +21,7 @@ import Piles.PurchasePile;
  *       <td>focar, desviar, andar para trás, agachar</td></tr>
  *   <tr><td>Vida instantânea ({@link HealthCard})</td>
  *       <td>curativo, anestésico, massagem do senhor Miyagi</td></tr>
- *   <tr><td>Sangramento ({@link bleedingCard})</td>
+ *   <tr><td>Sangramento ({@link BleedingCard})</td>
  *       <td>golpe lascerante, cotovelada cortante</td></tr>
  *   <tr><td>Recuperação por turno ({@link HealingCard})</td>
  *       <td>pedir tempo técnico, beber suco secreto</td></tr>

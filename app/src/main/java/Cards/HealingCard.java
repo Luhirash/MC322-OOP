@@ -1,4 +1,5 @@
 package Cards;
+import Core.GameManager;
 import Effects.Effect;
 import Effects.Healing;
 import Entities.Entity;
@@ -16,7 +17,7 @@ import Entities.Entity;
  *
  * @see Card
  * @see Healing
- * @see Turns#subscribe(Effect)
+ * Visto em GameManager.
  */
 public class HealingCard extends EffectCard {
 
@@ -45,12 +46,11 @@ public class HealingCard extends EffectCard {
      * sobre ele e o inscreve no gerenciador de turnos.
      *
      * <p>O efeito de recuperação age no <b>início dos próximos turnos</b> do usuário
-     * ({@link Turns.Events#HEROSTART} para o herói), restaurando vida a cada rodada
+     * (<code>HEROSTART</code> para o herói), restaurando vida a cada rodada
      * até a intensidade se esgotar.</p>
      *
      * @param attacker entidade que usa a carta e receberá a recuperação de vida
      * @param receiver entidade-alvo (não utilizada — a recuperação é sempre para o atacante)
-     * @param turns    gerenciador de turnos onde o efeito de recuperação será inscrito
      */
     @Override
     public Effect useCard(Entity attacker, Entity receiver) {

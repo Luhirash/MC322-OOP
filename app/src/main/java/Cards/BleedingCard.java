@@ -1,5 +1,5 @@
 package Cards;
-import Core.Turns;
+import Core.GameManager;
 import Effects.Bleeding;
 import Effects.Effect;
 import Entities.Entity;
@@ -8,10 +8,10 @@ import Entities.Entity;
  * Carta de combate que aplica o efeito de {@link Bleeding sangramento} ao alvo.
  *
  * <p>Ao ser jogada, cria um efeito de {@link Bleeding} sobre o receptor e o inscreve
- * no gerenciador de turnos ({@link Turns#subscribe(Effect)}). A partir desse momento,
+ * no gerenciador de turnos ((<code>GameManager.subscribe()</code>). A partir desse momento,
  * o alvo sofrerá dano periódico a cada fim de turno do atacante:
  * se o herói jogar esta carta, o inimigo sangrará ao fim do turno do herói
- * ({@link Turns.Events#HEROFINISH}); e vice-versa.</p>
+ * (<code>HEROFINISH</code>); e vice-versa.</p>
  *
  * <p>Se o alvo já estiver sob efeito de sangramento, a nova intensidade é somada
  * à existente (acumulação de efeitos).</p>
@@ -21,7 +21,7 @@ import Entities.Entity;
  *
  * @see Card
  * @see Bleeding
- * @see Turns#subscribe(Effect)
+ * @see GameManager#subscribe(Effect)
  */
 
 public class BleedingCard extends EffectCard {
@@ -52,11 +52,10 @@ public class BleedingCard extends EffectCard {
      *
      * <p>O efeito age sobre o <b>receptor</b> (quem recebeu o corte), não sobre o atacante.
      * Se o receptor já estiver sangrando, a intensidade é acumulada via
-     * {@link Entity#applyEffect(Effect)}.</p>
+     * <code>Entity.applyEffect()</code>.</p>
      *
      * @param attacker entidade que usa a carta (terá seu fôlego reduzido)
      * @param receiver entidade que receberá o efeito de sangramento
-     * @param turns    gerenciador de turnos onde o efeito de sangramento será inscrito
      */
     public Effect useCard(Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());

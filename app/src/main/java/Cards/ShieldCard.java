@@ -47,7 +47,6 @@ public class ShieldCard extends Card {
      *
      * @param attacker entidade que usa a carta e recebe o escudo (terá fôlego e escudo atualizados)
      * @param receiver entidade-alvo (ignorada nesta carta — o escudo é sempre para o atacante)
-     * @param turns    referência ao gerenciador de turnos (não utilizado aqui)
      */
     public Effect useCard(Entity attacker, Entity receiver){
         System.out.println(attacker.getName() + " usou " + super.getName() + "!");

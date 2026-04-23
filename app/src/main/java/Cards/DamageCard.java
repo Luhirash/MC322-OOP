@@ -48,7 +48,6 @@ public class DamageCard extends Card{
      *
      * @param attacker entidade que usa a carta (terá seu fôlego reduzido)
      * @param receiver entidade que recebe o dano (terá escudo/vida reduzidos)
-     * @param turns    referência ao gerenciador de turnos (não utilizado diretamente aqui)
      */
     public Effect useCard (Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());

@@ -1,5 +1,7 @@
 package Entities;
 import java.util.ArrayList;
+
+import Core.GameManager;
 import Core.Turns;
 import Cards.Card;
 import Cards.DamageCard;
@@ -63,7 +65,7 @@ public abstract class Entity{
     /**
      * Lista de efeitos de status ativos sobre esta entidade.
      * <p>Gerenciada pelo sistema Observer de {@link Turns}: efeitos são inscritos via
-     * {@link Turns#subscribe(Effect)} e removidos via {@link Turns#unsubscribe(Effect)}.</p>
+     * <code>GameManager.subscribe(Effect)</code> e removidos via <code>GameManager.unsubscribe(Effect)</code>.</p>
      */
     private ArrayList<Effect> effects;
 
@@ -309,7 +311,7 @@ public abstract class Entity{
      * enquanto o efeito estiver ativo. Retorna {@code 0} se nenhum efeito de Força estiver aplicado.</p>
      *
      * @return intensidade do efeito "Força" ativo, ou {@code 0} caso não exista
-     * @see DamageCard#useCard(Entity, Entity, Turns)
+     * Visto em DamageCard.
      */
     public int getStrengthBonus() {
         for (Effect e : effects) {

@@ -4,7 +4,7 @@ package Core;
  * Interface do padrão Observer para efeitos de status que reagem a eventos de turno.
  *
  * <p>Implementada por {@link Effects.Effect} e suas subclasses. Cada implementação
- * define em {@link #beNotified(GameManager)} qual evento de turno a dispara e
+ * define em <code>beNotified()</code> qual evento de turno a dispara e
  * qual ação executar (ex: aplicar dano de sangramento, recuperar vida, etc.).</p>
  *
  * <p>O {@link GameManager} atua como <em>Publisher</em>: chama {@link #beNotified}

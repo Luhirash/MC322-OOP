@@ -21,7 +21,7 @@ import Effects.Effect;
  *
  * @see DamageCard
  * @see ShieldCard
- * @see bleedingCard
+ * @see BleedingCard
  * @see HealingCard
  * @see StrengthCard
  * @see HealthCard
@@ -72,7 +72,7 @@ public abstract class Card {
      *
      * @param attacker entidade que está jogando a carta
      * @param receiver entidade que recebe o efeito da carta (pode ser ignorada em algumas cartas)
-     * @param turns    referência ao gerenciador de turnos, necessário para inscrever efeitos de status
+     * @return o efeito gerado pela carta, ou null se não houver.
      */
     public abstract Effect useCard(Entity attacker, Entity receiver);
 
@@ -89,7 +89,7 @@ public abstract class Card {
      * <ul>
      *   <li>{@link DamageCard}: dano base infligido.</li>
      *   <li>{@link ShieldCard}: pontos de escudo concedidos.</li>
-     *   <li>{@link bleedingCard}: intensidade do sangramento.</li>
+     *   <li>BleedingCard: intensidade do sangramento.</li>
      *   <li>{@link HealingCard}: vida recuperada por turno.</li>
      *   <li>{@link StrengthCard}: bônus de força concedido.</li>
      *   <li>{@link HealthCard}: vida recuperada instantaneamente.</li>
@@ -108,8 +108,6 @@ public abstract class Card {
      * sem alterar o estado do jogo.</p>
      *
      * @param hero  o herói que tenta usar a carta
-     * @param enemy o inimigo-alvo da carta
-     * @param turns referência ao gerenciador de turnos
      * @return {@code true} se a carta foi usada com sucesso; {@code false} se fôlego insuficiente
      */
     public boolean tryCard(Hero hero){

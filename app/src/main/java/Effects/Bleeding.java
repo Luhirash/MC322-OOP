@@ -11,9 +11,9 @@ import Entities.*;
  * (geralmente o inimigo, quando o herói usa a carta). O sangramento age automaticamente
  * ao fim do turno do atacante — ou seja, ao fim do turno de quem o aplicou:</p>
  * <ul>
- *   <li>Se o dono for um {@link Enemy inimigo}, age em {@link Turns.Events#HEROFINISH}
+ *   <li>Se o dono for um {@link Enemy inimigo}, age em {@link GameManager.Events#HEROFINISH}
  *       (fim do turno do herói, que foi o atacante).</li>
- *   <li>Se o dono for o {@link Hero herói}, age em {@link Turns.Events#ENEMYFINISH}
+ *   <li>Se o dono for o {@link Hero herói}, age em {@link GameManager.Events#ENEMYFINISH}
  *       (fim do turno do inimigo, que foi o atacante).</li>
  * </ul>
  *
@@ -23,11 +23,11 @@ import Entities.*;
  *
  * <h2>Acumulação</h2>
  * <p>Se um novo sangramento for aplicado enquanto o efeito já estiver ativo, a intensidade
- * é somada ({@link Entity#applyEffect(Effect)}), prolongando e intensificando o dano.</p>
+ * é somada (<code>Entity.applyEffect()</code>)), prolongando e intensificando o dano.</p>
  *
  * @see Effect
- * @see bleedingCard
- * @see Turns.Events
+ * @see BleedingCard
+ * @see GameManager.Events
  */
 public class Bleeding extends Effect {
 
@@ -54,15 +54,15 @@ public class Bleeding extends Effect {
 
     /**
      * Verifica se o evento atual é o momento correto para o sangramento agir
-     * e chama {@link #useEffect(Turns)} quando aplicável.
+     * e chama {@link #useEffect()} quando aplicável.
      *
      * <p>Regra de ativação (age no fim do turno de quem causou o corte):</p>
      * <ul>
-     *   <li>{@link Turns.Events#HEROFINISH} → ativa se o dono for um {@link Enemy} (inimigo sangrando).</li>
-     *   <li>{@link Turns.Events#ENEMYFINISH} → ativa se o dono for o {@link Hero} (herói sangrando).</li>
+     *   <li><code>HEROFINISH</code> → ativa se o dono for um {@link Enemy} (inimigo sangrando).</li>
+     *   <li><code>ENEMYFINISH</code> → ativa se o dono for o {@link Hero} (herói sangrando).</li>
      * </ul>
      *
-     * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
+     * @param gameManager referenciador de turnos com o {@link GameManager#currentEvent evento atual}
      */
     @Override
     public void beNotified(GameManager gameManager) {
@@ -83,7 +83,6 @@ public class Bleeding extends Effect {
      *   <li>Se a intensidade chegar a zero, exibe mensagem..</li>
      * </ol>
      *
-     * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     @Override
     protected void useEffect() {

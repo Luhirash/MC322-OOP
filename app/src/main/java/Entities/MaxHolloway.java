@@ -7,12 +7,12 @@ import Cards.*;
  * <p>
  * Max Holloway é caracterizado por agilidade e golpes rápidos e sequenciais,
  * com um conjunto de cartas que inclui ataques de dano variados, pouca defesa,
- * e a habilidade de causar sangramento com {@link bleedingCard}.
+ * e a habilidade de causar sangramento com {@link BleedingCard}.
  * Sua apresentação destaca sua leveza e velocidade.
  * </p>
  *
  * @see Enemy
- * @see bleedingCard
+ * @see BleedingCard
  */
 public class MaxHolloway extends Enemy{
     

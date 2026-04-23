@@ -7,12 +7,12 @@ import Cards.*;
  * <p>
  * Francis Ngannou é caracterizado por uma força incrível, mas pouco fôlego
  * com um conjunto de cartas que inclui ataques de dano variados, defesa
- * e a habilidade de causar sangramento com {@link bleedingCard}.
+ * e a habilidade de causar sangramento com {@link BleedingCard}.
  * Sua apresentação destaca sua força e durabilidade.
  * </p>
  *
  * @see Enemy
- * @see bleedingCard
+ * @see BleedingCard
  */
 public class FrancisNgannou extends Enemy{
     

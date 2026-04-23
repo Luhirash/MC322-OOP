@@ -18,9 +18,9 @@ import Entities.*;
  *
  * <h2>Momento de decaimento</h2>
  * <ul>
- *   <li>Se o dono for o {@link Hero herói}: decai em {@link Turns.Events#HEROFINISH}
+ *   <li>Se o dono for o {@link Hero herói}: decai em <code>HEROFINISH</code>
  *       (fim do turno do herói).</li>
- *   <li>Se o dono for um {@link Enemy inimigo}: decai em {@link Turns.Events#ENEMYFINISH}
+ *   <li>Se o dono for um {@link Enemy inimigo}: decai em <code>HEROFINISH</code>
  *       (fim do turno do inimigo).</li>
  * </ul>
  *
@@ -54,15 +54,15 @@ public class Strength extends Effect {
 
     /**
      * Verifica se o evento atual é o fim do turno do dono e chama
-     * {@link #useEffect(Turns)} quando aplicável.
+     * {@link #useEffect()} quando aplicável.
      *
      * <p>Regra de decaimento:</p>
      * <ul>
-     *   <li>{@link Turns.Events#HEROFINISH} → ativa se o dono for o {@link Hero herói}.</li>
-     *   <li>{@link Turns.Events#ENEMYFINISH} → ativa se o dono for um {@link Enemy inimigo}.</li>
+     *   <li><code>HEROFINISH</code> → ativa se o dono for o {@link Hero herói}.</li>
+     *   <li><code>ENEMYFINISH</code> → ativa se o dono for um {@link Enemy inimigo}.</li>
      * </ul>
      *
-     * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
+     * @param gameManager referenciador de turnos com o {@link GameManager#currentEvent evento atual}
      */
     @Override
     public void beNotified(GameManager gameManager) {
@@ -78,7 +78,6 @@ public class Strength extends Effect {
      * este método apenas contabiliza o desgaste do efeito ao longo dos turnos.
      * Quando a intensidade chega a zero, exibe uma mensagem.</p>
      *
-     * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     @Override
     protected void useEffect() {

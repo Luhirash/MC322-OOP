@@ -46,13 +46,12 @@ public class StrengthCard extends EffectCard{
      * sobre ele e o inscreve no gerenciador de turnos.
      *
      * <p>O efeito é aplicado sobre o <b>atacante</b> (quem jogou a carta).
-     * Ao contrário de {@link bleedingCard}, a força beneficia o usuário, não o receptor.
+     * Ao contrário de {@link BleedingCard}, a força beneficia o usuário, não o receptor.
      * O status exibido é o do receptor (inimigo), pois a força não altera os status
      * visíveis do herói imediatamente.</p>
      *
      * @param attacker entidade que usa a carta e receberá o bônus de força
      * @param receiver entidade-alvo (não afetada diretamente — seus status são exibidos para contexto)
-     * @param turns    gerenciador de turnos onde o efeito de força será inscrito
      */
     public Effect useCard(Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());

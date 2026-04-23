@@ -7,11 +7,11 @@ import Cards.*;
  * <p>
  * Israel Adesanya  é caracterizado por ser evasivo, mas ter pouca defesa,
  * com um conjunto de cartas que inclui ataques de dano simples,
- * e a habilidade de pedir tempo técnico {@link healingCard}.
+ * e a habilidade de pedir tempo técnico {@link HealingCard}.
  * </p>
  *
  * @see Enemy
- * @see healingCard
+ * @see HealingCard
  */
 public class IsraelAdesanya extends Enemy{
     

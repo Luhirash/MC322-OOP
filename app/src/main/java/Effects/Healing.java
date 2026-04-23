@@ -1,7 +1,6 @@
 package Effects;
 import Cards.HealingCard;
 import Core.GameManager;
-import Core.Turns;
 import Entities.*;
 
 /**
@@ -14,15 +13,15 @@ import Entities.*;
  *
  * <h2>Momento de ativação</h2>
  * <ul>
- *   <li>Se o dono for o {@link Hero herói}: age em {@link Turns.Events#HEROSTART}
+ *   <li>Se o dono for o {@link Hero herói}: age em {@link GameManager.Events#HEROSTART}
  *       (início do turno do herói).</li>
- *   <li>Se o dono for um {@link Enemy inimigo}: age em {@link Turns.Events#ENEMYSTART}
+ *   <li>Se o dono for um {@link Enemy inimigo}: age em {@link GameManager.Events#ENEMYSTART}
  *       (início do turno do inimigo).</li>
  * </ul>
  *
  * @see Effect
  * @see HealingCard
- * @see Turns.Events
+ * @see GameManager.Events
  */
 public class Healing extends Effect{
 
@@ -48,15 +47,15 @@ public class Healing extends Effect{
 
     /**
      * Verifica se o evento atual é o início do turno do dono e chama
-     * {@link #useEffect(Turns)} quando aplicável.
+     * {@link #useEffect()} quando aplicável.
      *
      * <p>Regra de ativação:</p>
      * <ul>
-     *   <li>{@link Turns.Events#HEROSTART} → ativa se o dono for o {@link Hero herói}.</li>
-     *   <li>{@link Turns.Events#ENEMYSTART} → ativa se o dono for um {@link Enemy inimigo}.</li>
+     *   <li><code>HEROSTART</code> → ativa se o dono for o {@link Hero herói}.</li>
+     *   <li><code>ENEMYSTART</code> → ativa se o dono for um {@link Enemy inimigo}.</li>
      * </ul>
      *
-     * @param turn referenciador de turnos com o {@link Turns#currentEvent evento atual}
+     * @param gameManager referenciador de turnos com o {@link GameManager#currentEvent evento atual}
      */
     public void beNotified(GameManager gameManager) {
         if (gameManager.currentEvent == GameManager.Events.HEROSTART && getOwner() instanceof Hero ||
@@ -75,7 +74,6 @@ public class Healing extends Effect{
      *   <li>Reduz a intensidade em 1 via {@link Effect#addIntensity(int)}.</li>
      * </ol>
      *
-     * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao esgotar)
      */
     protected void useEffect() {
         int trueHealing = 0;

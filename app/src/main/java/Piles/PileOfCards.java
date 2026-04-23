@@ -42,7 +42,7 @@ public class PileOfCards {
 
     /**
      * Remove e retorna a carta do topo da pilha.
-     * <p>Usado por {@link PlayerHand#drawCards(PurchasePile)} para comprar cartas.</p>
+     * <p>Usado por <code>PlayerHand.drawCards()</code> para comprar cartas.</p>
      *
      * @return carta removida do topo da pilha
      * @throws java.util.NoSuchElementException se a pilha estiver vazia

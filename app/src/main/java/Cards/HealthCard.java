@@ -52,7 +52,6 @@ public class HealthCard extends Card{
      *
      * @param attacker entidade que usa a carta e recebe a cura
      * @param receiver entidade-alvo (não utilizada — a cura é sempre para o atacante)
-     * @param turns    referência ao gerenciador de turnos (não utilizado aqui)
      */
     public Effect useCard (Entity attacker, Entity receiver) {
         attacker.spendStamina(super.getStaminaCost());

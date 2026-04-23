@@ -7,11 +7,11 @@ import Cards.*;
  * <p>
  * Kenneth Allen  é caracterizado por ser fraco e ter pouca defesa,
  * com um conjunto de cartas que inclui ataques de dano variados,
- * e a habilidade desferir uma paulistinha em seu adversário {@link bleedingCard}.
+ * e a habilidade desferir uma paulistinha em seu adversário {@link BleedingCard}.
  * </p>
  *
  * @see Enemy
- * @see bleedingCard
+ * @see BleedingCard
  */
 public class KennethAllen extends Enemy{
     

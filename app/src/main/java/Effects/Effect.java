@@ -8,15 +8,15 @@ import Entities.Entity;
  * Classe abstrata que representa um efeito de status aplicado a uma {@link Entity}.
  *
  * <p>Efeitos de status são aplicados durante o combate por cartas especiais
- * (ex: {@link bleedingCard}, {@link HealingCard}, {@link StrengthCard}) e persistem
+ * (ex: {@link BleedingCard}, {@link HealingCard}, {@link StrengthCard}) e persistem
  * entre turnos, agindo automaticamente em momentos específicos da rodada.</p>
  *
  * <h2>Integração com o sistema de eventos (Observer)</h2>
  * <p>Cada efeito funciona como um <b>Observer</b> no padrão Publisher/Subscriber
- * implementado por {@link Turns}. Ao ser inscrito via {@link Turns#subscribe(Effect)},
+ * implementado por <code>GameManager</code>. Ao ser inscrito via <code>GameManager.subscribe()</code>,
  * o efeito passa a receber notificações de todos os eventos de turno
- * ({@link Turns.Events}). O método {@link #beNotified(Turns)} decide em qual
- * evento o efeito deve agir e chama {@link #useEffect(Turns)} quando apropriado.</p>
+ * ({@link GameManager.Events}). O método {@link #beNotified(GameManager)} decide em qual
+ * evento o efeito deve agir e chama <code>useEffect</code> quando apropriado.</p>
  *
  * <h2>Acumulação e remoção</h2>
  * <p>Se o mesmo efeito for aplicado duas vezes à mesma entidade, a intensidade
@@ -66,23 +66,22 @@ public abstract class Effect{
 
     /**
      * Executa a lógica principal do efeito sobre o {@link #owner dono}.
-     * <p>Chamado internamente por {@link #beNotified(Turns)} quando o evento correto
+     * <p>Chamado internamente por <code>beNotified()</code> quando o evento correto
      * é detectado. Cada subclasse define o que acontece (causar dano, curar, decrementar etc.)
      * </p>
      *
-     * @param turn referência ao gerenciador de turnos (necessário para remover o efeito ao fim)
      */
     protected abstract void useEffect();
 
     /**
-     * Recebe a notificação de um evento de turno do gerenciador {@link Turns}.
-     * <p>Cada subclasse verifica se o {@link Turns#currentEvent evento atual} é o
-     * momento correto para agir e chama {@link #useEffect(Turns)} quando for o caso.
-     * Eventos disponíveis: {@link Turns.Events#HEROSTART}, {@link Turns.Events#HEROFINISH},
-     * {@link Turns.Events#ENEMYSTART}, {@link Turns.Events#ENEMYFINISH}.</p>
+     * Recebe a notificação de um evento de turno do gerenciador {@link GameManager}.
+     * <p>Cada subclasse verifica se o {@link GameManager#currentEvent evento atual} é o
+     * momento correto para agir e chama {@link #useEffect()} quando for o caso.
+     * Eventos disponíveis: <code>HEROSTART</code>, <code>HEROFINISH</code>,
+     * <code>HEROSTART</code>, <code>HEROFINISH</code>.</p>
      *
-     * @param turn referência ao gerenciador de turnos com o evento atual definido em
-     *             {@link Turns#currentEvent}
+     * @param gameManager referência ao gerenciador de turnos com o evento atual definido em
+     *             {@link GameManager#currentEvent}
      */
     public abstract void beNotified(GameManager gameManager);
 
@@ -156,11 +155,10 @@ public abstract class Effect{
      * Encerra o efeito: remove-o da lista de efeitos do {@link #owner dono} e
      * cancela sua inscrição no gerenciador de turnos.
      *
-     * <p>Deve ser chamado pelas subclasses em {@link #useEffect(Turns)} quando
+     * <p>Deve ser chamado pelas subclasses em {@link #useEffect()} quando
      * {@link #getIntensity()} chegar a zero.</p>
      *
-     * @param turn referência ao gerenciador de turnos para cancelar a inscrição via
-     *             {@link Turns#unsubscribe(Effect)}
+     *             <code>unsubscribe()</code>
      */
 
     public boolean isExpired() {

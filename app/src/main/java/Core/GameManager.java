@@ -46,13 +46,13 @@ public class GameManager implements Publisher{
     /**
      * Evento de turno atualmente em execução.
      * <p>Definido por {@link Turns} antes de cada chamada a {@link #notifyEvent()}.
-     * Consultado por cada {@link Effect#beNotified(GameManager)} para decidir se deve agir.</p>
+     * Consultado por cada <code>Effect.beNotified()</code> para decidir se deve agir.</p>
      */
     public Events currentEvent = Events.HEROSTART;
 
     /**
      * Lista de efeitos de status inscritos para receber notificações de eventos.
-     * <p>Gerenciada por {@link #subscribe(Effect)}, {@link #unsubscribe(Effect)}
+     * <p>Gerenciada por <code>subscribe()</code>, <code>unsubscribe()</code>
      * e {@link #unsubscribeAll()}.</p>
      */
     private ArrayList<Effect> subscriberList = new ArrayList<Effect>();

@@ -48,7 +48,7 @@ public class PurchasePile extends PileOfCards {
      * de novas instâncias (e não reutilização de referências) é necessária para preservar
      * o polimorfismo e garantir que cada carta no baralho seja independente.</p>
      *
-     * <p>Tipos suportados: {@link bleedingCard}, {@link HealingCard}, {@link DamageCard}
+     * <p>Tipos suportados: {@link BleedingCard}, {@link HealingCard}, {@link DamageCard}
      * e {@link ShieldCard}. Cartas não reconhecidas são tratadas como {@link ShieldCard}.</p>
      *
      * @param numberOfCards quantidade de cartas a adicionar ao baralho
