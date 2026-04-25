@@ -23,8 +23,8 @@ public class MaxHolloway extends Enemy{
      * @param maxHealth  vida máxima
      * @param maxStamina fôlego máxima
      */
-    public MaxHolloway(String name, int maxHealth, int maxStamina) {
-        super(name, maxHealth, maxStamina);
+    public MaxHolloway(String name, int maxHealth, int maxStamina, int value) {
+        super(name, maxHealth, maxStamina, value);
     }
 
     /**

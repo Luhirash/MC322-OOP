@@ -2,6 +2,7 @@ package Core;
 import java.util.Scanner;
 
 import Entities.*;
+import Events.Battle;
 import Piles.*;
 
 /**
@@ -68,11 +69,11 @@ public class App {
         System.out.println("Seu herói, Anderson Silva, busca o cinturão do UFC, então começará sua jornada lutando contra: " + currentNode.getEnemy().getName());
         while (gameOn) {
             Enemy enemy = currentNode.getEnemy();
-            Battle battle = new Battle(hero, enemy, gameManager, scanner);
+            Battle battle = new Battle(enemy, gameManager, scanner, drawPile, discardPile, playerHand);
 
-            battle.printStart();
-            battle.executeBattle(drawPile, discardPile, playerHand);
-            battle.printResults();
+            battle.printStart(hero);
+            battle.executeBattle(hero);
+            battle.battleResults(hero);
             
             if (!hero.isAlive()) {
                 gameOn = false;

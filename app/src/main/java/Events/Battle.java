@@ -1,10 +1,13 @@
-package Core;
+package Events;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import Entities.*;
 import Piles.*;
 import Cards.Card;
+import Core.App;
+import Core.GameManager;
+import Core.Turns;
 
 /**
  * Encapsula uma única luta entre o herói e um inimigo.
@@ -24,26 +27,39 @@ import Cards.Card;
  * @see Hero
  * @see Enemy
  */
-public class Battle {
+public class Battle extends Event{
     
-    private Hero hero;
     private Enemy enemy;
     private GameManager gameManager;
     private Scanner scanner;
+    private PurchasePile drawPile;
+    private DiscardPile discardPile;
+    private PlayerHand playerHand;
 
     /**
      * Constrói uma nova batalha com os combatentes e dependências fornecidos.
      *
-     * @param hero        o herói controlado pelo jogador
      * @param enemy       o inimigo a ser enfrentado nesta luta
      * @param gameManager gerenciador de eventos e efeitos de status compartilhado
      * @param scanner     entrada do usuário via terminal
+     * @param drawPile    baralho disponível ao herói
+     * @param discarPile  pilha de descarte das cartas usadas pelo herói
+     * @param playerHand  mão de cartas do jogador
      */
-    public Battle(Hero hero, Enemy enemy, GameManager gameManager, Scanner scanner) {
-        this.hero = hero;
+    public Battle(Enemy enemy, GameManager gameManager, Scanner scanner, PurchasePile drawPile, DiscardPile discardPile, PlayerHand playerHand) {
         this.enemy = enemy;
         this.gameManager = gameManager;
         this.scanner = scanner;
+        this.drawPile = drawPile;
+        this.discardPile = discardPile;
+        this.playerHand = playerHand;
+    }
+
+    /**
+     * Inicia o evento batalha, usando seu método principal: execute battle.
+     */
+    public void startEvent(Hero hero) {
+        executeBattle(hero);
     }
 
     /**
@@ -58,7 +74,7 @@ public class Battle {
      * ----------------------------------
      * </pre>
      */
-    public void printIntroduction() {
+    public void printIntroduction(Hero hero) {
         App.pause(300);
         System.out.println("\n----------------------------------");
         hero.printStats();
@@ -73,7 +89,7 @@ public class Battle {
      *
      * @return nova instância de {@link Turns} configurada para este combate
      */
-    private Turns createBattleTurns() {
+    private Turns createBattleTurns(Hero hero) {
         return new Turns(hero, enemy, gameManager);
     }
 
@@ -96,8 +112,8 @@ public class Battle {
      * @param discardPile pilha de descarte do herói
      * @param playerHand  mão do jogador que será preenchida a cada rodada
      */
-    public void executeBattle(PurchasePile drawPile, DiscardPile discardPile, PlayerHand playerHand) {
-        Turns battleTurns = createBattleTurns();
+    public void executeBattle(Hero hero) {
+        Turns battleTurns = createBattleTurns(hero);
         ArrayList<Card> enemyCards = new ArrayList<>();
 
         while (hero.isAlive() && enemy.isAlive()){
@@ -112,9 +128,9 @@ public class Battle {
             if (enemy.isAlive()){
                 enemy.newTurn();
                 // pause(2000);
-                printIntroduction();
+                printIntroduction(hero);
                 battleTurns.enemyTurn(enemyCards);
-                printIntroduction();
+                printIntroduction(hero);
             }
         }
         hero.clearEffects();
@@ -126,14 +142,19 @@ public class Battle {
     /**
      * Exibe o resultado final da luta, indicando vitória ou derrota do herói.
      */
-    public void printResults() {
+    public boolean battleResults(Hero hero) {
 
         System.out.println("\n--Fim da luta--");
         if(hero.isAlive()){
+            int enemyCoins = enemy.getEnemyValue();
             System.out.println("Anderson silva ganhou a luta!\n");
+            System.out.println("Assim, receberá " + enemyCoins + " moedas para gastar pelo caminho.");
+            hero.addCoins(enemyCoins);
+            return true;
         }
         else{
             System.out.println("Anderson silva foi derrotado!\n");
+            return false;
         }
 
     }
@@ -143,8 +164,8 @@ public class Battle {
      *
      * <p>Deve ser chamado uma única vez, imediatamente antes de {@link #executeBattle}.</p>
      */
-    public void printStart() {
+    public void printStart(Hero hero) {
         System.out.println("\n=== A Luta Começou! ===");
-        printIntroduction();
+        printIntroduction(hero);
     }
 }

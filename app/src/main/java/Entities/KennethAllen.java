@@ -22,8 +22,8 @@ public class KennethAllen extends Enemy{
      * @param maxHealth  vida máxima
      * @param maxStamina fôlego máxima
      */
-    public KennethAllen(String name, int maxHealth, int maxStamina) {
-        super(name, maxHealth, maxStamina);
+    public KennethAllen(String name, int maxHealth, int maxStamina, int value) {
+        super(name, maxHealth, maxStamina, value);
     }
 
     /**

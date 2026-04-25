@@ -24,7 +24,7 @@ class BleedingCardTest {
      * Classe interna utilitária (Dummy) que simula um Inimigo alvo para os testes.
      */
     class target extends Enemy {
-        public target() { super("Connor Mcgregor", 100, 10); }
+        public target() { super("Connor Mcgregor", 100, 10, 10); }
         @Override public Card[] getHits() { return new Card[0]; }
         @Override public void printIntentions(java.util.ArrayList<Card> c) {}
     }

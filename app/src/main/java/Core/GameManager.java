@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Effects.Effect;
 import Entities.Entity; // Import adicionado para o Javadoc reconhecer as referências à Entidade
+import Events.Battle;
 
 /**
  * Gerenciador central de eventos e efeitos de status durante o combate.

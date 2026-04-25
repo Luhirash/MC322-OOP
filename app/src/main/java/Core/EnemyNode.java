@@ -49,13 +49,13 @@ public class EnemyNode extends DefaultMutableTreeNode{
 
     /** Conjunto de inimigos disponíveis no jogo, instanciados com nome, vida e fôlego. */
     private Enemy[] enemies = {
-        new KennethAllen("Kenneth Allen", 22, 9),
-        new FrancisNgannou("Francis Ngannou", 40, 8),
-        new MaxHolloway("Max Holloway", 28, 11),
-        new KhabibNurmagomedov("Khabib Nurmagomedov", 35, 10),
-        new IsraelAdesanya("Israel Adesanya", 24, 12),
-        new JonJones( "Jon Jones", 42, 11),
-        new ConnnorMcGregor("Connor McGregor", 30, 14)
+        new KennethAllen("Kenneth Allen", 22, 9, 5),
+        new FrancisNgannou("Francis Ngannou", 40, 8, 8),
+        new MaxHolloway("Max Holloway", 28, 11, 7),
+        new KhabibNurmagomedov("Khabib Nurmagomedov", 35, 10, 11),
+        new IsraelAdesanya("Israel Adesanya", 24, 12, 9),
+        new JonJones( "Jon Jones", 42, 11, 13),
+        new ConnnorMcGregor("Connor McGregor", 30, 14, 11)
     };
 
     /**

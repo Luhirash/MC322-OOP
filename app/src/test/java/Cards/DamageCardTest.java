@@ -31,7 +31,7 @@ class DamageCardTest {
      * Classe interna utilitária que simula um alvo passivo (saco de pancadas) para receber o dano.
      */
     class Target extends Enemy {
-        public Target() { super("punch bag", 100, 10); }
+        public Target() { super("punch bag", 100, 10, 10); }
         @Override public Card[] getHits() { return new Card[0]; }
         @Override public void printIntentions(java.util.ArrayList<Card> c) {}
     }

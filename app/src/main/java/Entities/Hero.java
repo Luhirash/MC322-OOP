@@ -32,6 +32,7 @@ import Piles.PurchasePile;
  */
 public class Hero extends Entity{
 
+    private int heroCoins;
     /**
      * Constrói o herói com os atributos iniciais especificados.
      *
@@ -41,6 +42,7 @@ public class Hero extends Entity{
      */
     public Hero(String name, int maxHealth, int maxStamina){
         super(name, maxHealth, maxStamina);
+        this.heroCoins = 0;
     }
 
     /**
@@ -84,5 +86,17 @@ public class Hero extends Entity{
      */
     public Card[] getHits() {
         return heroHits;
+    }
+
+    private int getCoins() {
+        return this.heroCoins;
+    }
+
+    private void setCoins(int coins) {
+        this.heroCoins = coins;
+    }
+    
+    public void addCoins(int coins) {
+        setCoins(getCoins() + coins);
     }
 }

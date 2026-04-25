@@ -16,8 +16,8 @@ public class EnemyTest {
      * Classe utilitária (Dummy) criada para instanciar e testar a classe abstrata Enemy.
      */
     class EnemyDummy extends Enemy {
-        public EnemyDummy(String name, int maxHealth, int maxStamina) {
-            super(name, maxHealth, maxStamina);
+        public EnemyDummy(String name, int maxHealth, int maxStamina, int value) {
+            super(name, maxHealth, maxStamina, value);
         }
         @Override
         public Card[] getHits() {
@@ -40,7 +40,7 @@ public class EnemyTest {
      */
     @Test
     void AttackHeroSpendingStaminaAndCausingDamage(){
-        Enemy enemy = new EnemyDummy("enemydummy", 50, 10);
+        Enemy enemy = new EnemyDummy("enemydummy", 50, 10, 10);
         Hero hero = new HeroDummy(); 
         
         DamageCard punch = new DamageCard("punch", 3, 15, "throw a punch");
@@ -56,7 +56,7 @@ public class EnemyTest {
      */
     @Test
     void MustAttackThreeTimesMaximumIfHasStaminaEnough(){
-        Enemy enemy = new EnemyDummy("enemydummy", 50, 10);
+        Enemy enemy = new EnemyDummy("enemydummy", 50, 10, 10);
         
         Card[] lightHits = {
             new DamageCard("light punch", 1, 2, "throws a jab")
@@ -74,7 +74,7 @@ public class EnemyTest {
      */
     @Test
     void StopChoosingCardsWhenStaminaIsOut(){
-        Enemy enemy = new EnemyDummy("enemydummy", 50, 5);
+        Enemy enemy = new EnemyDummy("enemydummy", 50, 5, 10);
 
         Card[] Hits = {
             new DamageCard("Punch", 3, 10, "normal punch")

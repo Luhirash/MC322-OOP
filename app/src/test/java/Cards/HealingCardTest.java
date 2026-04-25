@@ -24,7 +24,7 @@ class HealingCardTest {
      * Classe interna (Dummy) que representa um inimigo no combate durante o uso da carta.
      */
     class DummyEnemy extends Enemy {
-        public DummyEnemy() { super("Enemy", 100, 10); }
+        public DummyEnemy() { super("Enemy", 100, 10, 10); }
         @Override public Card[] getHits() { return new Card[0]; }
         @Override public void printIntentions(java.util.ArrayList<Card> c) {}
     }

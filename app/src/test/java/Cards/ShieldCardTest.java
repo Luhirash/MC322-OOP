@@ -23,7 +23,7 @@ class ShieldCardTest {
      * Dummy do inimigo no contexto da batalha.
      */
     class target extends Enemy {
-        public target() { super("enemy", 100, 10); }
+        public target() { super("enemy", 100, 10, 10); }
         @Override public Card[] getHits() { return new Card[0]; }
         @Override public void printIntentions(java.util.ArrayList<Card> c) {}
     }

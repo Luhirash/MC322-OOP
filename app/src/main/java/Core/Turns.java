@@ -5,6 +5,7 @@ import Cards.*;
 import Core.GameManager.Events;
 import Effects.*;
 import Entities.*;
+import Events.Battle;
 import Piles.*;
 
 /**

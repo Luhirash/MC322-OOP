@@ -1,5 +1,4 @@
 package Cards;
-import Core.GameManager;
 import Effects.Effect;
 import Effects.Healing;
 import Entities.Entity;

@@ -1,7 +1,6 @@
 package Effects;
 import Cards.BleedingCard;
 import Core.GameManager;
-import Core.Turns;
 import Entities.*;
 
 /**

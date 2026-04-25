@@ -27,15 +27,21 @@ import Cards.DamageCard;
  */
 public abstract class Enemy extends Entity {
     
+
+    private int enemyValue;
     /**
      * Constrói um inimigo com os atributos iniciais.
      *
      * @param name       nome do inimigo exibido nas mensagens de combate
      * @param maxHealth  vida máxima do inimigo
      * @param maxStamina fôlego máximo do inimigo (limita quantas cartas pode usar por turno)
+     * @param enemyValue valor de moedas que o herói ganhará ao derrotar esse inimigo
      */
-    public Enemy(String name, int maxHealth, int maxStamina) {
+    
+
+    public Enemy(String name, int maxHealth, int maxStamina, int enemyValue) {
         super(name, maxHealth, maxStamina);
+        this.enemyValue = enemyValue;
     }
 
     /**
@@ -127,4 +133,11 @@ public abstract class Enemy extends Entity {
         return hits[action];
     }
 
+    /**
+     * Retorna o valor em moedas que o herói deve receber ao enfrentar esse inimigo
+     * @return um int que reprensenta quantas moedas esse inimigo vale;
+     */
+    public int getEnemyValue() {
+        return this.enemyValue;
+    }
 }
