@@ -76,12 +76,7 @@ public class Healing extends Effect{
      *
      */
     protected void useEffect() {
-        int trueHealing = 0;
-        if (getOwner().getMaxHealth() - getOwner().getHealth() > getIntensity())
-            trueHealing = getIntensity();
-        else
-            trueHealing = getOwner().getMaxHealth() - getOwner().getHealth();
-        getOwner().gainHealth(trueHealing);
+        int trueHealing = getOwner().gainHealth(getIntensity());
         System.out.println("[Recuperação] " + getOwner().getName() + " recuperou " + trueHealing + " de vida");
         addIntensity(-1);
     }  

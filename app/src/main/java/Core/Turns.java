@@ -142,13 +142,26 @@ public class Turns {
             int exitChoice = numCards + 1;
             System.out.println(exitChoice + " - Encerrar turno");
             System.out.print("\n Escolha sua ação: ");
-            while (!scanner.hasNextInt()) {
-                System.out.println("Opção inválida! Por favor, digite o número da carta.");
-                scanner.next(); // Limpa a entrada incorreta do buffer
+
+            int choice = -1;
+            boolean entradaValida = false;
+            while (!entradaValida) {
                 System.out.print("Escolha sua ação: ");
+                
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt(); // Lê apenas UMA vez
+                    scanner.nextLine(); // Limpa o buffer
+                    
+                    if (choice > 0 && choice <= exitChoice) {
+                        entradaValida = true; // Sucesso! Sai do loop
+                    } else {
+                        System.out.println("Erro: Digite um número entre 0 e " + exitChoice);
+                    }
+                } else {
+                    System.out.println("Erro: Isso não é um número inteiro!");
+                    scanner.next(); // Descarta a entrada de texto inválida
+                }
             }
-            int choice = scanner.nextInt();
-            scanner.nextLine(); 
             
             if(choice >= 1 && choice <= numCards){
                 Card chosenCard = playerHand.getCard(choice - 1);

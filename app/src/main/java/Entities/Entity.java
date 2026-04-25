@@ -134,13 +134,16 @@ public abstract class Entity{
 
     /**
      * Recupera pontos de vida da entidade (acumulando à vida existente).
-     * <p><b>Atenção:</b> não há verificação de limite máximo neste método.
-     * Certifique-se de não ultrapassar {@link #getMaxHealth()} ao chamar externamente.</p>
-     *
      * @param healthPoints quantidade de pontos de vida a recuperar (deve ser positivo)
      */
-    public void gainHealth(int healthPoints){
-        setHealth(getHealth() + healthPoints);
+    public int gainHealth(int healthPoints){
+        int realGain = healthPoints;
+        if (getHealth() + healthPoints > getMaxHealth())
+            realGain = getMaxHealth() - getHealth();
+        else if (getHealth() + healthPoints < 0)
+            realGain = -getHealth();
+        setHealth(getHealth() + realGain);
+        return realGain;
     }
 
     /**
