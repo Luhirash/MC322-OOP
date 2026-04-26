@@ -2,8 +2,9 @@ package Core;
 import java.util.Scanner;
 
 import Entities.*;
-import Events.Battle;
+import Events.*;
 import Piles.*;
+
 
 /**
  * Classe principal que inicializa e executa o jogo de combate baseado em cartas.
@@ -51,39 +52,25 @@ public class App {
 
         Hero hero = new Hero("Anderson Silva", 36, 10);
 
+        EventTree events = new EventTree(scanner);
+        EventNode currentEventNode = events.createTree();
 
-        GameManager gameManager = new GameManager();
-
-        PurchasePile drawPile = new PurchasePile(hero.getHits());
-        drawPile.fillPile(hero.getHits().size());
-        drawPile.shuffle();
-
-
-        DiscardPile discardPile = new DiscardPile();
-        PlayerHand playerHand = new PlayerHand(3); 
-
-        EnemyNode rootEnemyNode = new EnemyNode();
-        EnemyNode currentNode = rootEnemyNode.createTree();
         boolean gameOn = true;
 
-        System.out.println("Seu herói, Anderson Silva, busca o cinturão do UFC, então começará sua jornada lutando contra: " + currentNode.getEnemy().getName());
+        System.out.println("Seu herói, Anderson Silva, busca o cinturão do UFC, então começará sua jornada lutando contra: " + currentEventNode.getEvent().getDescription());
         while (gameOn) {
-            Enemy enemy = currentNode.getEnemy();
-            Battle battle = new Battle(enemy, gameManager, scanner, drawPile, discardPile, playerHand);
+            Event event = currentEventNode.getEvent();
+            event.startEvent(hero);
 
-            battle.printStart(hero);
-            battle.executeBattle(hero);
-            battle.battleResults(hero);
-            
             if (!hero.isAlive()) {
                 gameOn = false;
             }
-            else if (currentNode.isLeaf()) {
+            else if (currentEventNode.isLeaf()) {
                 gameOn = false;
                 System.out.println("Anderson Silva derrotou todos os inimigos em seu caminho");
             }
             else {
-                currentNode = currentNode.chooseNextEnemy(scanner);
+                currentEventNode = currentEventNode.chooseNextEvent(scanner);
             }
 
         }

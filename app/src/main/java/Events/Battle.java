@@ -30,36 +30,38 @@ import Core.Turns;
 public class Battle extends Event{
     
     private Enemy enemy;
-    private GameManager gameManager;
     private Scanner scanner;
-    private PurchasePile drawPile;
-    private DiscardPile discardPile;
-    private PlayerHand playerHand;
+    private String name;
+    private String description;
 
     /**
      * Constrói uma nova batalha com os combatentes e dependências fornecidos.
      *
      * @param enemy       o inimigo a ser enfrentado nesta luta
-     * @param gameManager gerenciador de eventos e efeitos de status compartilhado
      * @param scanner     entrada do usuário via terminal
-     * @param drawPile    baralho disponível ao herói
-     * @param discarPile  pilha de descarte das cartas usadas pelo herói
-     * @param playerHand  mão de cartas do jogador
      */
-    public Battle(Enemy enemy, GameManager gameManager, Scanner scanner, PurchasePile drawPile, DiscardPile discardPile, PlayerHand playerHand) {
+    public Battle(Enemy enemy, Scanner scanner) {
         this.enemy = enemy;
-        this.gameManager = gameManager;
         this.scanner = scanner;
-        this.drawPile = drawPile;
-        this.discardPile = discardPile;
-        this.playerHand = playerHand;
+        this.name = "Batalha";
+        this.description = "Inimigo: " + enemy.getName();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     /**
      * Inicia o evento batalha, usando seu método principal: execute battle.
      */
     public void startEvent(Hero hero) {
+        printStart(hero);
         executeBattle(hero);
+        battleResults(hero);
     }
 
     /**
@@ -85,15 +87,6 @@ public class Battle extends Event{
     }
 
     /**
-     * Cria o objeto {@link Turns} responsável por gerenciar os turnos desta batalha.
-     *
-     * @return nova instância de {@link Turns} configurada para este combate
-     */
-    private Turns createBattleTurns(Hero hero) {
-        return new Turns(hero, enemy, gameManager);
-    }
-
-    /**
      * Executa o loop completo de combate até que um dos combatentes seja derrotado.
      *
      * <p>Sequência de cada rodada:</p>
@@ -113,7 +106,14 @@ public class Battle extends Event{
      * @param playerHand  mão do jogador que será preenchida a cada rodada
      */
     public void executeBattle(Hero hero) {
-        Turns battleTurns = createBattleTurns(hero);
+        GameManager gameManager = new GameManager();
+        PurchasePile drawPile = new PurchasePile(hero.getHits());
+        drawPile.fillPile(hero.getHits().size());
+        drawPile.shuffle();
+        DiscardPile discardPile = new DiscardPile();
+        PlayerHand playerHand = new PlayerHand(3);
+        Turns battleTurns = new Turns(hero, enemy, gameManager);
+
         ArrayList<Card> enemyCards = new ArrayList<>();
 
         while (hero.isAlive() && enemy.isAlive()){
@@ -142,7 +142,7 @@ public class Battle extends Event{
     /**
      * Exibe o resultado final da luta, indicando vitória ou derrota do herói.
      */
-    public boolean battleResults(Hero hero) {
+    private boolean battleResults(Hero hero) {
 
         System.out.println("\n--Fim da luta--");
         if(hero.isAlive()){
@@ -167,5 +167,9 @@ public class Battle extends Event{
     public void printStart(Hero hero) {
         System.out.println("\n=== A Luta Começou! ===");
         printIntroduction(hero);
+    }
+
+    public String getEnemyName() {
+        return this.enemy.getName();
     }
 }

@@ -12,12 +12,15 @@ public class Choice extends Event{
     private HealthPossibility healthPossibility;
     private CoinPossibility coinPossibility;
     private Scanner scanner;
+    private String name;
 
-    public Choice(String description, CardPossibility cardPossibility, HealthPossibility healthPossibility, CoinPossibility coinPossibility) {
+    public Choice(String description, CardPossibility cardPossibility, HealthPossibility healthPossibility, CoinPossibility coinPossibility, Scanner scanner) {
         this.description = description;
         this.healthPossibility = healthPossibility;
         this.cardPossibility = cardPossibility;
         this.coinPossibility = coinPossibility;
+        this.scanner = scanner;
+        this.name = "Escolha";
     }
 
     public void startEvent(Hero hero) {
@@ -29,11 +32,11 @@ public class Choice extends Event{
     private void introduceChoice() {
         System.out.println(description);
         System.out.println("    Qual você escolherá?");
-        System.out.println("1 - " + cardPossibility.getDescription() + " Assim, adicionar " + cardPossibility.getCard().getName() + " ao seu baralho");
-        if (healthPossibility.getHealthChange() > 0) System.out.println("2 - " + healthPossibility.getDescription() + " Assim, recuperar" + healthPossibility.getHealthChange() + " de vida.");
-        else System.out.println("2 - " + healthPossibility.getDescription() + " Assim, perder" + healthPossibility.getHealthChange() + " de vida.");
-        if (coinPossibility.getCoins() > 0) System.out.println("3 - " + coinPossibility.getDescription() + " Assim, ganhar " + coinPossibility.getCoins() + " moedas");
-        else System.out.println("3 - " + coinPossibility.getDescription() + " Assim, perder " + coinPossibility.getCoins() + " moedas");
+        System.out.println("1 - " + cardPossibility.getDescription() + ". Assim, adicionar " + cardPossibility.getCard().getName() + " ao seu baralho");
+        if (healthPossibility.getHealthChange() > 0) System.out.println("2 - " + healthPossibility.getDescription() + " Assim, recuperar " + healthPossibility.getHealthChange() + " de vida.");
+        else System.out.println("2 - " + healthPossibility.getDescription() + ". Assim, perder " + -healthPossibility.getHealthChange() + " de vida.");
+        if (coinPossibility.getCoins() > 0) System.out.println("3 - " + coinPossibility.getDescription() + ". Assim, ganhar " + coinPossibility.getCoins() + " moedas");
+        else System.out.println("3 - " + coinPossibility.getDescription() + ". Assim, perder " + -coinPossibility.getCoins() + " moedas");
     }
 
     private int getChoice() {
@@ -77,5 +80,13 @@ public class Choice extends Event{
             else System.out.println("Você perdeu " + coins + " moedas.");
         }
         
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
