@@ -3,6 +3,8 @@ package Piles;
 import Cards.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe de testes responsável por validar o comportamento do baralho de compra (PurchasePile).
@@ -18,12 +20,12 @@ public class PurchasePileTest {
      */
     @Test
     void MustFillThePileWithNewInstancesOfCards(){
-        Card [] HeroMold = {
+        ArrayList<Card> HeroMold = new ArrayList<Card>(List.of(
             new BleedingCard("bleeding", 2, 3, "causes bleeding"),
             new DamageCard("punch", 4, 6, "throw a punch"),
             new ShieldCard("Block", 2, 4, "block an incoming attack"),
             new HealingCard("first aid", 2, 2, "uses first aid kit to heal")
-        };
+        ));
 
         PurchasePile deck = new PurchasePile(HeroMold);
 
@@ -48,7 +50,7 @@ public class PurchasePileTest {
      */
     @Test
     void RetriveAllDiscardedCardWhenDeckIsEmpty(){
-        Card[] emptyMold = new Card[0];
+        ArrayList<Card> emptyMold = new ArrayList<Card>();
 
         PurchasePile deck = new PurchasePile(emptyMold);
 

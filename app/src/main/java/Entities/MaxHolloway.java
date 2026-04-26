@@ -1,5 +1,6 @@
 package Entities;
 import java.util.ArrayList;
+import java.util.List;
 import Cards.*;
 
 /**
@@ -31,12 +32,12 @@ public class MaxHolloway extends Enemy{
      * Conjunto de cartas disponíveis para Max Holloway usar em combate.
      * Inclui golpes de alto dano, recuo defensivo e carta de sangramento.
      */
-    private Card[] hollowayHits = {
+    private ArrayList<Card> hollowayHits = new ArrayList<Card>(List.of(
         new DamageCard("socos rápidos", 6, 12, "desfere vários socos em sequência"),
         new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
         new BleedingCard("mini golpes", 4, 2, "Acerta golpes que causam dano aos poucos"),
-        new BleedingCard("cotovelada cortante", 5, 3, "uma cotovelada precisa na cabeça que aplica 4 de intensidade de sangramento no inimigo"),
-    };
+        new BleedingCard("cotovelada cortante", 5, 3, "uma cotovelada precisa na cabeça que aplica 4 de intensidade de sangramento no inimigo")
+    ));
 
     /**
      * Exibe no console as intenções de Max Holloway para o turno atual.
@@ -58,7 +59,7 @@ public class MaxHolloway extends Enemy{
      * @return array de {@link Card} com os golpes de Max Holloway
      */
     @Override
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return hollowayHits;
     }
 }

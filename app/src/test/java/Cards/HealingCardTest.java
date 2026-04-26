@@ -8,6 +8,8 @@ import Effects.Healing;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 /**
  * Classe de testes que verifica a funcionalidade das cartas de cura (HealingCard).
  */
@@ -25,7 +27,7 @@ class HealingCardTest {
      */
     class DummyEnemy extends Enemy {
         public DummyEnemy() { super("Enemy", 100, 10, 10); }
-        @Override public Card[] getHits() { return new Card[0]; }
+        @Override public ArrayList<Card> getHits() { return new ArrayList<Card>(); }
         @Override public void printIntentions(java.util.ArrayList<Card> c) {}
     }
 

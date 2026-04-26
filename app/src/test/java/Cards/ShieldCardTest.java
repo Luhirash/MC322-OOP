@@ -7,6 +7,8 @@ import Effects.Effect;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 /**
  * Classe de testes que assegura o correto funcionamento das cartas de defesa/escudo (ShieldCard).
  */
@@ -24,7 +26,7 @@ class ShieldCardTest {
      */
     class target extends Enemy {
         public target() { super("enemy", 100, 10, 10); }
-        @Override public Card[] getHits() { return new Card[0]; }
+        @Override public ArrayList<Card> getHits() { return new ArrayList<Card>(); }
         @Override public void printIntentions(java.util.ArrayList<Card> c) {}
     }
 

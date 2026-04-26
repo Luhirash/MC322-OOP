@@ -1,5 +1,5 @@
 package Entities;
-
+import java.util.ArrayList;
 import Cards.Card;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,8 +18,8 @@ public class EntityTest {
             super(name, maxHealth, maxStamina);
     }
         @Override
-        public Card[] getHits(){
-            return new Card[0];
+        public ArrayList<Card> getHits(){
+            return new ArrayList<Card>();
         }
 
     /**

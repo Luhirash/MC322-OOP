@@ -1,5 +1,6 @@
 package Entities;
 import java.util.ArrayList;
+import java.util.List;
 import Cards.*;
 
 /**
@@ -30,12 +31,12 @@ public class KennethAllen extends Enemy{
      * Conjunto de cartas disponíveis para Kenneth Allen usar em combate.
      * Inclui golpes de alto dano, recuo defensivo e carta de sangramento.
      */
-    private Card[] allenHits = {
+    private ArrayList<Card> allenHits = new ArrayList<Card>(List.of(
         new DamageCard("jab", 3, 5, "desfere um soco com mão esquerda na cabeça do inimigo"),
         new DamageCard("empurrão", 2, 3, "desfere um soco com a mão direita na cabeça do inimigo"),
         new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
         new BleedingCard("paulistinha", 5, 2, "Acerta uma joelhada na coxa, causando 2 de intensidade de veneno")
-    };
+    ));
 
     /**
      * Exibe no console as intenções de Kenneth Allen para o turno atual.
@@ -57,7 +58,7 @@ public class KennethAllen extends Enemy{
      * @return array de {@link Card} com os golpes de Kenneth Allen
      */
     @Override
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return allenHits;
     }
 }

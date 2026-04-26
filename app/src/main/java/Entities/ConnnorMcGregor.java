@@ -1,5 +1,6 @@
 package Entities;
 import java.util.ArrayList;
+import java.util.List;
 import Cards.*;
 
 /**
@@ -31,12 +32,13 @@ public class ConnnorMcGregor extends Enemy{
      * Conjunto de cartas disponíveis para Connor McGregor usar em combate.
      * Inclui golpes de alto dano, recuo defensivo e carta de sangramento.
      */
-    private Card[] mcGregorHits = {
+    private ArrayList<Card> mcGregorHits = new ArrayList<>(List.of(
         new DamageCard("chute na cabeça", 7, 12, "desfere um chute com a perna direita na cabeça do inimigo"),
         new DamageCard("direto", 5, 8, "desfere um soco com a mão direita na cabeça do inimigo"),
         new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
         new BleedingCard("raspão na testa", 3, 2, "Acerta um direto de raspão na testa do adversário")
-    };
+
+    ));
 
     /**
      * Exibe no console as intenções de Connor McGregor para o turno atual.
@@ -58,7 +60,7 @@ public class ConnnorMcGregor extends Enemy{
      * @return array de {@link Card} com os golpes de Connor McGregor
      */
     @Override
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return mcGregorHits;
     }
 }

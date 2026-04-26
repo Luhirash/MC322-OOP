@@ -120,7 +120,15 @@ public abstract class Entity{
      *
      * @return array de {@link Card} com os golpes e habilidades disponíveis
      */
-    public abstract Card[] getHits();
+    public abstract ArrayList<Card> getHits();
+
+    /**
+     * Adiciona uma carta às possibilidades de uso da entidade durante a batalha.
+     * @param card carta a ser adicionada
+     */
+    public void addCard(Card card) {
+        getHits().add(card);
+    }
 
     /**
      * Adiciona pontos de escudo à entidade (acumulando ao escudo existente).

@@ -1,5 +1,6 @@
 package Entities;
 import java.util.ArrayList;
+import java.util.List;
 import Cards.*;
 
 /**
@@ -31,12 +32,12 @@ public class FrancisNgannou extends Enemy{
      * Conjunto de cartas disponíveis para Francis Ngannou usar em combate.
      * Inclui golpes de alto dano, e carta de sangramento.
      */
-    private Card[] ngannouHits = {
+    private ArrayList<Card> ngannouHits = new ArrayList<>(List.of(
         new DamageCard("Overhand de direita", 8, 20, "desfere soco muito poderoso, mas que gasta toda sua energia"),
         new DamageCard("Uppercut", 5, 10, "desfere um soco ascendente"),
         new ShieldCard("Intimidação física", 2, 4, "coloca medo no adversário"),
         new BleedingCard("cruzado atordoador", 5, 4, "Acerta um direto de raspão na testa do adversário")
-    };
+    ));
 
     /**
      * Exibe no console as intenções de Francis Ngannou para o turno atual.
@@ -58,7 +59,7 @@ public class FrancisNgannou extends Enemy{
      * @return array de {@link Card} com os golpes de Francis Ngannou
      */
     @Override
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return ngannouHits;
     }
 }

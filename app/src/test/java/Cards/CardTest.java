@@ -1,5 +1,5 @@
 package Cards;
-
+import java.util.ArrayList;
 import Entities.Entity;
 import Entities.Hero;
 import Effects.Effect;
@@ -31,7 +31,7 @@ class CardTest {
             super("HeroDummy", 100, 10);
             this.setStamina(currentStamina);
         }
-        @Override public Card[] getHits() { return new Card[0]; }
+        @Override public ArrayList<Card> getHits() { return new ArrayList<Card>(); }
     }
 
     /**

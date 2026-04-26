@@ -49,7 +49,7 @@ public class Choice extends Event{
                 if (choice > 0 && choice <= 3) {
                     entradaValida = true; // Sucesso! Sai do loop
                 } else {
-                    System.out.println("Erro: Digite um número entre 0 e 3");
+                    System.out.println("Erro: Digite um número entre 1 e 3");
                 }
             } else {
                 System.out.println("Erro: Isso não é um número inteiro!");
@@ -63,7 +63,7 @@ public class Choice extends Event{
         if (choice == 1) {
             Card newCard = cardPossibility.getCard(); 
             System.out.println(hero.getName() + " agora pode usar " + newCard.getName() + " durante suas lutas.");
-            //AINDA NÃO ESTÁ IMPLEMENTADO
+            hero.addCard(newCard);
         }
         else if (choice == 2) {
             int trueHealing = hero.gainHealth(healthPossibility.getHealthChange());

@@ -8,6 +8,8 @@ import Effects.Bleeding;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 /**
  * Classe de testes responsável por verificar o comportamento da carta de sangramento (BleedingCard).
  */
@@ -25,7 +27,7 @@ class BleedingCardTest {
      */
     class target extends Enemy {
         public target() { super("Connor Mcgregor", 100, 10, 10); }
-        @Override public Card[] getHits() { return new Card[0]; }
+        @Override public ArrayList<Card> getHits() { return new ArrayList<Card>(); }
         @Override public void printIntentions(java.util.ArrayList<Card> c) {}
     }
 

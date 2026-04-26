@@ -21,8 +21,8 @@ public class EffectTest {
             public EntityDummy() { 
                 super("Owner", 100, 10);}
 
-            @Override public Card[] getHits(){ 
-                return new Card[0];}
+            @Override public ArrayList<Card> getHits(){ 
+                return new ArrayList<Card>();}
         }
 
     /**

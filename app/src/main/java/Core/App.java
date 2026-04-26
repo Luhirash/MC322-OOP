@@ -55,7 +55,7 @@ public class App {
         GameManager gameManager = new GameManager();
 
         PurchasePile drawPile = new PurchasePile(hero.getHits());
-        drawPile.fillPile(hero.getHits().length);
+        drawPile.fillPile(hero.getHits().size());
         drawPile.shuffle();
 
 

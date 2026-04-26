@@ -1,5 +1,6 @@
 package Entities;
 import java.util.ArrayList;
+import java.util.List;
 import Cards.*;
 
 /**
@@ -30,12 +31,12 @@ public class JonJones extends Enemy{
      * Conjunto de cartas disponíveis para Jon Jones usar em combate.
      * Inclui golpes de dano, desvio defensivo e carta de força extra.
      */
-    private Card[] jonesHits = {
+    private ArrayList<Card> jonesHits = new ArrayList<Card>(List.of(
         new DamageCard("chute na perna", 6, 10, "desfere um chute com a perna direita na perna do inimigo"),
         new DamageCard("soco cruzado", 5, 9, "desfere um soco lateral na cabeça do inimigo"),
         new ShieldCard("desviar", 3, 8, "se esquiva do ataque do inimigo"),
         new StrengthCard("força extra" , 3, 2, "aumenta o dano de JonJones conforme a intensidade do efeito")
-    };
+    ));
 
     /**
      * Exibe no console as intenções de Jon Jones para o turno atual.
@@ -55,7 +56,7 @@ public class JonJones extends Enemy{
      *
      * @return array de {@link Card} com os golpes de Jon Jones
      */
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return jonesHits;
     }
 

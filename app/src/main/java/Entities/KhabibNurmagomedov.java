@@ -1,5 +1,6 @@
 package Entities;
 import java.util.ArrayList;
+import java.util.List;
 import Cards.*;
 
 /**
@@ -30,12 +31,12 @@ public class KhabibNurmagomedov extends Enemy{
      * Conjunto de cartas disponíveis para Khabib Nurmagomedov usar em combate.
      * Inclui golpes de dano, desvio defensivo e carta de força extra.
      */
-    private Card[] khabibHits = {
+    private ArrayList<Card> khabibHits = new ArrayList<Card>(List.of(
         new DamageCard("queda de double leg", 6, 8, "derruba seu adversário"),
         new DamageCard("soco cruzado", 5, 9, "desfere um soco lateral na cabeça do inimigo"),
         new ShieldCard("Intimidação física", 2, 4, "coloca medo no adversário"),
         new StrengthCard("pressão na grade" , 3, 2, "aumenta o dano de Khabib conforme a intensidade do efeito")
-    };
+    ));
 
     /**
      * Exibe no console as intenções de Khabib Nurmagomedov para o turno atual.
@@ -55,7 +56,7 @@ public class KhabibNurmagomedov extends Enemy{
      *
      * @return array de {@link Card} com os golpes de Khabib Nurmagomedov
      */
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return khabibHits;
     }
 

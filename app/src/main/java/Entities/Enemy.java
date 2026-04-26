@@ -75,7 +75,7 @@ public abstract class Enemy extends Entity {
      * @param hits array de cartas disponíveis para o inimigo
      * @return lista de cartas selecionadas para o turno (entre 0 e 3 cartas)
      */
-    public ArrayList<Card> chooseCards(Card[] hits) {
+    public ArrayList<Card> chooseCards(ArrayList<Card> hits) {
         ArrayList<Card> chosenCards = new ArrayList<Card>();
         int availableStamina = getMaxStamina();
         int numberOfCards = 0;
@@ -109,7 +109,7 @@ public abstract class Enemy extends Entity {
      *
      * @return array de {@link Card} com os golpes e habilidades do inimigo
      */
-    public abstract Card[] getHits();
+    public abstract ArrayList<Card> getHits();
 
     /**
      * Imprime no console as cartas de uma lista, uma por linha, usando o formato de cada carta.
@@ -127,10 +127,10 @@ public abstract class Enemy extends Entity {
      * @param hits array de cartas disponíveis
      * @return uma {@link Card} escolhida aleatoriamente do array
      */
-    private Card chooseRandomCard(Card[] hits) {
+    private Card chooseRandomCard(ArrayList<Card> hits) {
         Random number = new Random();
-        int action = number.nextInt(hits.length);
-        return hits[action];
+        int action = number.nextInt(hits.size());
+        return hits.get(action);
     }
 
     /**

@@ -2,6 +2,8 @@ package Entities;
 import Core.Turns;
 import Cards.*;
 import Piles.PurchasePile;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa o herói controlado pelo jogador.
@@ -53,7 +55,7 @@ public class Hero extends Entity{
      * O deck contém golpes de diferentes custos e poderes para oferecer variedade estratégica
      * ao jogador a cada partida.</p>
      */
-    private Card[] heroHits = {
+    private ArrayList<Card> heroHits = new ArrayList<Card>(List.of(
             new DamageCard("jab", 3, 5, "desfere um soco com mão esquerda na cabeça do inimigo"),
             new DamageCard("direto", 5, 8, "desfere um soco com a mão direita na cabeça do inimigo"),
             new DamageCard("chute na perna", 6, 10, "desfere um chute com a perna direita na perna do inimigo"),
@@ -74,8 +76,7 @@ public class Hero extends Entity{
             new BleedingCard("cotovelada cortante", 4, 4, "uma cotovelada precisa na cabeça que aplica 4 de intensidade de sangramento no inimigo"),
             new HealingCard("pedir tempo técnico", 4, 2, "pausa a luta e aplica 2 de intensidade de cura no herói"),
             new HealingCard("beber suco secreto", 2, 3, "bebe 'água' que confere 3 de intensidade de cura")
-        };
-
+    ));
     /**
      * Retorna o deck de cartas disponíveis para o herói.
      *
@@ -84,7 +85,7 @@ public class Hero extends Entity{
      *
      * @return array com todas as cartas do herói
      */
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return heroHits;
     }
 

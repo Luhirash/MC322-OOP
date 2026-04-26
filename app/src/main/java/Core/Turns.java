@@ -155,7 +155,7 @@ public class Turns {
                     if (choice > 0 && choice <= exitChoice) {
                         entradaValida = true; // Sucesso! Sai do loop
                     } else {
-                        System.out.println("Erro: Digite um número entre 0 e " + exitChoice);
+                        System.out.println("Erro: Digite um número entre 1 e " + exitChoice);
                     }
                 } else {
                     System.out.println("Erro: Isso não é um número inteiro!");

@@ -1,5 +1,6 @@
 package Entities;
 import java.util.ArrayList;
+import java.util.List;
 import Cards.*;
 
 /**
@@ -30,13 +31,13 @@ public class IsraelAdesanya extends Enemy{
      * Conjunto de cartas disponíveis para Israel Adesanya usar em combate.
      * Inclui golpes de baixo dano, recuo defensivo e carta de tempo técnico.
      */
-    private Card[] allenHits = {
+    private  ArrayList<Card> allenHits = new ArrayList<Card>(List.of(
         new DamageCard("jab", 3, 5, "desfere um soco com mão esquerda na cabeça do inimigo"),
         new DamageCard("empurrão", 2, 3, "desfere um soco com a mão direita na cabeça do inimigo"),
         new ShieldCard("desviar", 3, 8, "se esquiva do ataque do inimigo"),
         new ShieldCard("andar para trás", 1, 3, "dá um passo para trás, fungindo do inimigo"),
         new HealingCard("pedir tempo técnico", 4, 3, "pausa a luta e aplica 3 de intensidade de cura no herói")
-    };
+    ));
 
     /**
      * Exibe no console as intenções de Israel Adesanya para o turno atual.
@@ -58,7 +59,7 @@ public class IsraelAdesanya extends Enemy{
      * @return array de {@link Card} com os golpes de Israel Adesanya
      */
     @Override
-    public Card[] getHits() {
+    public ArrayList<Card> getHits() {
         return allenHits;
     }
 }

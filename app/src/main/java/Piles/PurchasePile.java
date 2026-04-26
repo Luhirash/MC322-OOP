@@ -3,6 +3,7 @@ import java.util.Random;
 import Core.*;
 import Cards.*;
 import Entities.Hero;
+import java.util.ArrayList;
 
 /**
  * Pilha de compra que funciona como o baralho principal do herói.
@@ -29,14 +30,14 @@ public class PurchasePile extends PileOfCards {
      * <p>As cartas aqui são apenas referências para os templates; o baralho é composto
      * de cópias independentes criadas por {@link #fillPile(int)}.</p>
      */
-    private Card[] differentCards;
+    private ArrayList<Card> differentCards;
 
     /**
      * Constrói a pilha de compra com base no conjunto de cartas-modelo fornecido.
      *
      * @param differentCards array de cartas-modelo do herói (normalmente {@link Hero#getHits()})
      */
-    public PurchasePile(Card[] differentCards) {
+    public PurchasePile(ArrayList<Card> differentCards) {
         this.differentCards = differentCards;
     }
 
@@ -58,9 +59,9 @@ public class PurchasePile extends PileOfCards {
         for (int i = 0; i < numberOfCards; i++) {
 
             Random number = new Random();
-            int index = number.nextInt(differentCards.length);
+            int index = number.nextInt(differentCards.size());
 
-            Card originalCard = differentCards[index];
+            Card originalCard = differentCards.get(index);
 
             if (originalCard instanceof BleedingCard) {
                 BleedingCard pc = (BleedingCard) originalCard;

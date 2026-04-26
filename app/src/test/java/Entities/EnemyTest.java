@@ -4,6 +4,8 @@ import Cards.Card;
 import Cards.DamageCard;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,8 +22,8 @@ public class EnemyTest {
             super(name, maxHealth, maxStamina, value);
         }
         @Override
-        public Card[] getHits() {
-            return new Card[0]; }
+        public ArrayList<Card> getHits() {
+            return new ArrayList<Card>(); }
         @Override
         public void printIntentions(ArrayList<Card> chosenCards) {}
     }
@@ -58,9 +60,9 @@ public class EnemyTest {
     void MustAttackThreeTimesMaximumIfHasStaminaEnough(){
         Enemy enemy = new EnemyDummy("enemydummy", 50, 10, 10);
         
-        Card[] lightHits = {
+        ArrayList<Card> lightHits = new ArrayList<Card>(List.of(
             new DamageCard("light punch", 1, 2, "throws a jab")
-        };
+    ));
 
         ArrayList<Card> chosenCards = enemy.chooseCards(lightHits);
 
@@ -76,9 +78,9 @@ public class EnemyTest {
     void StopChoosingCardsWhenStaminaIsOut(){
         Enemy enemy = new EnemyDummy("enemydummy", 50, 5, 10);
 
-        Card[] Hits = {
+        ArrayList<Card> Hits = new ArrayList<Card>(List.of(
             new DamageCard("Punch", 3, 10, "normal punch")
-        };
+        ));
 
         ArrayList<Card> chosenCards = enemy.chooseCards(Hits);
         assertEquals(1, chosenCards.size(), "Must pick only one card(the amount of stamina available");
