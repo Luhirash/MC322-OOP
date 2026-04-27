@@ -114,6 +114,8 @@ public class Battle extends Event{
         PlayerHand playerHand = new PlayerHand(3);
         Turns battleTurns = new Turns(hero, enemy, gameManager);
 
+        hero.triggerBattleStartRelics();//ativa as reliquias de inicio de batalha 
+
         ArrayList<Card> enemyCards = new ArrayList<>();
 
         while (hero.isAlive() && enemy.isAlive()){

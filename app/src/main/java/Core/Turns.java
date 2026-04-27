@@ -127,6 +127,7 @@ public class Turns {
      */
     public void HeroTurn(Scanner scanner, PlayerHand playerHand, DiscardPile discardPile) {
         hero.newTurn();
+        hero.triggerTurnStartRelics();//executa reliquias de acao em turno 
         gameManager.currentEvent = Events.HEROSTART;
         gameManager.notifyEvent();
 

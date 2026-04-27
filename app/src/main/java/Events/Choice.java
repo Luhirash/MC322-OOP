@@ -46,17 +46,17 @@ public class Choice extends Event{
             System.out.print("Escolha sua ação: ");
             
             if (scanner.hasNextInt()) {
-                choice = scanner.nextInt(); // Lê apenas UMA vez
-                scanner.nextLine(); // Limpa o buffer
+                choice = scanner.nextInt(); 
+                scanner.nextLine(); 
                 
                 if (choice > 0 && choice <= 3) {
-                    entradaValida = true; // Sucesso! Sai do loop
+                    entradaValida = true; 
                 } else {
                     System.out.println("Erro: Digite um número entre 1 e 3");
                 }
             } else {
                 System.out.println("Erro: Isso não é um número inteiro!");
-                scanner.next(); // Descarta a entrada de texto inválida
+                scanner.next(); 
             }
         }
         return choice;

@@ -8,6 +8,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import Cards.*;
 
+import Events.Shop;
+
 import java.util.Scanner;
 
 public class EventTree extends DefaultMutableTreeNode {
@@ -22,12 +24,14 @@ public class EventTree extends DefaultMutableTreeNode {
                         new CardPossibility("Perceber a utilidade de se agachar", new ShieldCard("agachar", 2, 4, "busca se esconder do inimigo rapidamente")), 
                         new HealthPossibility("Se entregar à dor", -1),
                         new CoinPossibility("Observar atentamente o seu entorno", 3), scanner),
+            new Shop(scanner),
             new Battle(new FrancisNgannou("Francis Ngannou", 40, 8, 8), scanner),
             new Battle(new MaxHolloway("Max Holloway", 28, 11, 7), scanner),
             new Choice("Ir para a balada", 
                         new CardPossibility("Encontra um barman estranho, que te oferece a receita de um suco secreto.", new HealingCard("beber suco secreto", 2, 3, "bebe seu super suco que confere 3 de intensidade de cura")), 
                         new HealthPossibility("Ficar acordado até de madrugada", -2),
                         new CoinPossibility("Pagar uma rodada de drinks para a galera", -4), scanner),
+            new Shop(scanner),
             new Battle(new KhabibNurmagomedov("Khabib Nurmagomedov", 35, 10, 11), scanner),
             new Battle(new IsraelAdesanya("Israel Adesanya", 24, 12, 9), scanner),
             new Choice("Treinar até o sol raiar", 

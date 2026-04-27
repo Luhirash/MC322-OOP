@@ -4,6 +4,9 @@ import Cards.*;
 import Piles.PurchasePile;
 import java.util.ArrayList;
 import java.util.List;
+import Relics.RelicStrategy;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa o herói controlado pelo jogador.
@@ -47,6 +50,9 @@ public class Hero extends Entity{
         this.heroCoins = 0;
     }
 
+    /** Lista de relíquias (itens passivos) adquiridas pelo herói na loja. */
+    private ArrayList<RelicStrategy> relics = new ArrayList<>();
+
     /**
      * Deck completo de cartas disponíveis para o herói.
      *
@@ -89,7 +95,7 @@ public class Hero extends Entity{
         return heroHits;
     }
 
-    private int getCoins() {
+    public int getCoins() {
         return this.heroCoins;
     }
 
@@ -99,5 +105,83 @@ public class Hero extends Entity{
     
     public void addCoins(int coins) {
         setCoins(getCoins() + coins);
+    }
+
+        /**
+     * Adiciona uma relíquia ao inventário do herói.
+     *
+     * @param relic a relíquia a ser equipada
+     */
+    public void addRelic(RelicStrategy relic) {
+        this.relics.add(relic);
+    }
+
+        /**
+     * Verifica se o herói já possui uma relíquia com o nome fornecido.
+     * Usado pela loja para evitar compra duplicada.
+     *
+     * @param relicName nome da relíquia a verificar
+     * @return {@code true} se o herói já possui a relíquia
+     */
+    public boolean hasRelic(String relicName) {
+        return relics.stream().anyMatch(r -> r.getName().equals(relicName));
+    }
+
+        /**
+     * Reduz moedas do saldo do herói após uma compra na loja.
+     * Não permite saldo negativo.
+     *
+     * @param amount valor a ser deduzido (deve ser positivo)
+     * @throws IllegalArgumentException se {@code amount} for negativo
+     */
+    public void spendCoins(int amount) {
+        if (amount < 0) throw new IllegalArgumentException("Valor de gasto não pode ser negativo.");
+        this.heroCoins = Math.max(0, this.heroCoins - amount);
+    }
+
+        /**
+     * Dispara o hook {@code onBattleStart} de todas as relíquias equipadas.
+     * Deve ser chamado em {@link Events.Battle#executeBattle} logo após
+     * criar as pilhas de cartas, antes do loop de rodadas.
+     *
+     * <p>Exemplo de uso em {@code Battle.executeBattle}:</p>
+     * <pre>{@code
+     *   hero.triggerBattleStartRelics();  // <- adicionar esta linha
+     *   while (hero.isAlive() && enemy.isAlive()) { ... }
+     * }</pre>
+     */
+    public void triggerBattleStartRelics() {
+        if (!relics.isEmpty()) {
+            System.out.println("\n⚡ Ativando relíquias de início de batalha...");
+            for (RelicStrategy relic : relics) {
+                relic.onBattleStart(this);
+            }
+        }
+    }
+
+        /**
+     * Dispara o hook {@code onTurnStart} de todas as relíquias equipadas.
+     * Deve ser chamado em {@link Core.Turns#HeroTurn} no início de cada turno do herói.
+     *
+     * <p>Exemplo de uso em {@code Turns.HeroTurn}:</p>
+     * <pre>{@code
+     *   hero.triggerTurnStartRelics();  // <- adicionar no início do método
+     *   // ... resto da lógica do turno
+     * }</pre>
+     */
+    public void triggerTurnStartRelics() {
+        for (RelicStrategy relic : relics) {
+            relic.onTurnStart(this);
+        }
+    }
+
+    /**
+    * Retorna uma cópia somente-leitura das relíquias do herói.
+    * Útil para exibir o inventário no HUD ou no início da batalha.
+    *
+    * @return lista imutável de relíquias
+    */
+    public List<RelicStrategy> getRelics() {
+        return java.util.Collections.unmodifiableList(relics);
     }
 }
