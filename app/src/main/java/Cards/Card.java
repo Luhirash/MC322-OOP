@@ -56,11 +56,15 @@ public abstract class Card {
      * @param staminaCost custo em fôlego para utilizá-la (deve ser positivo)
      * @param description descrição textual da ação realizada
      */
+
+    private boolean itWasUpgraded;
+
     public Card (String name, int staminaCost, String description) {
         this.name = name;
         this.staminaCost = staminaCost;
         this.wasUsed = false;
         this.description = description;
+        this.itWasUpgraded = false;
     }
 
     /**
@@ -166,6 +170,15 @@ public abstract class Card {
      */
     public String get_description(){
         return this.description;
+    }
+
+    public abstract void upgrade();
+
+    public boolean IsUpgraded() {
+        return this.itWasUpgraded;
+    }
+    public void setUpgrade() {
+        this.itWasUpgraded = true;
     }
 
 }

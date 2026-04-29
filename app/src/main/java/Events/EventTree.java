@@ -10,6 +10,8 @@ import Cards.*;
 
 import Events.Shop;
 
+import Events.TrainingCamp;
+
 import java.util.Scanner;
 
 public class EventTree extends DefaultMutableTreeNode {
@@ -25,12 +27,14 @@ public class EventTree extends DefaultMutableTreeNode {
                         new HealthPossibility("Se entregar à dor", -1),
                         new CoinPossibility("Observar atentamente o seu entorno", 3), scanner),
             new Shop(scanner),
+            new TrainingCamp(scanner),
             new Battle(new FrancisNgannou("Francis Ngannou", 40, 8, 8), scanner),
             new Battle(new MaxHolloway("Max Holloway", 28, 11, 7), scanner),
             new Choice("Ir para a balada", 
                         new CardPossibility("Encontra um barman estranho, que te oferece a receita de um suco secreto.", new HealingCard("beber suco secreto", 2, 3, "bebe seu super suco que confere 3 de intensidade de cura")), 
                         new HealthPossibility("Ficar acordado até de madrugada", -2),
                         new CoinPossibility("Pagar uma rodada de drinks para a galera", -4), scanner),
+            new TrainingCamp(scanner),
             new Shop(scanner),
             new Battle(new KhabibNurmagomedov("Khabib Nurmagomedov", 35, 10, 11), scanner),
             new Battle(new IsraelAdesanya("Israel Adesanya", 24, 12, 9), scanner),
@@ -38,6 +42,7 @@ public class EventTree extends DefaultMutableTreeNode {
                         new CardPossibility("O cansaço te faz adquirir movimentos imperfeitos", new DamageCard("Chute nas costas", 1, 6, "um movimento fraco e desagastante")), 
                         new HealthPossibility("Dormir o dia seguinte inteiro", 3),
                         new CoinPossibility("Gravar um vídeo do treino e postar no tiktok", 6), scanner),
+            new TrainingCamp(scanner),
             new Battle(new JonJones( "Jon Jones", 42, 11, 13), scanner),
             new Battle(new ConnnorMcGregor("Connor McGregor", 30, 14, 11), scanner)
         };

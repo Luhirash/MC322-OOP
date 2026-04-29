@@ -81,4 +81,9 @@ public class ShieldCard extends Card {
     public int getMainStat() {
         return getDamageBlocked();
     }
+
+    public void upgrade() {
+        this.damageBlocked += 3; // Aumenta o bloqueio concedido em 2
+        this.setUpgrade(); 
+    }
 }

@@ -86,4 +86,9 @@ public class DamageCard extends Card{
     public int getMainStat() {
         return getDamageInflicted();
     }
+
+    public void upgrade() {
+        this.damageInflicted += 3; // Aumenta o dano base em 3
+        this.setUpgrade(); 
+    }
 }

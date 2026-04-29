@@ -82,4 +82,10 @@ public class BleedingCard extends EffectCard {
         return bleedingIntensity;
     }
 
+    @Override
+    public void upgrade() {
+        this.bleedingIntensity += 2; // Aumenta a intensidade do sangramento
+        this.setUpgrade(); // Marca a carta como aprimorada
+    }
+
 }

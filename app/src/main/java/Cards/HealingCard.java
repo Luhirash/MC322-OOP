@@ -76,4 +76,9 @@ public class HealingCard extends EffectCard {
     public int getMainStat() {
         return healingIntensity;
     }
+
+    public void upgrade() {
+        this.healingIntensity += 2; // Aumenta a intensidade da recuperação
+        this.setUpgrade(); 
+    }
 }

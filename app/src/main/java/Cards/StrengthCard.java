@@ -78,4 +78,9 @@ public class StrengthCard extends EffectCard{
         return strengthIntensity;
     }
 
+    public void upgrade() {
+        this.strengthIntensity += 2; // Aumenta a intensidade do bônus de força
+        this.setUpgrade(); 
+    }
+
 }

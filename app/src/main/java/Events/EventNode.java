@@ -35,10 +35,10 @@ public class EventNode extends DefaultMutableTreeNode{
             
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt(); // Lê apenas UMA vez
-                scanner.nextLine(); // Limpa o buffer
+                scanner.nextLine(); 
                 
                 if (choice > 0 && choice <= nextEvents.length) {
-                    entradaValida = true; // Sucesso! Sai do loop
+                    entradaValida = true; 
                 } else {
                     System.out.println("Erro: Digite um número entre 1 e " + nextEvents.length);
                 }

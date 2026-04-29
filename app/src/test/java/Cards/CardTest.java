@@ -21,6 +21,7 @@ class CardTest {
         @Override public Effect useCard(Entity attacker, Entity receiver) { return null; }
         @Override public void printCardStats() {}
         @Override public int getMainStat() { return 0; }
+        @Override public void upgrade() {}
     }
     
     /**

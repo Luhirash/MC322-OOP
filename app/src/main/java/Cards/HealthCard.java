@@ -91,4 +91,9 @@ public class HealthCard extends Card{
     public int getMainStat() {
         return getHealthAdded();
     }
+
+    public void upgrade() {
+        this.healthAdded += 3; // Aumenta a quantidade de vida adicionada
+        this.setUpgrade(); 
+    }
 }

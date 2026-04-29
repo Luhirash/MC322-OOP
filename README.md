@@ -91,6 +91,38 @@ O combate termina quando o herói ou o inimigo chega a 0 de vida. Se o herói ve
 
 ---
 
+## Sistemas de Progressão
+
+Além das batalhas, o jogador encontra dois eventos especiais na árvore de progressão que utilizam padrões de design distintos.
+
+### Loja do Octógono — Padrão Strategy
+
+A **Loja** (`Shop extends Event`) permite ao herói gastar moedas ganhas nas batalhas para comprar **relíquias** — itens passivos que concedem bônus permanentes durante toda a jornada.
+
+**Como funciona no jogo:** ao entrar na loja, o jogador vê o catálogo com preços, escolhe um item e tem o valor debitado automaticamente. Relíquias já compradas são sinalizadas e não podem ser adquiridas novamente.
+
+**Padrão Strategy:** cada relíquia implementa a interface `RelicStrategy`, que define os hooks `onBattleStart(Hero)` e `onTurnStart(Hero)`. A loja apenas exibe `getName()`, `getDescription()` e `getCost()` — sem saber o que cada relíquia faz internamente. O `Hero` mantém uma `List<RelicStrategy>` e aciona os hooks nos momentos certos (`triggerBattleStartRelics()` / `triggerTurnStartRelics()`). Adicionar uma nova relíquia é só criar uma nova classe e registrá-la na loja, sem alterar nada mais.
+
+Relíquias implementadas:
+- **Protetor Bucal de Campeão** — concede +5 de escudo no início de cada batalha.
+- **Bandagens do Spider** — recupera +1 de vida no início de cada turno.
+
+---
+
+### Camp de Treinamento — Padrão Command
+
+O **Camp de Treinamento** (`TrainingCamp extends Event`) representa uma pausa na Academia Chute Boxe. O herói escolhe **uma única ação** por visita para se preparar para o próximo combate.
+
+**Como funciona no jogo:** o evento exibe as ações disponíveis; o jogador escolhe uma e ela é executada imediatamente, encerrando a visita.
+
+**Padrão Command:** as ações implementam a interface `CampActionCommand` com o método `execute(Hero)`. O `TrainingCamp` atua como **Invoker** — mantém uma `List<CampActionCommand>` e chama `execute()` sem saber o que cada comando faz. O `Hero` é o **Receiver**, afetado pela ação concreta. Para adicionar novas ações ao Camp, basta criar uma nova classe e registrá-la, sem modificar o `TrainingCamp`.
+
+Ações implementadas:
+- **Banheira de Gelo** (`IceBathCommand`) — recupera 30% da vida máxima do herói.
+- **Treino de Sparring** (`SparringCommand`) — o jogador escolhe uma carta do baralho para aplicar *upgrade* permanente.
+
+---
+
 ## Padrão de Design Observer
 
 O jogo isola a lógica de eventos na classe `GameManager`, que atua como o **Publisher** (implementando a interface genérica `Publisher`). O `GameManager` mantém uma lista de `Effect` (que agem como **Observers** via interface `Observer`) e os notifica chamando `notifyEvent()` sempre que a classe `Turns` sinaliza que um evento de combate ocorreu:
@@ -110,6 +142,14 @@ Cada `Effect` implementa `beNotified(GameManager gameManager)` e decide sozinho 
 
 ```
 src/
+├── Camp/
+│   ├── CampActionCommand.java  — Interface Command para ações do Camp
+│   ├── IceBathCommand.java     — Recupera 30% da vida máxima
+│   └── SparringCommand.java    — Aplica upgrade em uma carta do baralho
+├── Relics/
+│   ├── RelicStrategy.java      — Interface Strategy para relíquias passivas
+│   ├── MouthGuardStrategy.java — +5 escudo no início de cada batalha
+│   └── HandWrapStrategy.java   — +1 vida no início de cada turno
 ├── Core/
 │   ├── App.java            — Ponto de entrada e setup inicial do jogo
 │   ├── Battle.java         — Controla o fluxo de uma batalha isolada
@@ -118,6 +158,14 @@ src/
 │   ├── Observer.java       — Interface para entidades que escutam eventos
 │   ├── Publisher.java      — Interface de emissão de eventos
 │   └── Turns.java          — Gerenciador de turnos de uma batalha específica
+├── Events/
+│   ├── Event.java          — Classe abstrata base para todos os eventos
+│   ├── Battle.java         — Evento de batalha contra um inimigo
+│   ├── Choice.java         — Evento de escolha com três possibilidades
+│   ├── Shop.java           — Loja de relíquias (Invoker do Strategy)
+│   ├── TrainingCamp.java   — Camp de treinamento (Invoker do Command)
+│   ├── EventNode.java      — Nó da árvore de progressão
+│   └── EventTree.java      — Árvore completa de eventos do jogo
 ├── Entities/
 │   ├── Entity.java         — Classe abstrata base para herói e inimigos
 │   ├── Hero.java           — Herói jogável
