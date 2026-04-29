@@ -1,5 +1,7 @@
 # A Luta — Jogo de Combate por Turnos em Java
 
+-Para fazer o readme(design), formatação da documentação em javadoc e parte das imagens nas interfaces exibidas no terminal, foi utilizada ferramenta de IA generativa(LLM)
+
 ## Descrição
 
 **A Luta** é um jogo de combate por turnos inspirado em *Slay the Spire*, desenvolvido em Java.
