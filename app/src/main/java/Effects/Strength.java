@@ -2,7 +2,6 @@ package Effects;
 import Cards.DamageCard;
 import Cards.StrengthCard;
 import Core.GameManager;
-import Core.Turns;
 import Entities.*;
 
 /**

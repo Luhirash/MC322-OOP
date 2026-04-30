@@ -65,7 +65,7 @@ public abstract class Entity{
     /**
      * Lista de efeitos de status ativos sobre esta entidade.
      * <p>Gerenciada pelo sistema Observer de {@link Turns}: efeitos são inscritos via
-     * <code>GameManager.subscribe(Effect)</code> e removidos via <code>GameManager.unsubscribe(Effect)</code>.</p>
+     * {@link GameManager#subscribe(Effect)} e removidos via {@link GameManager#unsubscribe(Effect)}.</p>
      */
     private ArrayList<Effect> effects;
 

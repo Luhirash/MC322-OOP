@@ -11,12 +11,11 @@ import Piles.*;
  *
  * <p>O fluxo do jogo é o seguinte:</p>
  * <ol>
- *   <li>Uma árvore de inimigos é criada via {@link EnemyNode#createTree()}, e o combate
+ *   <li>Uma árvore de eventos é criada via {@link EventTree#createTree()}, e o combate
  *       começa pelo nó raiz.</li>
- *   <li>O baralho do herói é montado, embaralhado e as cartas são distribuídas na mão.</li>
  *   <li>Cada luta é gerenciada por {@link Battle}, que alterna turnos entre herói e inimigo
  *       até que um dos dois seja derrotado.</li>
- *   <li>Ao vencer, o jogador escolhe o próximo inimigo navegando pela árvore.</li>
+ *   <li>Ao acabar um evento, o jogador escolhe o próximo evento navegando pela árvore.</li>
  *   <li>O jogo termina quando o herói é derrotado ou todos os inimigos são vencidos.</li>
  * </ol>
  *
@@ -36,12 +35,9 @@ public class App {
      * <p>Responsável por:</p>
      * <ul>
      *   <li>Instanciar o herói.</li>
-     *   <li>Criar o {@link GameManager} compartilhado entre as batalhas.</li>
-     *   <li>Criar o baralho de compra ({@link PurchasePile}), preenchê-lo e embaralhá-lo.</li>
-     *   <li>Criar a pilha de descarte ({@link DiscardPile}) e a mão do jogador ({@link PlayerHand}).</li>
-     *   <li>Construir a árvore de inimigos e iniciar pelo nó raiz.</li>
-     *   <li>Executar o loop principal, instanciando uma {@link Battle} para cada luta.</li>
-     *   <li>Após cada vitória, permitir ao jogador escolher o próximo inimigo.</li>
+     *   <li>Construir a árvore de eventos e iniciar pelo nó raiz.</li>
+     *   <li>Executar o loop principal, iniciando um {@link Event} para cada ação do joog.</li>
+     *   <li>Após cada evento, permitir ao jogador escolher o próximo evento.</li>
      *   <li>Exibir o resultado final ao término do jogo.</li>
      * </ul>
      *

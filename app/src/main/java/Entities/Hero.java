@@ -5,8 +5,6 @@ import Piles.PurchasePile;
 import java.util.ArrayList;
 import java.util.List;
 import Relics.RelicStrategy;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Representa o herói controlado pelo jogador.
@@ -95,19 +93,32 @@ public class Hero extends Entity{
         return heroHits;
     }
 
+    /**
+     * Retorna a quantidade de moedas que o herói possui.
+     * @return inteiro de moedas
+     */
     public int getCoins() {
         return this.heroCoins;
     }
 
+    /** 
+     * Modifica o número de moedas que o herói possui
+     * 
+     * @param cois inteiro do número de moedas
+    */
     private void setCoins(int coins) {
         this.heroCoins = coins;
     }
     
+    /**
+     * Adiciona um valor ao número atual de moedas do herói
+     * @param coins valor que será adicionado (ou removido) do número de moedas
+     */
     public void addCoins(int coins) {
         setCoins(getCoins() + coins);
     }
 
-        /**
+    /**
      * Adiciona uma relíquia ao inventário do herói.
      *
      * @param relic a relíquia a ser equipada
