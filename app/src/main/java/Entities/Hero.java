@@ -74,13 +74,13 @@ public class Hero extends Entity{
             // new ShieldCard("andar para trás", 1, 2, "dá um passo para trás, fungindo do inimigo"),
             // new ShieldCard("agachar", 2, 4, "busca se esconder do inimigo rapidamente"),
 
-            new HealthCard("curativo", 4, 4, "usa um curativo para se curar"),
+            new HealthCard("curativo", 2, 4, "usa um curativo para se curar"),
             // new HealthCard("anestésico", 6, 6, "diminui a sensação de dor"),
             //new HealthCard("massagem do senhor Myiagi", 2, 5, "recebe uma massagem milenar do karate kid"),
 
             new BleedingCard("golpe lascerante", 3, 3, "um golpe de raspão no rosto que aplica 3 de intensidade de sangramento no inimigo"),
             // new BleedingCard("cotovelada cortante", 4, 4, "uma cotovelada precisa na cabeça que aplica 4 de intensidade de sangramento no inimigo"),
-            new HealingCard("pedir tempo técnico", 4, 2, "pausa a luta e aplica 2 de intensidade de cura no herói")
+            new HealingCard("pedir tempo técnico", 3, 2, "pausa a luta e aplica 2 de intensidade de cura no herói")
             // new HealingCard("beber suco secreto", 2, 3, "bebe 'água' que confere 3 de intensidade de cura")
     ));
     /**
