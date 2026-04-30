@@ -104,7 +104,7 @@ public class Hero extends Entity{
     /** 
      * Modifica o número de moedas que o herói possui
      * 
-     * @param cois inteiro do número de moedas
+     * @param coins inteiro do número de moedas
     */
     private void setCoins(int coins) {
         this.heroCoins = coins;

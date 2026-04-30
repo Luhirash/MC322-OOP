@@ -18,7 +18,7 @@ import Core.Turns;
  *   <li>Orquestrar o loop de rodadas via {@link #executeBattle}.</li>
  *   <li>Coordenar os turnos do herói e do inimigo através de {@link Turns}.</li>
  *   <li>Exibir o estado inicial ({@link #printStart}), o placar por rodada
- *       ({@link #printIntroduction}) e o resultado final ({@link #printResults}).</li>
+ *       ({@link #printIntroduction}) e o resultado final ({@link #battleResults}).</li>
  *   <li>Limpar efeitos e desinscrevê-los do {@link GameManager} ao fim da luta.</li>
  * </ul>
  *
@@ -101,9 +101,7 @@ public class Battle extends Event{
      * combatentes são limpos e todos os inscritos no {@link GameManager} são removidos,
      * evitando efeitos residuais em lutas futuras.</p>
      *
-     * @param drawPile    baralho de compra do herói
-     * @param discardPile pilha de descarte do herói
-     * @param playerHand  mão do jogador que será preenchida a cada rodada
+     * @param hero herói que vai atuar na batalha
      */
     public void executeBattle(Hero hero) {
         GameManager gameManager = new GameManager();

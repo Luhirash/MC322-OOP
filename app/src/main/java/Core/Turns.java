@@ -72,7 +72,7 @@ public class Turns {
      * </ol>
      *
      * @param chosenCards cartas que o inimigo anunciou no início da rodada,
-     *                    obtidas via {@link Enemy#chooseCards(Cards.Card[])}
+     *                    obtidas via {@link Enemy#chooseCards}
      */
     public void enemyTurn(ArrayList<Card> chosenCards){
     

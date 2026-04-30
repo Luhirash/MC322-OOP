@@ -48,6 +48,8 @@ public abstract class Card {
      */
     private boolean wasUsed;
 
+    private boolean itWasUpgraded;
+
     /**
      * Constrói uma carta com seus atributos básicos.
      * <p>Toda carta começa com {@link #wasUsed} igual a {@code false}.</p>
@@ -56,9 +58,6 @@ public abstract class Card {
      * @param staminaCost custo em fôlego para utilizá-la (deve ser positivo)
      * @param description descrição textual da ação realizada
      */
-
-    private boolean itWasUpgraded;
-
     public Card (String name, int staminaCost, String description) {
         this.name = name;
         this.staminaCost = staminaCost;

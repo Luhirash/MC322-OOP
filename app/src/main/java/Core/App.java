@@ -22,7 +22,6 @@ import Piles.*;
  * @see Hero
  * @see Enemy
  * @see Battle
- * @see EnemyNode
  * @see PurchasePile
  * @see DiscardPile
  * @see PlayerHand
