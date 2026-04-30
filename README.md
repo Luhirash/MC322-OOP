@@ -80,7 +80,7 @@ O combate termina quando o herói ou o inimigo chega a 0 de vida. Se o herói ve
 - **Comportamento:** A entidade afligida sofre X de dano, onde X é a quantidade atual de acúmulos. Em seguida, perde 1 acúmulo. Quando os acúmulos chegam a zero, o efeito é removido.
 - **Exemplo:** 3 acúmulos de Sangramento → 3 de dano no turno 1, 2 no turno 2, 1 no turno 3, depois removido.
 
-### 2. Healing / Recuperação (`Timeout`)
+### 2. Recuperação (`Healing`)
 - **Tipo:** Buff (aplicado no herói)
 - **Gatilho:** Início do turno do herói (`HEROSTART`)
 - **Comportamento:** O herói recupera X pontos de vida, onde X é a quantidade de acúmulos. Em seguida, perde 1 acúmulo. Quando os acúmulos chegam a zero, o efeito é removido.
@@ -177,7 +177,7 @@ src/
 │   ├── Card.java           — Classe abstrata de carta
 │   ├── DamageCard.java     — Carta de ataque (com bônus de Força)
 │   ├── ShieldCard.java     — Carta de defesa
-│   ├── bleedingCard.java   — Carta que aplica Sangramento
+│   ├── BleedingCard.java   — Carta que aplica Sangramento
 │   └── TimeoutCard.java    — Carta que aplica Recuperação
 ├── Effects/
 │   ├── Effect.java         — Classe abstrata de efeito (Observer)
