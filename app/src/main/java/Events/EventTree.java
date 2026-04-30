@@ -14,10 +14,32 @@ import Events.TrainingCamp;
 
 import java.util.Scanner;
 
+/**
+ * Construtora da árvore de progressão e das rotas da jornada do jogador.
+ *
+ * <p>Esta classe inicializa rigidamente todos os eventos (batalhas contra inimigos
+ * pré-definidos, acampamentos, lojas e escolhas) e mapeia as interconexões (nós filhos)
+ * gerando o mapa completo do jogo (no estilo árvore divergente/convergente de 
+ * "Slay the Spire").</p>
+ *
+ * <p>Através do método {@link #createTree()}, a rede complexa de {@link EventNode nós}
+ * é unificada e a raiz (início do jogo) é retornada ao core da aplicação.</p>
+ *
+ * @see EventNode
+ * @see Core.App
+ */
 public class EventTree extends DefaultMutableTreeNode {
 
-    Scanner scanner;
+    private Scanner scanner;
+    
+    /** Array temporário para manter o registro bruto de todos os eventos da run. */
     private Event[] events;
+    
+    /**
+     * Constrói a árvore de eventos e instancia o conteúdo narrativo e inimigos de toda a jornada.
+     *
+     * @param scanner scanner compartilhado a ser fornecido para os eventos que exigem interação
+     */
     public EventTree(Scanner scanner) {
         this.scanner = scanner;
         this.events = new Event[] {
@@ -45,6 +67,12 @@ public class EventTree extends DefaultMutableTreeNode {
         };
     }
 
+    /**
+     * Mapeia o array básico de {@link Event eventos} transformando-os nos {@link EventNode nós}
+     * que comporão o grafo interligado.
+     *
+     * @return um array de EventNodes inicializados
+     */
     private EventNode[] transformEvents() {
         EventNode[] nodes = new EventNode[events.length];
         for (int i = 0; i < events.length; i++)
@@ -52,6 +80,16 @@ public class EventTree extends DefaultMutableTreeNode {
         return nodes;
     }
 
+    /**
+     * Estrutura o grafo direcionado de eventos ("o mapa"), definindo o que o jogador
+     * enfrenta após cada estágio.
+     *
+     * <p>A configuração abaixo estabelece bifurcações (um nó pai apontando para múltiplos
+     * filhos), criando opções de rota para o jogador. O fluxo sempre converge 
+     * nos grandes embates do jogo.</p>
+     *
+     * @return o nó raiz absoluto correspondente ao primeiro desafio do jogo (Kenneth Allen)
+     */
     public EventNode createTree() {
         EventNode[] nodes = transformEvents();
         
@@ -72,5 +110,4 @@ public class EventTree extends DefaultMutableTreeNode {
 
         return nodes[0];
     }
-
 }
